@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin login</title>
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'loginpage.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid" >
+            <div  style="display: flex;align-items: center;gap:1rem;">
+                
+                <img id="logo" src="{% static './assets/Cet_emblem.png' %}" alt="CET Emblem">
+                <a class="navbar-brand" style="margin-right: 0;"  href="./index.html"><h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2><h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6></a>
+            </div>
+            
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="justify-content: end; padding-right: 3rem;">
+            <div class="navbar-nav" style="gap: 2rem;">
+              <a class="nav-link " aria-current="page" href="/">Home</a>
+              <a class="nav-link " href="/hostel">Hostels</a>
+              <a class="nav-link" href="/grievance">Grievance</a>
+              <a class="nav-link" href="#about">About US</a>
+              <a class="nav-link active" href="/page_admin">Admin</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div class="main">
+        
+        <div class="wrapper">
+          <form action="/login" method='post'>
+            {% csrf_token %}
+              <h1>Administrator Login</h1>
+              <div class="input-box">
+                <input type="text" name="reg_username" placeholder="Username" required />
+                
+              </div>
+      
+              <div class="input-box">
+                <input type="password" name="reg_pwd" placeholder="Password" required />
+                
+              </div>
+      
+            
+      
+              <button type="submit" class="btn">
+                Login
+              </button>
+      
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+
+        <div id="about" class="about">
+            <h3>About Us</h3>
+            <h6>Welcome to the official website of Private Hostel Committee, an initiative taken by Afin Shafi M
+                (University Union Councillor, College Union 23-34).</h6>
+
+        </div>
+        <div class="contact">
+            <h3>Contact</h3>
+            <h6>Afin : 9188370967</h6>
+            <h6>Basil : 9495121351</h6>
+            <h6></h6>
+
+        </div>
+
+
+    </div>
+
+    <div class="copyright">
+        <h6>copyright@cetcollegeunion 2023</h6>
+    </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static '/index.css' %}">
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
+    <meta name="description" content="This is a comprehensive online platform dedicated to facilitate your search for the perfect stay, offering a vast array of private hostels tailored to your preferences and requirements. Each listing is detailed with essential information, including room types, amenities, proximity to campus, and local facilities, enabling you to make an informed decision that suits your lifestyle and academic needs.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div style="display: flex;align-items: center;gap:1rem;">
+                {% comment %} <img id="logo" src="{% static '/home/img/Cet_emblem.png' %}" alt="CET Emblem"> {% endcomment %}
+                <img id="logo" src="{% static '/assets/Cet_emblem.png' %}" alt="CET Emblem">
+
+
+                <a class="navbar-brand" style="margin-right: 0;" href="/">
+                    <h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2>
+                    <h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
+                </a>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup"
+                style="justify-content: end; padding-right: 3rem;">
+                <div class="navbar-nav" style="gap: 2rem;">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" href="./hostel">Hostels</a>
+                    <a class="nav-link" href="./grievance">Grievance</a>
+                    <a class="nav-link" href="#about">About Us</a>
+                    
+                        <a class="nav-link" href="./page_admin">Admin</a>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="Hero">
+        <h1> <b>COLLEGE UNION 2023 </b> </h1>
+        <h4 style="text-align: center;">Welcome to our website, where you can find a comprehensive list of private hostels near your college in
+            Trivandrum, Kerala, India. Our website provides you with all the information you need to make an informed
+            decision about where to stay.</h4>
+            <a href="./hostel">
+                
+                    <button class="button"  >
+                        <p class="button-text"  style="margin-bottom: 0;">Hostels</p>
+                        <p class="iconer"><svg height="24" width="18" viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                                    fill="currentColor"></path>
+                            </svg></p>
+                    </button>
+               
+            </a>
+    </div>
+    <div class="container">
+        <h2>Overview</h2>
+        <div id="map">
+
+        </div>
+
+    </div>
+    <div class="footer">
+
+        <div id="about" class="about">
+            <h3>About Us</h3>
+            <h6>Welcome to the official website of Private Hostel Committee, an initiative taken by Afin Shafi M
+                (University Union Councillor, College Union 23-34).</h6>
+
+        </div>
+        
+        <div class="contact">
+            <h3>Contact</h3>
+            <h6>Afin : 9188370967</h6>
+            <h6>Basil : 9495121351</h6>
+            <h6></h6>
+
+        </div>
+        
+    </div>
+    
+    <div class="copyright">
+        <h6>copyright@cetcollegeunion 2023</h6>
+    </div>
+
+    </div>
+
+</body>
+<script>
+    const map = L.map('map');
+    map.setView([8.5445, 76.9041], 17)
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    var marker = L.marker([8.54311, 76.90335]).addTo(map);
+    marker.bindPopup("<b>Mens Hostel , CET <b>");
+
+</script>
+
+</html>

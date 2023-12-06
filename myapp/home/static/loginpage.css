@@ -1,0 +1,257 @@
+body {
+  font-family: "Poppins", sans-serif;
+  transition: all 1s ease;
+  background-color: #e5e5e5;
+}
+#map {
+  width: 50vw;
+  height: 80vh;
+  border-radius: 8px;
+}
+
+#logo {
+  height: 5em;
+  filter: invert(100%);
+}
+
+@media screen and (max-width: 600px) {
+  #map {
+    width: min(70vw, 70vh);
+    height: min(50vh, 80vw);
+  }
+  #logo {
+    height: 3rem;
+  }
+  .title {
+    font-size: 1rem;
+  }
+  h6 {
+    font-size: 0.5rem;
+  }
+  .left {
+    margin-top: 1.5rem;
+  }
+  .card {
+    min-width: 80vw;
+  }
+}
+@media screen and (max-width: 300px) {
+  #logo {
+    height: 1.75rem;
+  }
+  .title {
+    font-size: 0.75rem;
+  }
+  h6 {
+    font-size: 0.5rem;
+  }
+  .navbar-toggler-icon {
+    height: 1.75rem;
+  }
+
+  .card {
+    min-width: 80vw;
+  }
+}
+
+.main {
+  padding: 0rem 2rem;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap-reverse;
+  min-height: 90vh;
+}
+.card {
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.rightcont {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.coolinput button {
+  border: none;
+  background: none;
+  color: #8b8ba7;
+}
+
+.coolinput {
+  --timing: 0.3s;
+  --width-of-input: 100%;
+  --height-of-input: 40px;
+  --border-height: 2px;
+  --input-bg: #fff;
+  --border-color: #2f2ee9;
+  --border-radius: 30px;
+  --after-border-radius: 1px;
+  position: relative;
+  width: var(--width-of-input);
+  height: var(--height-of-input);
+  display: flex;
+  align-items: center;
+  padding-inline: 0.8em;
+  border-radius: var(--border-radius);
+  transition: border-radius 0.5s ease;
+  background: var(--input-bg, #fff);
+}
+.input {
+  font-size: 0.9rem;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  padding-inline: 0.5em;
+  padding-block: 0.7em;
+  border: none;
+}
+.coolinput:before {
+  content: "";
+  position: absolute;
+  background: var(--border-color);
+  transform: scaleX(0);
+  transform-origin: center;
+  width: 100%;
+  height: var(--border-height);
+  left: 0;
+  bottom: 0;
+  border-radius: 1px;
+  transition: transform var(--timing) ease;
+}
+input:focus {
+  outline: none;
+}
+.footer {
+  margin-top: 5%;
+  background-color: rgb(28, 28, 28);
+  display: flex;
+  padding: 5%;
+  justify-content: space-between;
+  color: white;
+}
+.footer hr {
+  border-top: 1px solid;
+}
+
+.copyright {
+  background-color: rgb(28, 28, 28);
+  color: white;
+  border-top: 1px solid white;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper {
+  width: 420px;
+  background: rgb(28, 28, 28);
+  color: white;
+  border-radius: 10px;
+  padding: 40px;
+}
+
+.wrapper h1 {
+  font-size: 36px;
+  text-align: center;
+}
+
+.wrapper .input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: beige;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 40px;
+  font-size: 16px;
+  padding: 20px 45px 20px 20px;
+  color: black;
+}
+
+.input-box input::placeholder {
+  color: rgb(28, 28, 28);
+}
+
+.input-box i {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+}
+
+.wrapper .remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14.5px;
+  margin: -15px 0 15px;
+}
+
+.remember-forgot label input {
+  accent-color: white;
+  margin-right: 3px;
+}
+
+.remember-forgot a {
+  color: rgb(28, 28, 28);
+  text-decoration: none;
+}
+
+.remember-forgot a:hover {
+  text-decoration: underline;
+}
+
+.wrapper .btn {
+  width: 100%;
+  height: 45px;
+  background: white;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  color: black;
+  font-weight: 600;
+}
+
+.wrapper .register-link {
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0 15px;
+}
+
+.register-link a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link p a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,288 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grievance</title>
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
+    <meta name="description"
+        content="This is a comprehensive online platform dedicated to facilitate your search for the perfect stay, offering a vast array of private hostels tailored to your preferences and requirements. Each listing is detailed with essential information, including room types, amenities, proximity to campus, and local facilities, enabling you to make an informed decision that suits your lifestyle and academic needs.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        function resetForm() {
+            // Get the form element by its ID
+            var form = document.getElementById("myForm");
+
+            // Reset the form
+            delay(10000);
+            form.reset();
+        }
+
+    </script>
+    <style>
+        @media screen and (max-width:300px) {
+
+            .gievance-head {
+                font-size: small;
+                padding: 0;
+                height: 2rem;
+
+            }
+
+            form {
+
+                width: 100%;
+                font-size: small;
+                padding-right: 10%;
+                margin: 2%;
+
+                background-color: rgb(245, 240, 240);
+
+            }
+
+            form input,
+            textarea {
+                margin-left: 10%;
+                margin-right: 1%;
+
+            }
+
+        }
+
+        @media screen and (min-width: 301px) {
+            form {
+                width: 55vw;
+                background-color: rgb(245, 240, 240);
+                margin-left: 23%;
+                font-size: medium;
+            }
+
+            form input,
+            textarea {
+                margin-right: 10%;
+                margin-left: 1%;
+            }
+
+            form .Name {
+                margin-left: 5%;
+            }
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e5e5e5;
+        }
+
+        #logo {
+            height: 5em;
+            filter: invert(100%);
+        }
+
+        .about {
+            width: 50%;
+        }
+
+        .about h3 {
+            font-size: 100%;
+        }
+
+        .contact h3 {
+            font-size: 100%;
+        }
+
+        .footer hr {
+            border-top: 1px solid;
+        }
+
+        .footer {
+            margin-top: 5%;
+            background-color: black;
+            display: flex;
+            padding: 5%;
+            justify-content: space-between;
+            color: white;
+
+        }
+
+        .copyright {
+            background-color: black;
+            color: white;
+            border-top: 1px solid white;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+
+
+        }
+
+        .navbar-toggler {
+            padding: 0.2rem;
+            font-size: .9rem;
+            line-height: 1;
+            background-color: transparent;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+            transition: box-shadow .15s ease-in-out;
+        }
+
+        .complaint h2 {
+            padding: 1% 20%;
+            font-size: 140%;
+            width: 100%;
+            text-align: center;
+        }
+
+        .complaint form {
+            border: 1px solid black;
+            padding: 1%;
+
+
+        }
+
+        form div {
+            display: flex;
+            justify-content: space-between;
+            padding: 2%;
+            padding-right: 0%;
+        }
+
+        form input,
+        textarea {
+            width: 60%;
+            outline: none;
+        }
+
+        form button {
+            outline: none;
+            border-radius: 8px;
+            margin-left: 35%;
+            margin-right: 15%;
+        }
+
+        .btn {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        .button:hover {
+            background-color: rgb(156, 149, 149);
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <div style="display: flex;align-items: center;gap:1rem;">
+                    
+                    <img id="logo" src="{% static './assets/Cet_emblem.png' %}" alt="CET Emblem">
+                    <a class="navbar-brand" style="margin-right: 0;" href="./index.html">
+                        <h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2>
+                        <h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
+                    </a>
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup"
+                    style="justify-content: end; padding-right: 3rem;">
+                    <div class="navbar-nav" style="gap: 2rem;">
+                        <a class="nav-link " aria-current="page" href="/">Home</a>
+                        <a class="nav-link" href="hostel">Hostels</a>
+                        <a class="nav-link active" href="grievance">Grievance</a>
+                        <a class="nav-link" href="#about">About Us</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="complaint">
+            <div class="gievance-head">
+                <h2>Grievance Form</h2>
+            </div>
+            <form action="/commit_complaint" method="post" id="myForm">
+                {% csrf_token %}
+                <div>
+                    <label  class="Name">Full Name</label>
+                    <input type="text"  name="name" placeholder="First Name" required>
+                </div>
+               
+                <div>
+                    <label class="Name">Email</label>
+                    <input type="text" name="email" placeholder="abc@gmail.com" required>
+                </div>
+                <div>
+                    <label class="Name">Phone</label>
+                    <input type="text" name="phone" placeholder="(+91)01234-56789" required>
+                </div>
+                <div>
+                    <label class="Name">Semester</label>
+                    <input type="text" name="semester" placeholder="sem" required>
+                </div>
+                <div>
+                    <label class="Name">Department</label>
+                    <input type="text" name="department" placeholder="Department" required>
+                </div>
+                <div>
+                    <label class="Name">Hostel</label>
+                    <input type="text" name="hostel" placeholder="Hostel " required>
+                </div>
+                <div>
+                    <label class="Name">Location</label>
+                    <input type="text" name="location" placeholder="Location" required>
+                </div>
+                <div>
+                    <label class="Name">Complaint</label>
+                    <textarea name="complaint" rows="5" placeholder="Raise your voice..." required></textarea>
+                </div>
+                <div class="btn">
+                    <button type="submit" class="button" onclick="resetForm()">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="footer">
+
+            <div id="about" class="about">
+                <h3>About Us</h3>
+                <h6>Welcome to the official website of Private Hostel Committee, an initiative taken by Afin Shafi M
+                    (University Union Councillor, College Union 23-34).</h6>
+
+            </div>
+            <div class="contact">
+                <h3>Contact</h3>
+                <h6>Afin : 9188370967</h6>
+                <h6>Basil : 9495121351</h6>
+                <h6></h6>
+
+            </div>
+
+
+        </div>
+
+        <div class="copyright">
+            <h6>copyright@cetcollegeunion 2023</h6>
+        </div>
+
+    </div>
+</body>
+
+</html>

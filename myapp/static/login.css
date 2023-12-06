@@ -1,0 +1,68 @@
+/* Add this to your existing CSS file or create a new one */
+
+.box {
+    max-width: 400px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 40px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.box h4 {
+    color: #333;
+}
+
+.box h5 {
+    margin-top: 10px;
+    color: #777;
+}
+
+.box input[type="text"],
+.box input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.box label {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #777;
+}
+
+.box input[type="checkbox"] {
+    display: inline-block;
+}
+
+.box small.rmb {
+    display: inline-block;
+    margin-left: 5px;
+    color: #777;
+}
+
+.box a.forgetpass {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #3498db;
+    text-decoration: none;
+}
+
+.box input[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.box input[type="submit"]:hover {
+    background-color: #2980b9;
+}
