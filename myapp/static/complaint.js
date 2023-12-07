@@ -72,10 +72,16 @@ function renderComplaints(complaints) {
             <h1>${data.full_name}</h1>
             <h5>Hostel : ${data.hostel}</h5>
             <h5 class="status-text" >Status:${data.complaint_status}</h5>
-            <h5>${data.phone}</h5>
-        </div>
-        <div class="description" style="display: none;">
-        <p >${data.complaint_text}</p>
+            </div>
+            <div class="description" style="display: none;">
+            <p >${data.complaint_text}</p>
+            <p >Department:${data.department}</p>
+            <p >Sem:${data.semester}</p>
+            <p>Phone number:${data.phone}</p>
+        <p >Email:${data.email}</p>
+        <p >Location:${data.location}</p>
+        <p >Time:${data.complaint_time}</p>
+        <p >Date:${data.complaint_date}</p>
         </div>
         `;
         cardContainer.appendChild(lists);
@@ -106,11 +112,11 @@ function renderComplaints(complaints) {
                 statusText.style.color = 'black'; // Default color or any other color you prefer
             }
 
-            
+            statusText.style.cursor = 'pointer';
             // //////////////////////////////
             statusText.addEventListener('click', () => {
                 // Assuming you have a URL to redirect to
-                const redirectUrl = `admin_status/url?id=${data.id}`; 
+                const redirectUrl = `status/url?id=${data.id}`; // Change this to your actual redirect URL
                 // Log the redirectUrl to the console for verification
                 // console.log(redirectUrl);
                 // Uncomment the line below to actually redirect the user
