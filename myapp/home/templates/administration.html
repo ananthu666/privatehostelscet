@@ -374,12 +374,12 @@
                 style="justify-content: end; padding-right: 3rem;">
                 <div class="navbar-nav" style="gap: 2rem;">
                     <div class="mobile" style="display: none;">
-                        <a class="nav-link active"> Dashboard</a>
-                        <a class="nav-link active"> Hostel Lists</a>
-                        <a class="nav-link active" > Complaints</a>
+                        <a class="nav-link active" href="/administration"> Dashboard</a>
+                        <a class="nav-link "> Hostel Lists</a>
+                        <a class="nav-link " href="/admin_complaint_view"> Complaints</a>
                     </div>
                     <div id="admin" class="nav-link active">Admin</div>
-                    <button class="logout"> <span class="logout-content">Log out </span>
+                    <button class="logout" onclick="performLogout()"> <span class="logout-content" >Log out </span>
                     </button>
                 </div>
 
@@ -559,7 +559,7 @@
 </body>
 <script>
     var myList = {{ my_list | safe }};
-    console.log(myList);
+    
 </script>
 
 <script>

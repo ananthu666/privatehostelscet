@@ -1,7 +1,6 @@
 var jsonData = myList
 
-console.log("hi")
-console.log(jsonData)
+
 const markers =[];
 const map = L.map('map');       
 map.setView([8.5445,76.9041],17) 
