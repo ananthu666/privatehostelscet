@@ -8,7 +8,8 @@ from django.middleware.csrf import get_token
 import json
 from decimal import Decimal
 from datetime import time
-from django.db.models import Sum
+from django.db.models import Sum,F, Case, When, Value, CharField
+
 
 
 def home(request):
@@ -60,6 +61,7 @@ def grievance(request):
 
 
 def commit_complaint(request):
+
     if request.method == "POST":
         name = request.POST['name']
         email = request.POST['email']
@@ -73,7 +75,7 @@ def commit_complaint(request):
         Grievance(full_name=name, email=email, phone=phone,
                   semester=semester, department=department, hostel=hostel,
                   location=location, complaint_text=complaint).save()
-    return HttpResponse("SUCCESSFUL")
+    return redirect('/grievance')
 
 
 @login_required
@@ -87,8 +89,6 @@ def administration(request):
         complaint_status='Resolved').count()
     numberofvacancy = Hostel.objects.aggregate(Sum('current_vacancy'))[
         'current_vacancy__sum']
-
-
 
     if numberofvacancy is None:
         numberofvacancy = 0
@@ -140,42 +140,45 @@ def insert_hostel(request):
     return redirect('/administration')
 
 
-# def delete_hostel(request, hostel_id):
-#     hostel = Hostel.objects.get(id=hostel_id)
-#     hostel.delete()
-#     return redirect('/administration.html')
 
-# def update_hostel(request, hostel_id):
-#     hostel = Hostel.objects.get(id=hostel_id)
-#     if request.method == "POST":
-#         name = request.POST['name']
-#         vacancy = request.POST['vacancy']
-#         lat = request.POST['lat']
-#         lng = request.POST['lng']
-#         hostel.name = name
-#         hostel.vacancy = vacancy
-#         hostel.lat = lat
-#         hostel.lng = lng
-#         hostel.save()
-#         return redirect('/administration.html')
-#     return render(request, 'administration.html', {'hostel': hostel})
-
-
-# def make_complaint(request):
-#     if request.method == "POST":
-#         name = request.POST['name']
-#         email = request.POST['email']
-#         hostel = request.POST['hostel']
-#         room = request.POST['room']
-#         description = request.POST['description']
-#         status = request.POST['status']
-#         grievance(name=name, email=email, hostel=hostel, room=room, description=description, status=status).save()
-#         return redirect('/complaints.html')
-#     return render(request, 'complaints.html')
 
 def admin_logout(request):
     logout(request)
     return redirect('/')
 
-# def complaints(request):
-#     return render(request, 'complaints.html')
+
+def admin_complaint_view(request):
+    my_list1 = Grievance.objects.all().order_by(
+        Case(
+            When(complaint_status='Pending', then=Value('A')),
+            When(complaint_status='Resolved', then=Value('Z')),
+            default=F('complaint_status'),
+            output_field=CharField(),
+        ),
+        '-complaint_date'
+    )[:10]
+    my_list = list(my_list1.values())
+    print(my_list)
+    
+    # 
+    for entry in my_list:
+        
+        entry['complaint_time'] = entry['complaint_time'].strftime('%H:%M')
+        entry['complaint_date'] = entry['complaint_date'].strftime('%d-%m-%Y')
+    # print(my_list)
+    return render(request, 'complaint_view.html', {'my_list': my_list})
+
+
+def status_view(request,id):
+    # Extract id parameter from the URL
+    complaint_id = request.GET.get('id')
+    # print(complaint_id)
+    # toggle the status of the complaint
+    complaint = Grievance.objects.get(id=complaint_id)
+    if complaint.complaint_status == 'Pending':
+        complaint.complaint_status = 'Resolved'
+    else:
+        complaint.complaint_status = 'Pending'
+    complaint.save()
+    return redirect('/admin_complaint_view')
+

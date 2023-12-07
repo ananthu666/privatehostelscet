@@ -23,36 +23,48 @@
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script>
+    {% comment %} <script>
         function resetForm() {
             // Get the form element by its ID
             var form = document.getElementById("myForm");
-
-            // Reset the form
-            delay(10000);
+           
+            alert("Successfully Submitted");
             form.reset();
+            
         }
 
-    </script>
+    </script> {% endcomment %}
     <style>
         @media screen and (max-width:300px) {
+            #logo {
+                height: 1.75rem;
+            }
 
-            .gievance-head {
-                font-size: small;
-                padding: 0;
-                height: 2rem;
+            .title {
+                font-size: 0.75rem;
 
             }
 
+
+            h6 {
+                font-size: 0.50rem;
+
+            }
+
+            .navbar-toggler-icon {
+                height: 1.75rem;
+            }
+
+
             form {
 
-                width: 100%;
+                width: 95vw;
                 font-size: small;
                 padding-right: 10%;
-                margin: 2%;
-
-                background-color: rgb(245, 240, 240);
-
+                padding-left: 3rem;
+                background-color: white;
+                margin: auto;
+                overflow-y: scroll;
             }
 
             form input,
@@ -62,25 +74,81 @@
 
             }
 
+            .grievance-head {
+                font-size: small;
+            }
+            .footer{
+                position: absolute;
+                bottom: 1rem;
+            }
+            .copyright{
+                width: 100vw;
+                position: absolute;
+                bottom: 0;
+            }
+
         }
 
         @media screen and (min-width: 301px) {
             form {
-                width: 55vw;
-                background-color: rgb(245, 240, 240);
+                width: 96vw;
+                background-color: white;
                 margin-left: 23%;
                 font-size: medium;
             }
 
             form input,
             textarea {
-                margin-right: 10%;
+
                 margin-left: 1%;
             }
 
             form .Name {
                 margin-left: 5%;
             }
+
+            .grievance-head {
+                font-size: 0.92rem;
+
+            }
+
+        }
+
+        @media screen and (min-width: 850px) {
+            .complaint{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            form {
+                width: 830px;
+                font-size: medium;
+                margin: auto;
+                margin-top: 5%;
+                padding: 2%;
+            }
+            .grievance-head{
+                width: 830px;
+                padding-bottom: 1rem;
+            }
+        }
+
+        .grievance-head {
+
+
+            padding: 0.4rem;
+
+            height: 3.5rem;
+            color: white;
+            background-color: black;
+            margin: 0.4rem;
+            margin-bottom: -1.3rem;
+            border-radius: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+       
         }
 
         body {
@@ -89,7 +157,7 @@
         }
 
         #logo {
-            height: 5em;
+            height: 3em;
             filter: invert(100%);
         }
 
@@ -126,7 +194,7 @@
             padding: 10px;
             display: flex;
             justify-content: center;
-
+           
 
         }
 
@@ -146,7 +214,9 @@
             width: 100%;
             text-align: center;
         }
-
+        .complaint{
+            position: relative;
+        }
         .complaint form {
             border: 1px solid black;
             padding: 1%;
@@ -158,7 +228,8 @@
             display: flex;
             justify-content: space-between;
             padding: 2%;
-            padding-right: 0%;
+            padding-right: 0;
+            padding-left: 0;
         }
 
         form input,
@@ -169,9 +240,26 @@
 
         form button {
             outline: none;
+            border: none;
             border-radius: 8px;
+            padding: 0.3rem;
+            padding-left: 0.8rem;
+            padding-right: 0.8rem;
             margin-left: 35%;
-            margin-right: 15%;
+            color: white;
+            background-color: black;
+        }
+
+        #myForm {
+            outline: none;
+            border: none;
+            border-end-end-radius: 1rem;
+            border-end-start-radius: 1rem;
+            box-shadow: 1px 1px 4px rgb(126, 118, 118);
+            padding-top: 1rem;
+            margin: 2%;
+            padding-left: 0.3rem;
+
         }
 
         .btn {
@@ -181,7 +269,7 @@
         }
 
         .button:hover {
-            background-color: rgb(156, 149, 149);
+            background-color: rgb(45, 41, 41);
         }
     </style>
 </head>
@@ -191,8 +279,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <div style="display: flex;align-items: center;gap:1rem;">
-                    
-                    <img id="logo" src="{% static './assets/Cet_emblem.png' %}" alt="CET Emblem">
+                    <img id="logo" src="./assets/Cet_emblem.png" alt="">
                     <a class="navbar-brand" style="margin-right: 0;" href="./index.html">
                         <h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2>
                         <h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
@@ -216,7 +303,7 @@
             </div>
         </nav>
         <div class="complaint">
-            <div class="gievance-head">
+            <div class="grievance-head">
                 <h2>Grievance Form</h2>
             </div>
             <form action="/commit_complaint" method="post" id="myForm">
@@ -255,7 +342,7 @@
                     <textarea name="complaint" rows="5" placeholder="Raise your voice..." required></textarea>
                 </div>
                 <div class="btn">
-                    <button type="submit" class="button" onclick="resetForm()">Submit</button>
+                    <button type="submit" class="button" >Submit</button>
                 </div>
             </form>
         </div>

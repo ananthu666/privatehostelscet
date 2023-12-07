@@ -57,6 +57,46 @@
             filter: invert(100%);
         }
 
+        @media screen and (min-width: 1201px) {
+
+
+
+            .box {
+
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+
+            }
+
+        }
+        @media screen and (max-width: 1200px) {
+
+
+
+            .box {
+
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+
+            }
+
+        }
+        @media screen and (max-width: 1000px) {
+
+
+
+            .box {
+
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                gap: 20px;
+
+            }
+
+        }
+
         @media screen and (max-width: 500px) {
             .mobile {
                 display: block !important;
@@ -71,8 +111,17 @@
                 display: block !important;
             }
 
+
             #admin {
                 display: none !important;
+            }
+
+            .box {
+
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                gap: 20px;
+
             }
         }
 
@@ -98,6 +147,15 @@
             .hero {
                 padding: 0.5rem 0.5rem !important;
             }
+
+            .box {
+
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                gap: 20px;
+
+            }
+
         }
 
         .footer {
@@ -168,18 +226,6 @@
 
 
 
-        .addHostel h3,
-        .notification h3,
-        .overview h3 {
-            text-align: left;
-            align-self: flex-start;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            color: white;
-            width: 100%;
-            background-color: rgb(29, 29, 29);
-            box-shadow: 1px 5px 7px rgba(0, 0, 0, 0.238);
-        }
 
 
 
@@ -214,25 +260,7 @@
             border-radius: 4px;
         }
 
-        .submit {
-            display: flex;
-            justify-content: center;
-        }
 
-        .submitbtn {
-            width: 50%;
-            align-items: center;
-            background-color: #5f5f5f;
-            color: #fff;
-            padding: 12px;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #414141;
-        }
 
         .hero {
             display: flex;
@@ -255,7 +283,7 @@
             display: flex;
             flex-direction: column;
             height: 85vh;
-            overflow: scroll;
+            /*  overflow: scroll;*/
         }
 
         .right {
@@ -266,33 +294,9 @@
 
         }
 
-        .addHostel {
-            background-color: #fff;
-            border-radius: 1rem 1rem 8px 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 1rem;
-            height: fit-content;
-            flex: 3;
-        }
 
-        .notification {
-            flex: 2;
-        }
 
-        .noti {
-            background-color: #fff;
-            border-radius: 1rem 1rem 8px 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 1rem;
-            height: fit-content;
-        }
 
         .message {
 
@@ -303,27 +307,9 @@
             margin: 0.5rem 0;
         }
 
-        .overview {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: flex 1;
-            margin: 10px;
-            background-color: #fff;
-            border-radius: 1rem 1rem 8px 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
 
-        .overview-header {
-            width: 100%;
-        }
 
-        .overview-item {
-            display: flex;
-            flex-direction: row;
-            padding: 1rem;
-        }
+
 
         .sidebar {
             display: flex;
@@ -352,6 +338,60 @@
             filter: invert(100%);
             margin: 0 0.5rem;
         }
+
+
+        .complaint {
+
+            color: white;
+            background-color: black;
+            height: 3.4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            margin: 1.5rem 1rem;
+            border-radius: 12px;
+            box-shadow: 1px 1px 4px rgb(126, 118, 118);
+        }
+
+        .complaint h1 {
+            font-weight: 600;
+        }
+
+        .list {
+            border: 1px solid rgb(206, 204, 204);
+            padding: 1rem;
+            margin: 1.5rem 1rem;
+            border-radius: 12px;
+            box-shadow: 1px 1px 9px black;
+            height: 12rem;
+            position: relative;
+            overflow-y: scroll;
+            padding-bottom: 20px;
+        }
+
+        .list .host-name {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .full {
+            max-height: 85vh;
+            overflow-y: scroll;
+        }
+
+        .list {
+            width: 15.5rem;
+        }
+
+
+        .host-name h1 {
+            font-size: rem;
+            font-weight: 600;
+        }
+       
     </style>
 </head>
 
@@ -360,7 +400,7 @@
         <div class="container-fluid">
             <div style="display: flex;align-items: center;gap:1rem;">
                 <img id="logo" src="{% static '/assets/Cet_emblem.png' %}" alt="CET Emblem">
-                <a class="navbar-brand" style="margin-right: 0;" href="/administration">
+                <a class="navbar-brand" style="margin-right: 0;" href="./index.html">
                     <h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2>
                     <h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
                 </a>
@@ -376,7 +416,7 @@
                     <div class="mobile" style="display: none;">
                         <a class="nav-link active"> Dashboard</a>
                         <a class="nav-link active"> Hostel Lists</a>
-                        <a class="nav-link active" > Complaints</a>
+                        <a class="nav-link active"> Complaints</a>
                     </div>
                     <div id="admin" class="nav-link active">Admin</div>
                     <button class="logout"> <span class="logout-content">Log out </span>
@@ -388,7 +428,7 @@
     </nav>
     <div class="hero">
         <aside>
-            <div class="sidebar">   
+            <div class="sidebar">
                 <div>
                     <button class="option" onclick="showdashboard()">
                         <span><img src="{%static '/assets/dash.png'%}" alt=""></span>
@@ -398,11 +438,11 @@
                         <span><img src="{%static '/assets/home_1946436.png'%}" alt=""></span>
                         Hostel Lists
                     </button>
-                        <button class="option" onclick="showcomplaints()">
-                            <span><img src="{% static '/assets/ebook_7200537.png'%}" alt=""></span>
-                            
-                            Complaints
-                        </button>
+                    <button class="option" onclick="showcomplaints()">
+                        <span><img src="{% static '/assets/ebook_7200537.png'%}" alt=""></span>
+                        {% comment %} src="{% static '/assets/Cet_emblem.png' %} {% endcomment %}
+                        Complaints
+                    </button>
 
                 </div>
 
@@ -416,122 +456,21 @@
         </aside>
 
         <div class="add">
+            
             <div class="right">
-                <div class="addHostel">
-                    <h3> <b>Add Hostels </b></h3>
-                    <form action="/insert" method="post">
-                        {% csrf_token %}
-                        <label for="hostelName">
-                            Hostel Name
-                            <input type="text" id="hostelName" name="hostelName" >
-                        </label>
-
-                        <label for="address">Address
-                            <input type="text" id="address" name="address" >
-                        </label>
-
-                        <label for="ownerName">Owner Name
-                            <input type="text" id="ownerName" name="ownerName" >
-                        </label>
-
-                        <label for="contact">Contact
-                            <input type="tel" id="contact" name="contact" >
-                        </label>
-
-                        <label for="capacity">Capacity
-                            <input type="number" id="capacity" name="capacity" >
-                        </label>
-
-                        <label for="vacancy">Vacancy
-                            <input type="number" id="vacancy" name="vacancy" >
-                        </label>
-
-                        <label for="gender">Mens/Ladies
-                            <select id="gender" name="gender" >
-                                <option value="mens">Mens</option>
-                                <option value="ladies">Ladies</option>
-                            </select>
-                        </label>
-
-                        <label for="rent">Rent
-                            <input type="number" id="rent" name="rent" >
-                        </label>
-                        <label for="mess">mess_availability
-                            <select id="gender" name="mess" >
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                            
-                        </label>
-                        <label for="distance">distance_from_college
-                            <input type="text" id="longitude" name="distance" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" >
-                        </label>
-
-                        <label for="type">Type (Hostel/PG)
-                            <select id="type" name="type" >
-                                <option value="hostel">Hostel</option>
-                                <option value="pg">PG</option>
-                            </select>
-                        </label>
-
-                        <label for="curfewTime">Curfew Time
-                            <input type="time" id="curfewTime" name="curfewTime" >
-                        </label>
-                        <label for="longitude">longitude
-                             
-                        <input type="text" id="longitude" name="longitude" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" >
-                        </label>
-                        <label for="latitude">latitude
-                            <input type="text" id="latitude" name="latitude" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" >
-                            
-                        </label>
-                        <div class="submit">
-                            <button class="submitbtn" type="submit">Submit</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="notification">
-                    <div class="noti">
-                        <h3>Notifications</h3>
-                        <div class="message">
-                            {% for item in my_list %}
-                                <div class="msg">
-                                    {{ item.full_name }}: {{ item.complaint_text }} (Status: {{ item.complaint_status }})
-                                </div>
-                                {% if not forloop.last %}<hr>{% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
                 
-            </div>
-            <div class="overview">
-                <div class="overview-header">
-                    <h3>Overview</h3>
-                </div>
-                <div class="overview-content">
-                    <div class="overview-item">
-                        <div class="item">Hostels &colon; </div>
-                        
-                        <div class="count">{{ downbar.numberofhostel }}</div>
+                <div class="full">
+                    <div class="complaint">
+                        <h1>Complaints</h1>
+                    </div>
+                    <div class="box" id="box">
 
 
-                    </div>
-                    <div class="overview-item">
-                        <div class="item">Pending Grievances &colon; </div>
-                        <div class="count">{{ downbar.numberofpending_grievances}}</div>
-                    </div>
-                    <div class="overview-item">
-                        <div class="item">Resolved Grievances &colon; </div>
-                        <div class="count">{{ downbar.numberofresolved_grievances}}</div>
-                    </div>
-                    <div class="overview-item">
-                        <div class="item">Total Vacancy &colon; </div>
-                        <div class="count">{{ downbar.numberofvacancy}}</div>
                     </div>
                 </div>
 
             </div>
+
         </div>
 
 
@@ -557,12 +496,10 @@
         </div>
     </footer>
 </body>
-<script>
-    var myList = {{ my_list | safe }};
-    console.log(myList);
-</script>
 
 <script>
+    var myList = {{ my_list | safe }}
+    
     function performLogout() {
         // Perform any logout-related actions here if needed
 
@@ -578,4 +515,7 @@
     
     }
 </script>
+
+<script src="{% static 'complaint.js' %}"></script>
+
 </html>

@@ -14,6 +14,9 @@ urlpatterns = [
     path('commit_complaint', include('home.urls')),
     path('administration', include('home.urls')),
     path('insert', include('home.urls')),
+    path('admin_complaint_view', include('home.urls')),
+    path('status/<id>', include('home.urls')),
+    
 ]
 
 
