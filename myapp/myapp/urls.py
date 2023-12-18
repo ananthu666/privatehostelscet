@@ -16,7 +16,7 @@ urlpatterns = [
     path('insert', include('home.urls')),
     path('admin_complaint_view', include('home.urls')),
     path('status/<id>', include('home.urls')),
-    
+    path('bulkadd', include('home.urls')),
 ]
 
 

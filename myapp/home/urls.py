@@ -15,4 +15,5 @@ urlpatterns = [
     path('insert', views.insert_hostel, name='insert_hostel'),
     path('admin_complaint_view', views.admin_complaint_view, name='admin_complaint_view'),
     path('status/<id>', views.status_view, name='status_view'),
+    path('bulkadd', views.bulkadd, name='bulkadd'),
 ]

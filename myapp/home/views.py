@@ -182,3 +182,6 @@ def status_view(request,id):
     complaint.save()
     return redirect('/admin_complaint_view')
 
+def bulkadd(request):
+    
+    return HttpResponse("Bulk add page")
