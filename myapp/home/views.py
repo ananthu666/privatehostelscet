@@ -21,9 +21,9 @@ def hostel(request):
     my_list1 = Hostel.objects.all()
 
     my_list = list(my_list1.values())
-
+    
     for entry in my_list:
-        print(entry['curfew'])
+        
         entry['average_rent'] = float(entry['average_rent'])
         entry['curfew'] = entry['curfew'].strftime('%H:%M')
 
