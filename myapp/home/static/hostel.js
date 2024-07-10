@@ -72,13 +72,23 @@ function renderHostels(hostels) {
 }
 
 
-function searchHostels() {
+function filterHostels() {
     var searchInput = document.getElementById("searchInput").value.toLowerCase();
-
+    var filterGender = document.getElementById('filterGender').value.toLowerCase();
+    var filterMinVacancy = parseInt(document.getElementById('filterMinVacancy').value);
     var filteredHostels = jsonData.filter(function (hostel) {
-        return hostel.name.toLowerCase().includes(searchInput);
+        return (hostel.name.toLowerCase().startsWith(searchInput)) &&
+               (!filterGender || hostel.mens_or_ladies.toLowerCase() === filterGender)&&
+               (isNaN(filterMinVacancy) || hostel.current_vacancy>=filterMinVacancy);
     });
 
     renderHostels(filteredHostels);
 }
-    renderHostels(jsonData);
+
+
+document.getElementById('filterGender').addEventListener('change', filterHostels);
+document.getElementById('searchInput').addEventListener('input', filterHostels);
+document.getElementById('filterMinVacancy').addEventListener('input', filterHostels);
+
+
+renderHostels(jsonData);
