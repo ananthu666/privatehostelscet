@@ -17,6 +17,10 @@ urlpatterns = [
     path('admin_complaint_view', include('home.urls')),
     path('status/<id>', include('home.urls')),
     path('bulkadd', include('home.urls')),
+
+    path('hostel_approval',include('home.urls')),
+    path('hostel_status/<id>', include('home.urls')),
+    path('hostel_reg', include('home.urls'))
 ]
 
 
