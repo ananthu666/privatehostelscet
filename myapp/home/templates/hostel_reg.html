@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Hostels</title>
+    <link rel="stylesheet" href="{% static '/index.css' %}">
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
+    <meta name="description" content="This is a comprehensive online platform dedicated to facilitate your search for the perfect stay, offering a vast array of private hostels tailored to your preferences and requirements. Each listing is detailed with essential information, including room types, amenities, proximity to campus, and local facilities, enabling you to make an informed decision that suits your lifestyle and academic needs.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div style="display: flex;align-items: center;gap:1rem;">
+                {% comment %} <img id="logo" src="{% static '/home/img/Cet_emblem.png' %}" alt="CET Emblem"> {% endcomment %}
+                <img id="logo" src="{% static '/assets/Cet_emblem.png' %}" alt="CET Emblem">
+
+
+                <a class="navbar-brand" style="margin-right: 0;" href="/">
+                    <h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2>
+                    <h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
+                </a>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup"
+                style="justify-content: end; padding-right: 3rem;">
+                <div class="navbar-nav" style="gap: 2rem;">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" href="./hostel">Hostels</a>
+                    <a class="nav-link" href="./grievance">Grievance</a>
+                    <a class="nav-link" href="#about">About Us</a>
+                    <a class="nav-link" href="./page_admin">Admin</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <style>
+        .addHostel {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .addHostel h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .addHostel label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .addHostel input,
+        .addHostel select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .addHostel .submit {
+            text-align: center;
+        }
+        .addHostel .submitbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .addHostel .submitbtn:hover {
+            background-color: #45a049;
+        }
+    </style>
+ <div class="addHostel my-5">
+    <h3> <b>Add Hostels </b></h3>
+    {% if message %}
+    <div class="message">{{ message }}</div>
+    {% endif %}
+    
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if success %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Thank you for your submission !
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    &nbsp
+    <form action="/commit_hostel_reg" method="post">
+        {% csrf_token %}    
+        
+        <label for="hostelName">
+            Hostel Name
+            <input type="text" id="hostelName" name="hostelName" fdprocessedid="zopvwv">
+        </label>
+
+        <label for="address">Address
+            <input type="text" id="address" name="address" fdprocessedid="06ph6">
+        </label>
+
+        <label for="ownerName">Owner Name
+            <input type="text" id="ownerName" name="ownerName" fdprocessedid="a608b6">
+        </label>
+
+        <label for="contact">Contact
+            <input type="tel" id="contact" name="contact" fdprocessedid="gou2ae">
+        </label>
+
+        {% comment %} <label for="capacity">Capacity
+            <input type="number" id="capacity" name="capacity" fdprocessedid="kqxtap">
+        </label> {% endcomment %}
+
+        <label for="vacancy">Vacancy
+            <input type="number" id="vacancy" name="vacancy" fdprocessedid="hb64yq">
+        </label>
+
+        <label for="gender">Mens/Ladies
+            <select id="gender" name="gender" fdprocessedid="9gvke">
+                <option value="mens">Mens</option>
+                <option value="ladies">Ladies</option>
+            </select>
+        </label>
+
+        <label for="rent">Rent
+            <input type="number" id="rent" name="rent" fdprocessedid="083wb">
+        </label>
+        <label for="mess">mess_availability
+            <select id="gender" name="mess" fdprocessedid="l80uw">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            
+        </label>
+        <label for="distance">distance_from_college(in kms)
+            <input type="text" id="longitude" name="distance" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" fdprocessedid="s6hoeu">
+        </label>
+
+        <label for="type">Type (Hostel/PG)
+            <select id="type" name="type" fdprocessedid="kvvfk">
+                <option value="hostel">Hostel</option>
+                <option value="pg">PG</option>
+            </select>
+        </label>
+
+        <label for="curfewTime">Curfew Time
+            <input type="time" id="curfewTime" name="curfewTime">
+        </label>
+        <label for="longitude">longitude
+             
+        <input type="text" id="longitude" name="longitude" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" fdprocessedid="nuhy3">
+        </label>
+        <label for="latitude">latitude
+            <input type="text" id="latitude" name="latitude" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" fdprocessedid="kb46mm">
+            
+        </label>
+        <div class="submit">
+            <button class="submitbtn" type="submit" fdprocessedid="6lnlvc">Submit</button>
+        </div>
+    </form>
+</div> 
+
+<div class="footer">
+
+    <div id="about" class="about">
+        <h3>About Us</h3>
+        <h6>Welcome to the official website of Private Hostel Committee, an initiative taken by Afin Shafi M
+            (University Union Councillor, College Union 23-34).</h6>
+
+    </div>
+    
+    <div class="contact">
+        <h3>Contact</h3>
+        <h6>Afin : 9188370967</h6>
+        <h6>Basil : 9495121351</h6>
+        <h6></h6>
+
+    </div>
+    
+</div>
+
+<div class="copyright">
+    <h6>copyright@cetcollegeunion 2023</h6>
+</div>
+
+</div>
+
+</body>
+<script>
+
+    <script src="{% static 'js/hostel_approval.js' %}"></script>    
+
+
+</script>
+
+</html>
