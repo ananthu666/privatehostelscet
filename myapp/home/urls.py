@@ -16,4 +16,6 @@ urlpatterns = [
     path('admin_complaint_view', views.admin_complaint_view, name='admin_complaint_view'),
     path('status/<id>', views.status_view, name='status_view'),
     path('bulkadd', views.bulkadd, name='bulkadd'),
+    path('vaccancy',views.request_room,name='vaccancy'),
+    path('approve_vacancy',views.approve_vacancy,name="approve_vacancy"),
 ]

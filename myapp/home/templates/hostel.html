@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <title>Hostels</title>
     <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
     
@@ -21,6 +22,9 @@
 
 </head>
 <body>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid" >
             <div  style="display: flex;align-items: center;gap:1rem;">
@@ -35,7 +39,17 @@
             <div class="navbar-nav" style="gap: 2rem;">
               <a class="nav-link " aria-current="page" href="/">Home</a>
               <a class="nav-link active" href="/hostel">Hostels</a>
-              <a class="nav-link" href="/grievance">Grievance</a>
+              <div class="dropdown">
+                <a class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Grievances
+                </a>
+        
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="./grievance">Register Grievance</a>
+                    <a class="dropdown-item" href="#">Add Hostel</a>
+                    <a class="dropdown-item" href="vaccancy">Add Vacancy</a>
+                </div>
+            </div>
               <a class="nav-link" href="#about">About US</a>
             </div>
           </div>

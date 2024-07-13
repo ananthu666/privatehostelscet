@@ -46,6 +46,15 @@ class Grievance(models.Model):
 
     def __str__(self):
         return self.full_name
+    
+class Vacancy(models.Model):
+    hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE,null=True, blank=True)
+    hostelname = models.CharField(max_length=30)
+    vacancycount= models.PositiveIntegerField()
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.hostelname} requested {self.vacancycount} rooms "
 
 
 

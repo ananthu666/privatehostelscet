@@ -1,14 +1,15 @@
-from django.shortcuts import render, HttpResponse, redirect
-
-from .models import Hostel, Grievance
+from django.shortcuts import render, HttpResponse, redirect,get_object_or_404
+from .models import Hostel, Grievance,Vacancy
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import authenticate, login, logout
 from django.middleware.csrf import get_token
 import json
 from decimal import Decimal
 from datetime import time
 from django.db.models import Sum,F, Case, When, Value, CharField
+
 
 
 
@@ -33,7 +34,25 @@ def hostel(request):
 
     return render(request, 'hostel.html', {'my_list': my_list})
 
-
+#def vaccancy(request):
+    if request.method=="POST":
+        name=request.POST['hostelName']
+        availableRooms=request.POST['availableRooms']
+        ins=Vaccancy(name=name,availableRooms=availableRooms)
+        ins.save()
+        if name and availableRooms:
+            hostel = get_object_or_404(Hostel, id=hostel_id)
+            # Create a new vacancy request
+            Vaccancy.objects.create(
+                hostel=hostel,
+                availableRooms=availableRooms
+            )
+            return redirect('request_vacancy_approval')  # Redirect to the admin page
+        else:
+            return HttpResponse("Invalid data submitted.", status=400)
+    else:
+        return render(request, 'vaccancy.html')
+    
 def page_admin(request):
 
     return render(request, 'login.html')
@@ -109,6 +128,11 @@ def administration(request):
     ]
     return render(request, 'administration.html', {'my_list': my_list, 'downbar': downbar})
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def admin_room_requests(request):
+    requests = RoomRequest.objects.filter(approved=False)
+    return render(request, 'administration.html', {'requests': requests})
 
 def insert_hostel(request):
     if request.method == "POST":
@@ -185,3 +209,41 @@ def status_view(request,id):
 def bulkadd(request):
     
     return HttpResponse("Bulk add page")
+
+def request_room(request):
+    if request.method == "POST":
+        hostelname = request.POST['hostelname']
+        vacancycount = request.POST['vacancycount']
+        if Hostel.objects.filter(name=hostelname).exists():
+            ins=Vacancy(hostelname=hostelname,vacancycount=vacancycount)
+            ins.save()
+            print("yes")
+            return render(request,"vaccancysucc.html")
+             
+        else:
+            return HttpResponse("Hostel Does Not Exist")
+    return render(request, 'request_room.html')
+
+def approve_vacancy(request):
+    if request.method == 'POST':
+        hostel_name = request.POST.get('hostelname')
+        vacancy_count = request.POST.get('vacancycount')
+        
+        try:
+            hostel = Hostel.objects.get(name=hostel_name)
+            print(hostel)
+            hostel.current_vacancy = int(vacancy_count)
+            hostel.save()
+            # Optionally, you could also mark the vacancy as approved or delete it
+            Vacancy.objects.filter(hostelname=hostel_name).delete()
+        except Hostel.DoesNotExist:
+            pass  # Handle the case where the hostel does not exist
+
+    # Fetch all vacancies to show on the approval page
+    vacancies = Vacancy.objects.all()
+    return render(request, 'vaccancy.html', {'vacancies': vacancies})
+
+
+
+
+
