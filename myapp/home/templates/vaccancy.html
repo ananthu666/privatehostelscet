@@ -1,0 +1,140 @@
+<!--
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Administration</title>
+</head>
+<body>
+    <h1>Approve Vacancies</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Hostel Name</th>
+                <th>Vacancy Count</th>
+                <th>Approve</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vacancy in vacancies %}
+            <tr>
+                <td>{{ vacancy.hostelname }}</td>
+                <td>{{ vacancy.vacancycount }}</td>
+                <td>
+                    <form method="POST" action="{% url 'approve_vacancy' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="hostelname" value="{{ vacancy.hostelname }}">
+                        <input type="hidden" name="vacancycount" value="{{ vacancy.vacancycount }}">
+                        <button type="submit">Approve</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve Vacancies</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+    <style>
+        /* Inline CSS for quick testing; move to styles.css for production */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #0e0f0e;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        table {
+            width: 100%;
+            max-width: 800px;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #373837;
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        td {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        button {
+            background-color: #1c1e1c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #131413;
+        }
+
+        form {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Approve Vacancies</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Hostel Name</th>
+                <th>Vacancy Count</th>
+                <th>Approve</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vacancy in vacancies %}
+            <tr>
+                <td>{{ vacancy.hostelname }}</td>
+                <td>{{ vacancy.vacancycount }}</td>
+                <td>
+                    <form method="POST" action="{% url 'approve_vacancy' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="hostelname" value="{{ vacancy.hostelname }}">
+                        <input type="hidden" name="vacancycount" value="{{ vacancy.vacancycount }}">
+                        <button type="submit">Approve</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
