@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrator view</title>
+    <title>Hostel Approval</title>
     <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -24,6 +24,7 @@
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <style>
+       
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f8f8;
@@ -391,7 +392,24 @@
             font-size: rem;
             font-weight: 600;
         }
-       
+
+        .approve-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .approve-btn:hover {
+            background-color: #0056b3;
+        }
+        
+  
     </style>
 </head>
 
@@ -399,7 +417,7 @@
     <nav style="width: 100vw;" class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <div style="display: flex;align-items: center;gap:1rem;">
-                <img id="logo" src="{% static '/assets/Cet_emblem.png' %}" alt="CET Emblem">
+                <img id="logo" src="{% static 'assets/Cet_emblem.png' %}" alt="CET Emblem">
                 <a class="navbar-brand" style="margin-right: 0;" href="/administration">
                     <h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2>
                     <h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
@@ -415,11 +433,11 @@
                 <div class="navbar-nav" style="gap: 2rem;">
                     <div class="mobile" style="display: none;">
                         <a class="nav-link " href="/administration"> Dashboard</a>
-                        <a class="nav-link " href="/hostel_approval"> Hostel Lists</a>                 
+                        <a class="nav-link " href="/hostel_approval"> Hostel Lists</a>
                         <a class="nav-link active" href=/"admin_complaint_view"> Complaints</a>
                     </div>
                     <div id="admin" class="nav-link active">Admin</div>
-                    <button class="logout" onclick="performLogout()"    > <span class="logout-content">Log out </span>
+                    <button class="logout" onclick="performLogout()"> <span class="logout-content">Log out </span>
                     </button>
                 </div>
 
@@ -431,15 +449,15 @@
             <div class="sidebar">
                 <div>
                     <button class="option" onclick="showdashboard()">
-                        <span><img src="{%static '/assets/dash.png'%}" alt=""></span>
+                        <span><img src="{% static '/assets/dash.png' %}" alt=""></span>
                         Dashboard
                     </button>
                     <button class="option" onclick="showhostelapproval()">
-                        <span><img src="{%static '/assets/home_1946436.png'%}" alt=""></span>
+                        <span><img src="{% static '/assets/home_1946436.png' %}" alt=""></span>
                         Hostel Lists
                     </button>
                     <button class="option" onclick="showcomplaints()">
-                        <span><img src="{% static '/assets/ebook_7200537.png'%}" alt=""></span>
+                        <span><img src="{% static '/assets/ebook_7200537.png' %}" alt=""></span>
                         {% comment %} src="{% static '/assets/Cet_emblem.png' %} {% endcomment %}
                         Complaints
                     </button>
@@ -448,34 +466,37 @@
 
 
                 <button type="button" class="option" onclick="performLogout()">
-                    <span><img src="{%static '/assets/exit_1286853.png'%}" alt=""></span>
-                    {% comment %} src="{%static '/assets/dash.png'%}" {% endcomment %}
+                    <span><img src="{% static '/assets/exit_1286853.png' %}" alt=""></span>
+                    {% comment %} src="{% static '/assets/dash.png' %} {% endcomment %}
                     logout
                 </button>
             </div>
         </aside>
 
         <div class="add">
-            
             <div class="right">
-                
                 <div class="full">
                     <div class="complaint">
-                        <h1>Complaints</h1>
+                        <h1>Hostel Approvals</h1>
                     </div>
                     <div class="box" id="box">
+                        {% comment %} {% for hostel in approvals %}
+                        <div class="list">
+                            <div class="host-name">
+                                <h1>{{ hostel.name }}</h1>
+                                    <!-- Other hostel details -->
+                                <button class="approve-btn" data-hostel-id="{{ hostel.id }}">Approve</button>
+                            </div>
+                            <!-- Additional hostel details -->
+                        </div>
+                        {% endfor %} {% endcomment %}
 
-
+                        <!-- Hostel approval data will be rendered here by JavaScript -->
                     </div>
                 </div>
-
             </div>
-
         </div>
-
-
     </div>
-
 
     <footer style="width: 100vw;overflow-y: hidden;">
         <div class="footer">
@@ -497,9 +518,17 @@
     </footer>
 </body>
 
+
 <script>
-    var myList = {{ my_list | safe }}
-    
+    var myHostelApprovals = {{ approvals | safe }}
+</script>
+
+  <!-- Add the JSON data using json_script -->
+<script id="hostel-approvals-data" type="application/json">
+    {{ approvals|json_script:"approvals" }}
+</script>
+
+<script>    
     function performLogout() {
         // Perform any logout-related actions here if needed
 
@@ -519,6 +548,6 @@
     }
 </script>
 
-<script src="{% static 'complaint.js' %}"></script>
+<script src="{% static 'hostel_approval.js' %}"></script>
 
 </html>

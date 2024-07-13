@@ -210,6 +210,7 @@ def bulkadd(request):
     
     return HttpResponse("Bulk add page")
 
+
 def request_room(request):
     if request.method == "POST":
         hostelname = request.POST['hostelname']
@@ -245,5 +246,76 @@ def approve_vacancy(request):
 
 
 
+
+
+
+def hostel_reg(request):
+    return render(request, 'hostel_reg.html')
+
+def commit_hostel_reg(request):
+    context = {'success' : False}
+    if request.method == "POST":
+        print("hi")
+        print("Please")
+        # name = request.POST['name']
+        hostelname = request.POST['hostelName']
+        address = request.POST['address']
+        ownername = request.POST['ownerName']
+        contact = request.POST['contact']
+        
+        vacancy = request.POST['vacancy']
+        gender = request.POST['gender']
+        rent = request.POST['rent']
+        acc_type = request.POST['type']
+        curfew = request.POST['curfewTime']
+        longitude = request.POST['longitude']
+        latitude = request.POST['latitude']
+        mess = request.POST['mess']
+        distance = request.POST['distance']
+        # print(hostelname, address, ownername, contact, vacancy,
+        #      gender, rent, acc_type, curfew, longitude, mess, distance)
+        # try:
+        Hostel(name=hostelname, address=address,
+               owner_name=ownername, contact_details=contact,
+               current_vacancy=vacancy,mens_or_ladies=gender, average_rent=rent,
+               accommodation_type=acc_type, curfew=curfew, longitude=longitude,
+               latitude=latitude, mess=mess, distance=distance).save()
+        context = {'success' : True}
+
+        return render(request, 'hostel_reg.html', context)
+
+def hostel_approval(request):
+    approvals_list = Hostel.objects.all()
+    approvals = list(approvals_list.values())
+    # print(approvals)
+
+    for entry in approvals:
+        entry['curfew'] = entry['curfew'].strftime('%H:%M')
+      
+    return render(request, 'hostel_approval.html', {'approvals': approvals})
+
+def hostel_status_view(request,id):
+    # Extract id parameter from the URL
+    hostel_id = request.GET.get('id')
+    # print(complaint_id)
+    # toggle the status of the complaint
+    hostel = Hostel.objects.get(id=hostel_id)
+    if hostel.approval_hostel_status == 'Pending':
+        hostel.approval_hostel_status = 'Approved'
+    else:
+        hostel.approval_hostel_status = 'Pending'
+    hostel.save()
+    return redirect('/hostel_approval')
+
+# def hostel_notifications(request):
+#     unapproved_hostels = [
+#         {
+#             'name': hostel.name,
+#             'owner_name': hostel.owner_name,
+#             'approval_hostel_status': hostel.approval_hostel_status
+#         }
+#         for hostel in Hostel.objects.filter(approval_hostel_status='pending')
+#     ]
+#     return render(request, 'administration.html', {'unapproved_hostels': unapproved_hostels})
 
 

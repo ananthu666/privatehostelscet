@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -111,3 +112,105 @@
 
 <!-- Include your JavaScript file at the end -->
 </html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostels</title>
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
+    
+    <meta name="description" content="This is a comprehensive online platform dedicated to facilitate your search for the perfect stay, offering a vast array of private hostels tailored to your preferences and requirements. Each listing is detailed with essential information, including room types, amenities, proximity to campus, and local facilities, enabling you to make an informed decision that suits your lifestyle and academic needs.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="{% static 'hostel.css' %}">
+    
+    
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid" >
+            <div  style="display: flex;align-items: center;gap:1rem;">
+                <img id="logo" src="{% static './assets/Cet_emblem.png' %}" alt="CET Emblem">
+                <a class="navbar-brand" style="margin-right: 0;"  href="/"><h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2><h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6></a>
+            </div>
+            
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="justify-content: end; padding-right: 3rem;">
+            <div class="navbar-nav" style="gap: 2rem;">
+              <a class="nav-link " aria-current="page" href="/">Home</a>
+              <a class="nav-link active" href="/hostel">Hostels</a>
+              <a class="nav-link" href="/grievance">Grievance</a>
+              <a class="nav-link" href="#about">About US</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div class="main">
+          <div class="rightcont">
+              <div class="coolinput search-container " id="coolinput">
+                <button>
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+                  <input placeholder="Search here..." class="input" type="text" id="searchInput" oninput="searchHostels()" />
+                  <button class="reset" type="reset">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                </div>
+                <div class="right" id="right"></div>
+        </div>
+        <div class="left">        
+                <div id="map"></div>
+        </div>
+      </div>
+      <div class="footer">
+
+        <div id="about" class="about">
+            <h3>About Us</h3>
+            <h6>Welcome to the official website of Private Hostel Committee, an initiative taken by Afin Shafi M
+                (University Union Councillor, College Union 23-34).</h6>
+
+        </div>
+        <div class="contact">
+            <h3>Contact</h3>
+            <h6>Afin : 9188370967</h6>
+            <h6>Basil : 9495121351</h6>
+            <h6></h6>
+
+        </div>
+
+
+    </div>
+
+    <div class="copyright">
+        <h6>copyright@cetcollegeunion 2023</h6>
+    </div>
+
+    </div>
+    
+</body>
+<script>
+    var myList = {{ my_list | safe }}
+    
+    
+</script>
+
+{% comment %} gayathri {% endcomment %}
+<script src="{% static 'hostel.js' %}"></script>
+
+<!-- Include your JavaScript file at the end -->
+</html>
+
