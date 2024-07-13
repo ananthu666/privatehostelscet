@@ -16,4 +16,10 @@ urlpatterns = [
     path('admin_complaint_view', views.admin_complaint_view, name='admin_complaint_view'),
     path('status/<id>', views.status_view, name='status_view'),
     path('bulkadd', views.bulkadd, name='bulkadd'),
+  
+    path('hostel_reg',views.hostel_reg , name='hostel_reg'),
+    path('commit_hostel_reg', views.commit_hostel_reg , name = 'commit_hostel_reg'),
+    path('hostel_approval', views.hostel_approval , name = 'hostel_approval'),
+    path('hostel_status/<id>', views.hostel_status_view , name='hostel_status_view')
+   
 ]

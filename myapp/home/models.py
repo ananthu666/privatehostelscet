@@ -14,7 +14,8 @@ class Hostel(models.Model):
     address = models.TextField()
     owner_name = models.CharField(max_length=255)
     contact_details = models.CharField(max_length=255)
-    total_capacity = models.PositiveIntegerField()
+    total_capacity = models.PositiveIntegerField(default = 0)
+
     current_vacancy = models.PositiveIntegerField()
     
     mens_or_ladies = models.CharField(max_length=10)
@@ -26,6 +27,9 @@ class Hostel(models.Model):
     latitude = models.FloatField()
     mess=models.TextField(default=None, blank=True, null=True)
     distance=models.FloatField(default=0.0)
+
+    approval_hostel_status = models.CharField(max_length=255, default="Pending")
+
 
     def __str__(self):
         return self.name

@@ -415,7 +415,7 @@
                 <div class="navbar-nav" style="gap: 2rem;">
                     <div class="mobile" style="display: none;">
                         <a class="nav-link " href="/administration"> Dashboard</a>
-                        <a class="nav-link "> Hostel Lists</a>
+                        <a class="nav-link " href="/hostel_approval"> Hostel Lists</a>                 
                         <a class="nav-link active" href=/"admin_complaint_view"> Complaints</a>
                     </div>
                     <div id="admin" class="nav-link active">Admin</div>
@@ -434,7 +434,7 @@
                         <span><img src="{%static '/assets/dash.png'%}" alt=""></span>
                         Dashboard
                     </button>
-                    <button class="option">
+                    <button class="option" onclick="showhostelapproval()">
                         <span><img src="{%static '/assets/home_1946436.png'%}" alt=""></span>
                         Hostel Lists
                     </button>
@@ -513,6 +513,9 @@
     {
         window.location.href = "/administration";
     
+    }
+    function showhostelapproval(){
+        window.location.href = "/hostel_approval";
     }
 </script>
 
