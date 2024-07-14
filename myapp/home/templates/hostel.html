@@ -50,18 +50,6 @@
                 <div class="navbar-nav" style="gap: 2rem;">
                     <a class="nav-link " aria-current="page" href="/">Home</a>
                     <a class="nav-link active" href="/hostel">Hostels</a>
-
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            User
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="./add_hostel">Add Hostel</a></li>
-                            <li><a class="dropdown-item" href="./add_vacancies">Add Vacancy</a></li>
-                            <li><a class="dropdown-item" href="./grievances">Grievances</a></li>
-                        </ul>
-                    </div>
-
                     <a class="nav-link" href="/grievance">Grievance</a>
                     <a class="nav-link" href="#about">About US</a>
                 </div>
@@ -95,6 +83,13 @@
                                 <option value="">All</option>
                                 <option value="mens">Men's</option>
                                 <option value="ladies">Ladies</option>
+                            </select>
+                        </label>
+                        <label class="dropdown-item">
+                            <select id="filterMessAvailability">
+                                <option value="">Mess Availability</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
                             </select>
                         </label>
                         <label class="dropdown-item">

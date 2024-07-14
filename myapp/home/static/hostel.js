@@ -1,13 +1,13 @@
 var jsonData = myList
 
 
-const markers =[];
-const map = L.map('map');       
-map.setView([8.5445,76.9041],17) 
+const markers = [];
+const map = L.map('map');
+map.setView([8.5445, 76.9041], 17)
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
 }).addTo(map);
-var marker = L.marker([8.54311,76.90335]).addTo(map);
+var marker = L.marker([8.54311, 76.90335]).addTo(map);
 marker.bindPopup("<b>Mens Hostel , CET <b>");
 
 
@@ -76,10 +76,12 @@ function filterHostels() {
     var searchInput = document.getElementById("searchInput").value.toLowerCase();
     var filterGender = document.getElementById('filterGender').value.toLowerCase();
     var filterMinVacancy = parseInt(document.getElementById('filterMinVacancy').value);
+    var filterMessAvailability = document.getElementById('filterMessAvailability').value.toLowerCase();
     var filteredHostels = jsonData.filter(function (hostel) {
         return (hostel.name.toLowerCase().startsWith(searchInput)) &&
-               (!filterGender || hostel.mens_or_ladies.toLowerCase() === filterGender)&&
-               (isNaN(filterMinVacancy) || hostel.current_vacancy>=filterMinVacancy);
+            (!filterGender || hostel.mens_or_ladies.toLowerCase() === filterGender) &&
+            (isNaN(filterMinVacancy) || hostel.current_vacancy >= filterMinVacancy)&&
+            (!filterMessAvailability || hostel.mess_availability.toLowerCase() === filterMessAvailability);
     });
 
     renderHostels(filteredHostels);
@@ -89,6 +91,7 @@ function filterHostels() {
 document.getElementById('filterGender').addEventListener('change', filterHostels);
 document.getElementById('searchInput').addEventListener('input', filterHostels);
 document.getElementById('filterMinVacancy').addEventListener('input', filterHostels);
+document.getElementById('filterMessAvailability').addEventListener('change', filterHostels);
 
 
 renderHostels(jsonData);

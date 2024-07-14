@@ -34,6 +34,7 @@ def hostel(request):
     return render(request, 'hostel.html', {'my_list': my_list})
 
 
+
 def page_admin(request):
 
     return render(request, 'login.html')
