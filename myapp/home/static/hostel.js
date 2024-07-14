@@ -34,7 +34,7 @@ function renderHostels(hostels) {
                         <p>Contact details: ${data.contact_details}</p>
                         <p>Curfew: ${data.curfew}</p>
                         <p>Mens/Ladies: ${data.mens_or_ladies}</p>
-                        <p>Mess Availability: ${data.mess_availability ? 'Yes' : 'No'}</p>
+                        <p>Mess Availability: ${data.mess ? 'Yes' : 'No'}</p>
                         <p>Distance from College: ${data.distance} km</p>
                     </div>
                     <button class='view-more-btn'>View More</button>
