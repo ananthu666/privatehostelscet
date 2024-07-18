@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Hostels</title>
-    <link rel="stylesheet" href="{% static '/index.css' %}">
+    <link rel="stylesheet" href="{% static '/hostel_reg.css' %}">
     <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
     <meta name="description" content="This is a comprehensive online platform dedicated to facilitate your search for the perfect stay, offering a vast array of private hostels tailored to your preferences and requirements. Each listing is detailed with essential information, including room types, amenities, proximity to campus, and local facilities, enabling you to make an informed decision that suits your lifestyle and academic needs.">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -48,9 +48,20 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup"
                 style="justify-content: end; padding-right: 3rem;">
                 <div class="navbar-nav" style="gap: 2rem;">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
                     <a class="nav-link" href="./hostel">Hostels</a>
-                    <a class="nav-link" href="./grievance">Grievance</a>
+                    <div class="dropdown">
+                        <a class="nav-link active" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            User
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="./grievance">Register Grievance</a>
+                            <a class="dropdown-item" href="hostel_reg">Add Hostel</a>
+                            <a class="dropdown-item" href="vaccancy">Add Vacancy</a>
+                        </div>
+                    </div>
                     <a class="nav-link" href="#about">About Us</a>
                     <a class="nav-link" href="./page_admin">Admin</a>
                 </div>
@@ -58,7 +69,7 @@
         </div>
     </nav>
     <style>
-        .addHostel {
+        /* .addHostel {
             max-width: 600px;
             margin: auto;
             padding: 20px;
@@ -98,7 +109,7 @@
         }
         .addHostel .submitbtn:hover {
             background-color: #45a049;
-        }
+        } */
     </style>
  <div class="addHostel my-5">
     <h3> <b>Add Hostels </b></h3>
@@ -214,14 +225,8 @@
     <h6>copyright@cetcollegeunion 2023</h6>
 </div>
 
-</div>
+<script src="{% static 'js/hostel_approval.js' %}"></script>  
 
 </body>
-<script>
-
-    <script src="{% static 'js/hostel_approval.js' %}"></script>    
-
-
-</script>
 
 </html>

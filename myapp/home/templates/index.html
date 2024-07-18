@@ -26,7 +26,26 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     
+    <style>
+        .dropdown-menu {
+            background-color: white; 
+        }
 
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: #f1f1f1; 
+        }
+
+        .dropdown-item:active {
+            background-color: #e2e6ea;
+            color: black;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -57,7 +76,7 @@
                     <a class="nav-link" href="./hostel">Hostels</a>
                     <div class="dropdown">
                         <a class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Grievances
+                            User
                         </a>
                 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">

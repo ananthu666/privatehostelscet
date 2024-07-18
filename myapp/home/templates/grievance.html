@@ -23,14 +23,15 @@
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    {% comment %} <script>
+    {% comment %}
+    <script>
         function resetForm() {
             // Get the form element by its ID
             var form = document.getElementById("myForm");
-           
+
             alert("Successfully Submitted");
             form.reset();
-            
+
         }
 
     </script> {% endcomment %}
@@ -77,11 +78,13 @@
             .grievance-head {
                 font-size: small;
             }
-            .footer{
+
+            .footer {
                 position: absolute;
                 bottom: 1rem;
             }
-            .copyright{
+
+            .copyright {
                 width: 100vw;
                 position: absolute;
                 bottom: 0;
@@ -115,12 +118,13 @@
         }
 
         @media screen and (min-width: 850px) {
-            .complaint{
+            .complaint {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
             }
+
             form {
                 width: 830px;
                 font-size: medium;
@@ -128,7 +132,8 @@
                 margin-top: 5%;
                 padding: 2%;
             }
-            .grievance-head{
+
+            .grievance-head {
                 width: 830px;
                 padding-bottom: 1rem;
             }
@@ -148,7 +153,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-       
+
         }
 
         body {
@@ -156,7 +161,7 @@
             background-color: #e5e5e5;
         }
 
-        #logo{
+        #logo {
             height: 5em;
             filter: invert(100%);
         }
@@ -194,7 +199,7 @@
             padding: 10px;
             display: flex;
             justify-content: center;
-           
+
 
         }
 
@@ -214,9 +219,11 @@
             width: 100%;
             text-align: center;
         }
-        .complaint{
+
+        .complaint {
             position: relative;
         }
+
         .complaint form {
             border: 1px solid black;
             padding: 1%;
@@ -296,7 +303,18 @@
                     <div class="navbar-nav" style="gap: 2rem;">
                         <a class="nav-link " aria-current="page" href="/">Home</a>
                         <a class="nav-link" href="hostel">Hostels</a>
-                        <a class="nav-link active" href="grievance">Grievance</a>
+                        <div class="dropdown">
+                            <a class="nav-link active" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                User
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="./grievance">Register Grievance</a>
+                                <a class="dropdown-item" href="hostel_reg">Add Hostel</a>
+                                <a class="dropdown-item" href="vaccancy">Add Vacancy</a>
+                            </div>
+                        </div>
                         <a class="nav-link" href="#about">About Us</a>
                     </div>
                 </div>
@@ -309,10 +327,10 @@
             <form action="/commit_complaint" method="post" id="myForm">
                 {% csrf_token %}
                 <div>
-                    <label  class="Name">Full Name</label>
-                    <input type="text"  name="name" placeholder="First Name" required>
+                    <label class="Name">Full Name</label>
+                    <input type="text" name="name" placeholder="First Name" required>
                 </div>
-               
+
                 <div>
                     <label class="Name">Email</label>
                     <input type="text" name="email" placeholder="abc@gmail.com" required>
@@ -342,7 +360,7 @@
                     <textarea name="complaint" rows="5" placeholder="Raise your voice..." required></textarea>
                 </div>
                 <div class="btn">
-                    <button type="submit" class="button" >Submit</button>
+                    <button type="submit" class="button">Submit</button>
                 </div>
             </form>
         </div>
