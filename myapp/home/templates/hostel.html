@@ -147,16 +147,12 @@
   <div class="copyright">
     <h6>copyright@cetcollegeunion 2023</h6>
   </div>
-
-  </div>
+  <script>
+    var myList = {{ my_list | safe }}
+  </script>
+  <script src="{% static 'hostel.js' %}"></script>
 
 </body>
-<script>
-  var myList = {{ my_list | safe }}
-
-
-</script>
-<script src="{% static 'hostel.js' %}"></script>
 
 <!-- Include your JavaScript file at the end -->
 
