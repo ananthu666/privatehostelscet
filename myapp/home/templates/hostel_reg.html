@@ -175,7 +175,7 @@
             
         </label>
         <label for="distance">distance_from_college(in kms)
-            <input type="text" id="longitude" name="distance" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" fdprocessedid="s6hoeu">
+            <input type="text" id="distance" name="distance" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" fdprocessedid="s6hoeu">
         </label>
 
         <label for="type">Type (Hostel/PG)
@@ -196,6 +196,7 @@
             <input type="text" id="latitude" name="latitude" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" fdprocessedid="kb46mm">
             
         </label>
+        <div id="map"></div>
         <div class="submit">
             <button class="submitbtn" type="submit" fdprocessedid="6lnlvc">Submit</button>
         </div>
@@ -223,16 +224,10 @@
 
 <div class="copyright">
     <h6>copyright@cetcollegeunion 2023</h6>
-</div>
-
-<script src="{% static 'js/hostel_approval.js' %}"></script>  
-
+</div> 
 </body>
 
-<script src="{% static 'hostel_approval.js' %}"></script> 
-
-
-<script src="{% static 'js/hostel_approval.js' %}"></script>    
+<script src="{% static 'hostel_approval.js' %}"></script>   
 
 <script>
     let inputLng = document.getElementById('longitude');
