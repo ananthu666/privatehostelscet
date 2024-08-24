@@ -175,7 +175,7 @@
             
         </label>
         <label for="distance">distance_from_college(in kms)
-            <input type="text" id="longitude" name="distance" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" fdprocessedid="s6hoeu">
+            <input type="text" id="distance_from_college" name="distance" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" fdprocessedid="s6hoeu">
         </label>
 
         <label for="type">Type (Hostel/PG)
@@ -225,15 +225,9 @@
     <h6>copyright@cetcollegeunion 2023</h6>
 </div>
 
-<script src="{% static 'js/hostel_approval.js' %}"></script>  
-
 </body>
 
-<script src="{% static 'hostel_approval.js' %}"></script> 
-
-
-<script src="{% static 'js/hostel_approval.js' %}"></script>    
-
+<script src="{% static 'hostel_approval.js' %}"></script>
 <script>
     let inputLng = document.getElementById('longitude');
     let inputLat = document.getElementById('latitude');
@@ -242,19 +236,10 @@
     let lng,lat;
     
 
-
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
     maxZoom:25,
     attribution: '© OpenStreetMap'
 }).addTo(map);
-
-
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    maxZoom:25,
-    attribution: '© OpenStreetMap'
-}).addTo(map);
-
 
 var marker = L.marker(position,{
     draggable :true,
@@ -268,15 +253,7 @@ marker.on('dragend',function(e){
     inputLat.value = lat;
     inputLng.value = lng;
 })
-map.on('click',function(e){
-    position =e.latlng;
-    
-})
-
-</script> 
-
-</script>  
-
+</script>   
 
 
 
