@@ -217,11 +217,36 @@
 </div>
 
 </body>
+<script src="{% static 'js/hostel_approval.js' %}"></script>    
 <script>
+    let inputLng = document.getElementById('longitude');
+    let inputLat = document.getElementById('latitude');
+    var position = [8.545968336333125,76.9061007276918]
+    var map = L.map('map',{attributionControl: false}).setView(position,18);
+    let lng,lat;
+    
 
-    <script src="{% static 'js/hostel_approval.js' %}"></script>    
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom:25,
+    attribution: '© OpenStreetMap'
+}).addTo(map);
 
+var marker = L.marker(position,{
+    draggable :true,
+}).addTo(map);
 
-</script>
+marker.on('dragend',function(e){
+    var latting = marker.getLatLng();
+    lat = latting.lat;
+    lng = latting.lng;
+    console.log('Latitude '+lat+',Longitude '+lng);
+    inputLat.value = lat;
+    inputLng.value = lng;
+})
+map.on('click',function(e){
+    position =e.latlng;
+    
+})
+</script>  
 
 </html>
