@@ -63,12 +63,43 @@
               <a class="dropdown-item" href="./grievance">Register Grievance</a>
               <a class="dropdown-item" href="hostel_reg">Add Hostel</a>
               <a class="dropdown-item" href="vaccancy">Add Vacancy</a>
+=======
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid" >
+            <div  style="display: flex;align-items: center;gap:1rem;">
+                <img id="logo" src="{% static './assets/Cet_emblem.png' %}" alt="CET Emblem">
+                <a class="navbar-brand" style="margin-right: 0;"  href="/"><h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2><h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6></a>
+            </div>
+            
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="justify-content: end; padding-right: 3rem;">
+            <div class="navbar-nav" style="gap: 2rem;">
+              <a class="nav-link " aria-current="page" href="/">Home</a>
+              <a class="nav-link active" href="/hostel">Hostels</a>
+              <div class="dropdown">
+                <a class="nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Grievances
+                </a>
+        
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="./grievance">Register Grievance</a>
+                    <a class="dropdown-item" href="hostel_reg">Add Hostel</a>
+                    <a class="dropdown-item" href="vaccancy">Add Vacancy</a>
+                </div>
+            </div>
+              <a class="nav-link" href="#about">About US</a>
+
             </div>
           </div>
           <a class="nav-link" href="#about">About US</a>
         </div>
       </div>
     </div>
+
   </nav>
   <div class="main">
     <div class="rightcont">
@@ -157,3 +188,22 @@
 <!-- Include your JavaScript file at the end -->
 
 </html>
+
+
+    <div class="copyright">
+        <h6>copyright@cetcollegeunion 2023</h6>
+    </div>
+
+    </div>
+    
+</body>
+<script>
+    var myList = {{ my_list | safe }}
+    
+    
+</script>
+<script src="{% static 'hostel.js' %}"></script>
+
+<!-- Include your JavaScript file at the end -->
+</html>
+
