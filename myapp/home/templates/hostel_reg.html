@@ -177,14 +177,12 @@
         <label for="curfewTime">Curfew Time
             <input type="time" id="curfewTime" name="curfewTime">
         </label>
-        <label for="longitude">longitude
-             
-        <input type="text" id="longitude" name="longitude" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" fdprocessedid="nuhy3">
-        </label>
-        <label for="latitude">latitude
-            <input type="text" id="latitude" name="latitude" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" fdprocessedid="kb46mm">
-            
-        </label>
+
+        <label for="map">Drag the Pin to Indicate Your Hostel's Location</label>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+        
         <div class="submit">
             <button class="submitbtn" type="submit" fdprocessedid="6lnlvc">Submit</button>
         </div>
@@ -217,17 +215,8 @@
 </div>
 
 </body>
-<script>
 
     <script src="{% static 'js/hostel_approval.js' %}"></script>    
-
-
-</script>
-
-<script src="{% static 'hostel_approval.js' %}"></script> 
-
-
-<script src="{% static 'js/hostel_approval.js' %}"></script>    
 
 <script>
     let inputLng = document.getElementById('longitude');
@@ -269,10 +258,5 @@ map.on('click',function(e){
 })
 
 </script> 
-
-</script>  
-
-
-
 
 </html>
