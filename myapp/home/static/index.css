@@ -1,182 +1,181 @@
  body {
-     font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif;
 
- }
+        }
 
- #map {
+        #map {
 
-     height: max(50vh, 50vw);
-     border-radius: 10px;
-     width: 100%;
-     margin-bottom: 10%;
- }
+            height: max(50vh, 50vw);
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 10%;
+        }
 
- #logo {
-     height: 5em;
-     filter: invert(100%);
- }
+        #logo {
+            height: 5em;
+            filter: invert(100%);
+        }
 
- .Hero {
-     padding: 2rem 3rem;
-     color: white;
-     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('assets/bgimg.jpg');
+        .Hero { 
+            padding: 2rem 3rem;
+            color: white;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('assets/bgimg.jpg');
+            
+
+ 
+ 
+            background-position: center;
+            background-size: cover;
+            height: 70vh;
+            display: flex;
+
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .Hero h4 {
+
+            width: 80%;
+            
+        }
+        
+        @media screen and (max-width: 600px) {
+            h4{
+                font-size: 1.25rem;
+            }
+        }
+
+        .Hero h1 {
+
+            width: 60%;
+            text-wrap: nowrap;
+            text-align: left;
+            display: flex;
+            justify-content: center;
+            
+
+        }
 
 
+        .container h1 {
+            display: flex;
+            justify-content: center;
+            padding-left: 2.5rem;
+        }
 
+        .container h2 {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
 
-     background-position: center;
-     background-size: cover;
-     height: 70vh;
-     display: flex;
+        .footer {
+            margin-top: 5%;
+            background-color: black;
+            display: flex;
+            padding: 5%;
+            justify-content: space-between;
+            color: white;
 
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
- }
+        }
 
- .Hero h4 {
+        .button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.1rem 0.1rem;
+            border-radius: 10px;
+            border: none;
+            overflow: hidden;
+            background: rgb(39, 34, 34);
+            color: #fff;
+            text-decoration:underline rgb(39, 34, 34);
+        }
+        .button p{
+            padding-top: 0.2re;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .button-text {
+            transform: translateX(15px);
+            font-size: 1em;
+            font-weight: 700;
+            transition-duration: 0.3s;
+          
+        }
 
-     width: 80%;
+        .iconer {
+            transform: translateY(35px);
+            transition-duration: 0.3s;
+        }
 
- }
+        .button:hover .button-text {
+            transform: translateX(0px);
+        }
 
- @media screen and (max-width: 600px) {
-     h4 {
-         font-size: 1.25rem;
-     }
- }
-
- .Hero h1 {
-
-     width: 60%;
-     text-wrap: nowrap;
-     text-align: left;
-     display: flex;
-     justify-content: center;
-
-
- }
-
-
- .container h1 {
-     display: flex;
-     justify-content: center;
-     padding-left: 2.5rem;
- }
-
- .container h2 {
-     margin-top: 2rem;
-     margin-bottom: 2rem;
-     font-weight: 600;
- }
-
- .footer {
-     margin-top: 5%;
-     background-color: black;
-     display: flex;
-     padding: 5%;
-     justify-content: space-between;
-     color: white;
-
- }
-
- .button {
-     display: flex;
-     align-items: center;
-     gap: 10px;
-     padding: 0.1rem 0.1rem;
-     border-radius: 10px;
-     border: none;
-     overflow: hidden;
-     background: rgb(39, 34, 34);
-     color: #fff;
-     text-decoration: underline rgb(39, 34, 34);
- }
-
- .button p {
-     padding-top: 0.2re;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-
- }
-
- .button-text {
-     transform: translateX(15px);
-     font-size: 1em;
-     font-weight: 700;
-     transition-duration: 0.3s;
-
- }
-
- .iconer {
-     transform: translateY(35px);
-     transition-duration: 0.3s;
- }
-
- .button:hover .button-text {
-     transform: translateX(0px);
- }
-
- .button:hover .iconer {
-     transform: translateY(0px);
- }
+        .button:hover .iconer {
+            transform: translateY(0px);
+        }
 
 
 
- .selection {
-     display: flex;
-     justify-content: space-between;
- }
+        .selection {
+            display: flex;
+            justify-content: space-between;
+        }
 
- .about {
-     width: 50%;
- }
+        .about {
+            width: 50%;
+        }
 
- .about h3 {
-     font-size: 100%;
- }
+        .about h3 {
+            font-size: 100%;
+        }
 
- .contact h3 {
-     font-size: 100%;
- }
+        .contact h3 {
+            font-size: 100%;
+        }
 
- .footer hr {
-     border-top: 1px solid;
- }
+        .footer hr {
+            border-top: 1px solid;
+        }
 
- .copyright {
-     background-color: black;
-     color: white;
-     border-top: 1px solid white;
-     padding: 10px;
-     display: flex;
-     justify-content: center;
+        .copyright {
+            background-color: black;
+            color: white;
+            border-top: 1px solid white;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
 
- }
+        }
 
- .navbar-toggler {
-     padding: 0.2rem;
-     font-size: .9rem;
-     line-height: 1;
-     background-color: transparent;
-     border: 1px solid transparent;
-     border-radius: 0.25rem;
-     transition: box-shadow .15s ease-in-out;
- }
+        .navbar-toggler {
+            padding: 0.2rem;
+            font-size: .9rem;
+            line-height: 1;
+            background-color: transparent;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+            transition: box-shadow .15s ease-in-out;
+        }
 
- @media screen and (max-width: 480px) {
-     #logo {
-         height: 3rem;
-     }
+        @media screen and (max-width: 480px) {
+            #logo {
+                height: 3rem;
+            }
 
-     .title {
-         font-size: 1rem;
+            .title {
+                font-size: 1rem;
 
-     }
+            }
 
-     h6 {
-         font-size: 0.50rem;
+            h6 {
+                font-size: 0.50rem;
 
-     }
- }
+            }
+        }
+        
