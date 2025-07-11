@@ -30,6 +30,11 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default="*").split(',')
 
+# Add Vercel deployment settings
+if 'VERCEL' in os.environ:
+    ALLOWED_HOSTS = ['*']  # Allow all hosts on Vercel
+    DEBUG = False
+
 
 # Application definition
 

@@ -1,8 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from .debug_views import test_view, debug_view
 
 urlpatterns = [
+    # Debug routes for Vercel testing
+    path('test/', test_view, name='test'),
+    path('debug/', debug_view, name='debug'),
+    
     # Public pages
     path('', views.home, name='home'),
     path('hostel', views.hostel, name='hostel'),
