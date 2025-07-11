@@ -1,140 +1,562 @@
-<!--
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vacancy Requests - Private Hostels CET</title>
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png" />
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Administration</title>
-</head>
-<body>
-    <h1>Approve Vacancies</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Hostel Name</th>
-                <th>Vacancy Count</th>
-                <th>Approve</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for vacancy in vacancies %}
-            <tr>
-                <td>{{ vacancy.hostelname }}</td>
-                <td>{{ vacancy.vacancycount }}</td>
-                <td>
-                    <form method="POST" action="{% url 'approve_vacancy' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="hostelname" value="{{ vacancy.hostelname }}">
-                        <input type="hidden" name="vacancycount" value="{{ vacancy.vacancycount }}">
-                        <button type="submit">Approve</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
--->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Approve Vacancies</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* Inline CSS for quick testing; move to styles.css for production */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* Navbar Styling */
+      #logo {
+        height: 3rem;
+        filter: invert(100%);
+      }
+
+      .navbar-nav .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+        padding-bottom: 0.75rem !important;
+      }
+
+      .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background-color: #28a745;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .navbar-nav .nav-link:hover::after,
+      .navbar-nav .nav-link.active::after {
+        width: 100%;
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #28a745 !important;
+      }
+
+      /* Main Content Styling */
+      .main-content {
+        flex: 1;
+        padding: 3rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      }
+
+      .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .page-header h1 {
+        color: #212529;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .page-header .subtitle {
+        color: #6c757d;
+        font-size: 1.1rem;
+        font-weight: 400;
+      }
+
+      /* Card Styling */
+      .vacancy-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: none;
+        transition: all 0.3s ease;
+      }
+
+      .vacancy-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Table Styling */
+      .vacancy-table {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .table {
+        margin-bottom: 0;
+      }
+
+      .table thead th {
+        background-color: #212529;
+        color: white;
+        border: none;
+        padding: 1.2rem 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.9rem;
+      }
+
+      .table tbody td {
+        padding: 1.2rem 1rem;
+        border-top: 1px solid #dee2e6;
+        vertical-align: middle;
+      }
+
+      .table tbody tr:hover {
+        background-color: #f8f9fa;
+      }
+
+      /* Button Styling */
+      .btn-approve {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        border: none;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin-right: 0.5rem;
+      }
+
+      .btn-approve:hover {
+        background: linear-gradient(45deg, #20c997, #28a745);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        color: white;
+      }
+
+      .btn-reject {
+        background: linear-gradient(45deg, #dc3545, #e74c3c);
+        border: none;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .btn-reject:hover {
+        background: linear-gradient(45deg, #e74c3c, #dc3545);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+        color: white;
+      }
+
+      /* Empty State Styling */
+      .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .empty-state-icon {
+        font-size: 4rem;
+        color: #6c757d;
+        margin-bottom: 1.5rem;
+      }
+
+      .empty-state h3 {
+        color: #495057;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .empty-state p {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+      }
+
+      .btn-back {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        border: none;
+        color: white;
+        padding: 0.8rem 2rem;
+        border-radius: 10px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .btn-back:hover {
+        background: linear-gradient(45deg, #20c997, #28a745);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        color: white;
+        text-decoration: none;
+      }
+
+      /* Modern Footer Styling */
+      .footer-modern {
+        background-color: #212529;
+        color: white;
+        margin-top: auto;
+        padding: 0;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 3rem;
+      }
+
+      .footer-left {
+        flex: 1;
+        max-width: 60%;
+      }
+
+      .footer-right {
+        flex: 1;
+        max-width: 35%;
+      }
+
+      .footer-modern h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      .footer-left p {
+        color: #e9ecef;
+        line-height: 1.7;
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        color: #e9ecef;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #28a745;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        background-color: #1a1e23;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: #adb5bd;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          padding: 2rem 1rem;
+          gap: 2rem;
         }
 
-        h1 {
-            color: #0e0f0e;
-            margin-bottom: 30px;
-            font-size: 2em;
+        .footer-left,
+        .footer-right {
+          max-width: 100%;
         }
 
-        table {
-            width: 100%;
-            max-width: 800px;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .page-header h1 {
+          font-size: 2rem;
         }
 
-        th, td {
-            padding: 12px 15px;
-            text-align: center;
+        .vacancy-card {
+          padding: 1.5rem;
         }
 
-        th {
-            background-color: #373837;
-            color: #fff;
-            font-size: 1.1em;
+        .table-responsive {
+          border-radius: 15px;
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        .btn-approve,
+        .btn-reject {
+          display: block;
+          width: 100%;
+          margin-bottom: 0.5rem;
+          margin-right: 0;
         }
+      }
 
-        td {
-            background-color: #fff;
-            border-bottom: 1px solid #ddd;
-        }
+      /* Action buttons container */
+      .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
 
-        button {
-            background-color: #1c1e1c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            font-size: 16px;
-            cursor: pointer;
+      @media (max-width: 576px) {
+        .action-buttons {
+          flex-direction: column;
         }
-
-        button:hover {
-            background-color: #131413;
-        }
-
-        form {
-            display: inline;
-        }
+      }
     </style>
-</head>
-<body>
-    <h1>Approve Vacancies</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Hostel Name</th>
-                <th>Vacancy Count</th>
-                <th>Approve</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for vacancy in vacancies %}
-            <tr>
-                <td>{{ vacancy.hostelname }}</td>
-                <td>{{ vacancy.vacancycount }}</td>
-                <td>
-                    <form method="POST" action="{% url 'approve_vacancy' %}">
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <div style="display: flex; align-items: center; gap: 1rem">
+          <img
+            id="logo"
+            src="{% static '/assets/Cet_emblem.png' %}"
+            alt="CET Emblem"
+          />
+          <a class="navbar-brand" style="margin-right: 0" href="/">
+            <h2 style="margin: 0 0; text-wrap: wrap" class="title">
+              <b>PRIVATE HOSTELS</b>
+            </h2>
+            <h6 style="text-wrap: wrap">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
+          </a>
+        </div>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNavAltMarkup"
+          style="justify-content: end; padding-right: 3rem"
+        >
+          <div class="navbar-nav" style="gap: 2rem">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="./hostel">Hostels</a>
+            <div class="dropdown">
+              <a
+                class="nav-link active"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Manage Hostels
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="./grievance"
+                  >Register Grievance</a
+                >
+                <a class="dropdown-item" href="hostel_registration"
+                  >Register Hostel</a
+                >
+                <a class="dropdown-item" href="add_vacancy">Edit Vacancy</a>
+              </div>
+            </div>
+            <a class="nav-link" href="#about">About Us</a>
+            <a class="nav-link" href="./page_admin">Admin</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+          <h1>Vacancy Request Management</h1>
+          <p class="subtitle">
+            Review and approve hostel vacancy update requests
+          </p>
+        </div>
+
+        <!-- Content Area -->
+        {% if vacancies %}
+        <div class="vacancy-table">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Hostel Name</th>
+                  <th scope="col">Requested Rooms</th>
+                  <th scope="col">Current Vacancy</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for vacancy in vacancies %}
+                <tr>
+                  <td>
+                    <strong>{{ vacancy.hostelname }}</strong>
+                  </td>
+                  <td>
+                    <span class="badge bg-primary fs-6"
+                      >+{{ vacancy.vacancycount }} rooms</span
+                    >
+                  </td>
+                  <td>
+                    {% if vacancy.hostel %}
+                    <span class="badge bg-info fs-6"
+                      >{{ vacancy.hostel.current_vacancy|default:"0" }}
+                      rooms</span
+                    >
+                    {% else %}
+                    <span class="text-muted">N/A</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <div class="action-buttons">
+                      <form
+                        method="POST"
+                        action="{% url 'approve_vacancy' %}"
+                        style="display: inline"
+                      >
                         {% csrf_token %}
-                        <input type="hidden" name="hostelname" value="{{ vacancy.hostelname }}">
-                        <input type="hidden" name="vacancycount" value="{{ vacancy.vacancycount }}">
-                        <button type="submit">Approve</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
+                        <input
+                          type="hidden"
+                          name="vacancy_id"
+                          value="{{ vacancy.id }}"
+                        />
+                        <input type="hidden" name="action" value="approve" />
+                        <button type="submit" class="btn btn-approve">
+                          ✓ Approve
+                        </button>
+                      </form>
+                      <form
+                        method="POST"
+                        action="{% url 'approve_vacancy' %}"
+                        style="display: inline"
+                      >
+                        {% csrf_token %}
+                        <input
+                          type="hidden"
+                          name="vacancy_id"
+                          value="{{ vacancy.id }}"
+                        />
+                        <input type="hidden" name="action" value="reject" />
+                        <button
+                          type="submit"
+                          class="btn btn-reject"
+                          onclick="return confirm('Are you sure you want to reject this vacancy request?')"
+                        >
+                          ✗ Reject
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% else %}
+        <!-- Empty State -->
+        <div class="empty-state">
+          <div class="empty-state-icon">📋</div>
+          <h3>No Pending Vacancy Requests</h3>
+          <p>
+            All vacancy requests have been processed. New requests will appear
+            here when submitted.
+          </p>
+          <a href="/administration" class="btn-back">
+            ← Back to Administration
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </main>
+
+    <footer class="footer-modern" id="about">
+      <div class="footer-container">
+        <div class="footer-left">
+          <h3>About Us</h3>
+          <p>
+            Welcome to the official website of Private Hostel Committee, an
+            initiative taken by Afin Shafi M (University Union Councillor,
+            College Union 23-34). We provide comprehensive hostel management and
+            grievance handling services for students.
+          </p>
+        </div>
+        <div class="footer-right">
+          <h3>Contact</h3>
+          <div class="contact-info">
+            <div class="contact-item">Afin : 9188370967</div>
+            <div class="contact-item">Basil : 9495121351</div>
+            <div class="contact-item">Sreelal S S : 8592008405</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2023 CET College Union. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hostel Approval</title>
     <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'global-styles.css' %}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -98,10 +99,49 @@
 
         }
 
+        @media screen and (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            aside {
+                width: 100%;
+                height: auto;
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+
+            .add {
+                width: 100%;
+            }
+
+            .sidebar {
+                flex-direction: row;
+                height: auto;
+                overflow-x: auto;
+            }
+
+            .option {
+                white-space: nowrap;
+                min-width: max-content;
+            }
+
+            .box {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                padding: 1rem;
+            }
+
+            .card {
+                margin: 0;
+            }
+        }
+
         @media screen and (max-width: 500px) {
             .mobile {
                 display: block !important;
-
             }
 
             aside {
@@ -112,17 +152,35 @@
                 display: block !important;
             }
 
-
             #admin {
                 display: none !important;
             }
 
             .box {
-
                 display: grid;
                 grid-template-columns: repeat(1, 1fr);
                 gap: 20px;
+            }
 
+            .hero {
+                padding: 0.5rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card h5 {
+                font-size: 1rem;
+            }
+
+            .card p {
+                font-size: 0.85rem;
+            }
+
+            .btn {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
             }
         }
 
@@ -142,7 +200,6 @@
             input,
             select {
                 width: 55vw !important;
-
             }
 
             .hero {
@@ -150,13 +207,37 @@
             }
 
             .box {
-
                 display: grid;
                 grid-template-columns: repeat(1, 1fr);
-                gap: 20px;
-
+                gap: 15px;
+                padding: 0.5rem;
             }
 
+            .card {
+                padding: 0.75rem;
+            }
+
+            .card h5 {
+                font-size: 0.9rem;
+            }
+
+            .card p {
+                font-size: 0.75rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .btn {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+
+            .navbar-brand h2 {
+                font-size: 0.75rem !important;
+            }
+
+            .navbar-brand h6 {
+                font-size: 0.45rem !important;
+            }
         }
 
         .footer {
@@ -191,7 +272,7 @@
             width: max-content;
             padding: 0 1rem;
             border-radius: 0.5rem;
-            background: #3d3a4e;
+            background: #212529;
             background-size: 400%;
             color: #fff;
             border: none;
@@ -328,8 +409,8 @@
             padding: 1rem;
             border: none;
             color: white;
-            background: #242425;
-            border-bottom: 1px solid #ccc;
+            background: #212529;
+            border-bottom: 1px solid #343a40;
             cursor: pointer;
             width: 100%;
         }
@@ -396,17 +477,23 @@
         .approve-btn {
             display: block;
             margin: 10px auto;
-            padding: 10px 20px;
-            background-color: #007bff;
+            padding: 12px 24px;
+            background-color: #212529;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
             text-align: center;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
         
         .approve-btn:hover {
-            background-color: #0056b3;
+            background-color: #343a40;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
         }
         
   
@@ -498,21 +585,21 @@
         </div>
     </div>
 
-    <footer style="width: 100vw;overflow-y: hidden;">
-        <div class="footer">
-            <div id="about" class="about">
+    <footer class="footer-standardized" id="about">
+        <div class="footer-content-standardized">
+            <div class="footer-section-standardized">
                 <h3>About Us</h3>
                 <h6>Welcome to the official website of Private Hostel Committee, an initiative taken by Afin Shafi M
                     (University Union Councillor, College Union 23-34).</h6>
             </div>
-            <div class="contact">
+            <div class="footer-section-standardized">
                 <h3>Contact</h3>
                 <h6>Afin : 9188370967</h6>
                 <h6>Basil : 9495121351</h6>
-                <h6></h6>
+                <h6>Sreelal S S : 8592008405</h6>
             </div>
         </div>
-        <div class="copyright">
+        <div class="copyright-standardized">
             <h6>copyright@cetcollegeunion 2023</h6>
         </div>
     </footer>

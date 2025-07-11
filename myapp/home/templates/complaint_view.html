@@ -1,524 +1,809 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administrator view</title>
-    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png" />
+    <link rel="stylesheet" href="{% static 'global-styles.css' %}" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
 
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f8f8;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            overflow-x: hidden;
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      ::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+
+      ::-webkit-scrollbar {
+        width: 5px;
+        border-radius: 2px;
+        background-color: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: #d3d3d3;
+        border: none solid #555555;
+      }
+
+      /* Modern Footer Styling */
+      .footer-modern {
+        background-color: #212529;
+        color: white;
+        margin-top: auto;
+        padding: 0;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 3rem;
+      }
+
+      .footer-left {
+        flex: 1;
+        max-width: 60%;
+      }
+
+      .footer-right {
+        flex: 1;
+        max-width: 35%;
+      }
+
+      .footer-modern h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      .footer-left p {
+        color: #e9ecef;
+        line-height: 1.7;
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        color: #e9ecef;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #28a745;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        background-color: #1a1e23;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: #adb5bd;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive footer */
+      @media (max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          padding: 2rem 1rem;
+          gap: 2rem;
         }
 
-        ::-webkit-scrollbar-track {
-
-            background-color: transparent;
+        .footer-left,
+        .footer-right {
+          max-width: 100%;
         }
 
-        ::-webkit-scrollbar {
-            width: 5px;
-            border-radius: 2px;
-            background-color: transparent;
+        .footer-modern h3 {
+          font-size: 1.3rem;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background-color: #d3d3d3;
-            border: none solid #555555;
+        .footer-left p {
+          font-size: 0.95rem;
         }
 
-        #logo {
-            height: 7vw;
-            filter: invert(100%);
+        .contact-item {
+          font-size: 1rem;
+          padding: 0.6rem 0.8rem;
         }
 
-        @media screen and (min-width: 1201px) {
-
-
-
-            .box {
-
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
-
-            }
-
+        .footer-bottom {
+          padding: 1rem;
         }
-        @media screen and (max-width: 1200px) {
+      }
 
+      .logout {
+        position: relative;
+        overflow: hidden;
+        height: 2rem;
+        width: max-content;
+        padding: 0 1rem;
+        border-radius: 0.5rem;
+        background: #3d3a4e;
+        background-size: 400%;
+        color: #fff;
+        border: none;
+        text-align: center;
+        align-items: center;
+        padding-bottom: 0.1rem;
+        display: none;
+      }
 
+      .logout:hover::before {
+        transform: scaleX(1);
+      }
 
-            .box {
+      .logout-content {
+        position: relative;
+        z-index: 1;
+      }
 
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
+      .logout::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+        width: 100%;
+        height: inherit;
+        border-radius: inherit;
+        background: linear-gradient(82.3deg, rgb(0, 0, 0) 94.3%);
+        transition: all 0.475s;
+      }
 
-            }
+      .hero {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100vw;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+      }
 
-        }
-        @media screen and (max-width: 1000px) {
+      aside {
+        flex: 1;
+        height: 85vh;
+        padding: 15px 0;
+        margin-right: 1rem;
+      }
 
+      .add {
+        flex: 5;
+        display: flex;
+        flex-direction: column;
+        height: 85vh;
+        overflow: scroll;
+      }
 
+      .full {
+        background-color: #fff;
+        border-radius: 1rem 1rem 8px 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        margin: 1rem;
+        height: fit-content;
+      }
 
-            .box {
+      .card-header-standardized {
+        text-align: left;
+        align-self: flex-start;
+        padding: 1rem 2rem;
+        border-radius: 0.75rem 0.75rem 0 0;
+        color: white;
+        width: 100%;
+        background-color: #212529;
+        box-shadow: 1px 5px 7px rgba(0, 0, 0, 0.238);
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.2rem;
+        position: relative;
+        border-bottom: 3px solid #28a745;
+      }
 
-                display: grid;
-                grid-template-columns: repeat(1, 1fr);
-                gap: 20px;
+      .card-header-standardized::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 2rem;
+        width: 60px;
+        height: 3px;
+        background-color: #28a745;
+        border-radius: 2px;
+      }
 
-            }
+      .sidebar {
+        display: flex;
+        overflow: hidden;
+        height: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        background-color: #fff;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
 
-        }
+      .option {
+        padding: 1rem;
+        border: none;
+        color: white;
+        background: #242425;
+        border-bottom: 1px solid #ccc;
+        cursor: pointer;
+        width: 100%;
+      }
 
-        @media screen and (max-width: 500px) {
-            .mobile {
-                display: block !important;
+      .sidebar img {
+        height: 1.25rem;
+        filter: invert(100%);
+        margin: 0 0.5rem;
+      }
 
-            }
+      /* Navbar navigation links styling with green underlines */
+      .navbar-nav .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+        padding-bottom: 0.75rem !important;
+      }
 
-            aside {
-                display: none;
-            }
+      .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background-color: #28a745;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
 
-            .logout {
-                display: block !important;
-            }
+      .navbar-nav .nav-link:hover::after,
+      .navbar-nav .nav-link.active::after {
+        width: 100%;
+      }
 
+      .navbar-nav .nav-link:hover {
+        color: #28a745 !important;
+      }
 
-            #admin {
-                display: none !important;
-            }
+      /* Complaint-specific styling */
+      .complaint-content {
+        max-height: 70vh;
+        overflow-y: auto;
+      }
 
-            .box {
+      .complaint-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr;
+      }
 
-                display: grid;
-                grid-template-columns: repeat(1, 1fr);
-                gap: 20px;
+      .complaint-item {
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
 
-            }
-        }
+      .complaint-item:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
 
-        @media screen and (max-width: 400px) {
-            #logo {
-                height: 1.75rem;
-            }
+      .complaint-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+      }
 
-            .title {
-                font-size: 0.75rem;
-            }
+      .complaint-title {
+        font-weight: 600;
+        color: #212529;
+        margin: 0;
+      }
 
-            h6 {
-                font-size: 0.50rem;
-            }
+      .complaint-status {
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
 
-            input,
-            select {
-                width: 55vw !important;
+      .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
 
-            }
+      .status-resolved {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
 
-            .hero {
-                padding: 0.5rem 0.5rem !important;
-            }
+      .status-in-progress {
+        background-color: #cce5ff;
+        color: #004085;
+        border: 1px solid #b3d7ff;
+      }
 
-            .box {
+      .complaint-meta {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+      }
 
-                display: grid;
-                grid-template-columns: repeat(1, 1fr);
-                gap: 20px;
+      .complaint-description {
+        color: #495057;
+        line-height: 1.5;
+        margin: 0;
+      }
 
-            }
+      .complaint-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.5rem;
+      }
 
-        }
+      .btn-action {
+        padding: 0.375rem 0.75rem;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
 
-        .footer {
-            background-color: rgb(28, 28, 28);
-            display: flex;
-            padding: 5%;
-            justify-content: space-between;
-            color: white;
-        }
+      .btn-resolve {
+        background-color: #28a745;
+        color: white;
+      }
 
-        .about {
-            width: 50%;
-        }
+      .btn-resolve:hover {
+        background-color: #218838;
+      }
 
-        .footer hr {
-            border-top: 1px solid;
-        }
+      .btn-view {
+        background-color: #007bff;
+        color: white;
+      }
 
-        .copyright {
-            background-color: rgb(28, 28, 28);
-            color: white;
-            border-top: 1px solid white;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-        }
+      .btn-view:hover {
+        background-color: #0056b3;
+      }
 
-        .logout {
-            position: relative;
-            overflow: hidden;
-            height: 2rem;
-            width: max-content;
-            padding: 0 1rem;
-            border-radius: 0.5rem;
-            background: #3d3a4e;
-            background-size: 400%;
-            color: #fff;
-            border: none;
-            text-align: center;
-            align-items: center;
-            padding-bottom: 0.1rem;
-            display: none;
-        }
-
-        .logout:hover::before {
-            transform: scaleX(1);
-        }
-
-        .logout-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .logout::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            transform: scaleX(0);
-            transform-origin: 0 50%;
-            width: 100%;
-            height: inherit;
-            border-radius: inherit;
-            background: linear-gradient(82.3deg,
-                    rgb(0, 0, 0) 94.3%);
-            transition: all 0.475s;
-        }
-
-
-
-
-
-
-        form {
-            padding: 1rem;
-            width: 100%;
-            display: grid;
-            gap: 0.5rem;
-
-        }
-
-        label {
-            display: flex;
-            flex-direction: row;
-            margin-bottom: 8px;
-            text-align: left;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        input,
-        select {
-
-            width: min(300px, 30vw);
-            align-self: flex-start;
-            padding: 0 0.5em;
-
-            height: 2rem;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-
-
-        .hero {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            width: 100vw;
-            margin: 0 auto;
-            padding: 1rem 2rem;
+      @media screen and (max-width: 500px) {
+        .mobile {
+          display: block !important;
         }
 
         aside {
-            flex: 1;
-            height: 85vh;
-            padding: 15px 0;
-            margin-right: 1rem;
+          display: none;
         }
 
-        .add {
-            flex: 5;
-            display: flex;
-            flex-direction: column;
-            height: 85vh;
-            /*  overflow: scroll;*/
+        .logout {
+          display: block !important;
         }
 
-        .right {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap-reverse;
-            justify-content: space-evenly;
-
+        #admin {
+          display: none !important;
         }
 
-
-
-
-
-        .message {
-
-            padding: 0 1rem;
-        }
-
-        hr {
-            margin: 0.5rem 0;
-        }
-
-
-
-
-
-        .sidebar {
-            display: flex;
-            overflow: hidden;
-            height: 100%;
-            flex-direction: column;
-            align-items: FLE;
-            justify-content: space-between;
-            background-color: #fff;
-            border-radius: 0.5rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .option {
-            padding: 1rem;
-            border: none;
-            color: white;
-            background: #242425;
-            border-bottom: 1px solid #ccc;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .sidebar img {
-            height: 1.25rem;
-            filter: invert(100%);
-            margin: 0 0.5rem;
-        }
-
-
-        .complaint {
-
-            color: white;
-            background-color: black;
-            height: 3.4rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            margin: 1.5rem 1rem;
-            border-radius: 12px;
-            box-shadow: 1px 1px 4px rgb(126, 118, 118);
-        }
-
-        .complaint h1 {
-            font-weight: 600;
-        }
-
-        .list {
-            border: 1px solid rgb(206, 204, 204);
-            padding: 1rem;
-            margin: 1.5rem 1rem;
-            border-radius: 12px;
-            box-shadow: 1px 1px 9px black;
-            height: 12rem;
-            position: relative;
-            overflow-y: scroll;
-            padding-bottom: 20px;
-        }
-
-        .list .host-name {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
+        .hero {
+          flex-direction: column !important;
+          padding: 0.5rem !important;
         }
 
         .full {
-            max-height: 85vh;
-            overflow-y: scroll;
+          margin: 0.5rem !important;
+        }
+      }
+
+      @media screen and (max-width: 400px) {
+        .title {
+          font-size: 0.75rem;
         }
 
-        .list {
-            width: 15.5rem;
+        h6:not(.contact h6) {
+          font-size: 0.65rem;
         }
 
-
-        .host-name h1 {
-            font-size: rem;
-            font-weight: 600;
+        .hero {
+          padding: 0.5rem 0.5rem !important;
         }
-       
+
+        .card-header-standardized {
+          padding: 0.5rem 1rem !important;
+          font-size: 1rem !important;
+        }
+
+        .card-header-standardized::after {
+          left: 1rem !important;
+        }
+
+        .complaint-item {
+          padding: 0.75rem !important;
+        }
+
+        .complaint-header {
+          flex-direction: column !important;
+          align-items: flex-start !important;
+          gap: 0.5rem !important;
+        }
+
+        .complaint-actions {
+          flex-direction: column !important;
+        }
+
+        .btn-action {
+          width: 100% !important;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .hero {
+          flex-direction: column;
+        }
+
+        aside {
+          width: 100%;
+          height: auto;
+          margin-right: 0;
+          margin-bottom: 1rem;
+        }
+
+        .add {
+          width: 100%;
+          height: auto;
+        }
+
+        .sidebar {
+          flex-direction: row;
+          height: auto;
+          overflow-x: auto;
+        }
+
+        .option {
+          white-space: nowrap;
+          min-width: max-content;
+        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <nav style="width: 100vw;" class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <div style="display: flex;align-items: center;gap:1rem;">
-                <img id="logo" src="{% static '/assets/Cet_emblem.png' %}" alt="CET Emblem">
-                <a class="navbar-brand" style="margin-right: 0;" href="/administration">
-                    <h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2>
-                    <h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
-                </a>
-            </div>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup"
-                style="justify-content: end; padding-right: 3rem;">
-                <div class="navbar-nav" style="gap: 2rem;">
-                    <div class="mobile" style="display: none;">
-                        <a class="nav-link " href="/administration"> Dashboard</a>
-                        <a class="nav-link " href="/hostel_approval"> Hostel Lists</a>                 
-                        <a class="nav-link active" href=/"admin_complaint_view"> Complaints</a>
-                    </div>
-                    <div id="admin" class="nav-link active">Admin</div>
-                    <button class="logout" onclick="performLogout()"    > <span class="logout-content">Log out </span>
-                    </button>
-                </div>
-
-            </div>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container" style="max-width: 900px; padding: 0 1rem">
+        <div style="display: flex; align-items: center; gap: 0.75rem">
+          <img
+            id="logo"
+            src="{% static '/assets/Cet_emblem.png' %}"
+            alt="CET Emblem"
+            style="height: 3rem"
+          />
+          <a
+            class="navbar-brand"
+            style="margin-right: 0"
+            href="/administration"
+          >
+            <h2
+              style="margin: 0 0; text-wrap: wrap; font-size: 1.1rem"
+              class="title"
+            >
+              <b>PRIVATE HOSTELS </b>
+            </h2>
+            <h6 style="text-wrap: wrap; font-size: 0.75rem">
+              COLLEGE OF ENGINEERING TRIVANDRUM
+            </h6>
+          </a>
         </div>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNavAltMarkup"
+          style="justify-content: end; padding-right: 1rem"
+        >
+          <div class="navbar-nav" style="gap: 1rem">
+            <div class="mobile" style="display: none">
+              <a class="nav-link" href="/administration"> Dashboard</a>
+              <a class="nav-link" href="/hostel_approval"> Hostel Lists</a>
+              <a class="nav-link active" href="/admin_complaint_view">
+                Complaints</a
+              >
+            </div>
+            <div id="admin" class="nav-link active">Admin</div>
+            <button class="logout" onclick="performLogout()">
+              <span class="logout-content">Log out </span>
+            </button>
+          </div>
+        </div>
+      </div>
     </nav>
     <div class="hero">
-        <aside>
-            <div class="sidebar">
-                <div>
-                    <button class="option" onclick="showdashboard()">
-                        <span><img src="{%static '/assets/dash.png'%}" alt=""></span>
-                        Dashboard
-                    </button>
-                    <button class="option" onclick="showhostelapproval()">
-                        <span><img src="{%static '/assets/home_1946436.png'%}" alt=""></span>
-                        Hostel Lists
-                    </button>
-                    <button class="option" onclick="showcomplaints()">
-                        <span><img src="{% static '/assets/ebook_7200537.png'%}" alt=""></span>
-                        {% comment %} src="{% static '/assets/Cet_emblem.png' %} {% endcomment %}
-                        Complaints
-                    </button>
+      <aside>
+        <div class="sidebar">
+          <div>
+            <button class="option" onclick="showdashboard()">
+              <span><img src="{%static '/assets/dash.png'%}" alt="" /></span>
+              Dashboard
+            </button>
 
-                </div>
+            <button class="option" onclick="showhostelapproval()">
+              <span
+                ><img src="{% static '/assets/home_1946436.png' %}" alt=""
+              /></span>
+              Hostel Lists
+            </button>
+            <button class="option" onclick="showvacancyapproval()">
+              <span><img src="{% static '/assets/dash.png' %}" alt="" /></span>
+              Vacancy Requests
+            </button>
+            <button class="option" onclick="showhostelrequests()">
+              <span
+                ><img src="{% static '/assets/home_1946436.png' %}" alt=""
+              /></span>
+              Hostel Requests
+            </button>
+            <button class="option" onclick="showcomplaints()">
+              <span
+                ><img src="{% static '/assets/ebook_7200537.png'%}" alt=""
+              /></span>
+              Complaints
+            </button>
+          </div>
 
-
-                <button type="button" class="option" onclick="performLogout()">
-                    <span><img src="{%static '/assets/exit_1286853.png'%}" alt=""></span>
-                    {% comment %} src="{%static '/assets/dash.png'%}" {% endcomment %}
-                    logout
-                </button>
-            </div>
-        </aside>
-
-        <div class="add">
-            
-            <div class="right">
-                
-                <div class="full">
-                    <div class="complaint">
-                        <h1>Complaints</h1>
-                    </div>
-                    <div class="box" id="box">
-
-
-                    </div>
-                </div>
-
-            </div>
-
+          <button type="button" class="option" onclick="performLogout()">
+            <span
+              ><img src="{%static '/assets/exit_1286853.png'%}" alt=""
+            /></span>
+            logout
+          </button>
         </div>
+      </aside>
 
+      <div class="add">
+        <div class="full">
+          <div class="card-header-standardized">
+            <h3><b>Complaints Management</b></h3>
+          </div>
+          <div class="complaint-content" style="padding: 1rem">
+            <div class="complaint-grid" id="box">
+              <!-- Complaints will be loaded here via JavaScript -->
+            </div>
 
+            <!-- Add some default content if no complaints -->
+            <div
+              class="no-complaints"
+              style="
+                text-align: center;
+                padding: 2rem;
+                color: #666;
+                display: none;
+              "
+            >
+              <h4>No complaints to display</h4>
+              <p>
+                When complaints are submitted, they will appear here for review
+                and management.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-
-    <footer style="width: 100vw;overflow-y: hidden;">
-        <div class="footer">
-            <div id="about" class="about">
-                <h3>About Us</h3>
-                <h6>Welcome to the official website of Private Hostel Committee, an initiative taken by Afin Shafi M
-                    (University Union Councillor, College Union 23-34).</h6>
-            </div>
-            <div class="contact">
-                <h3>Contact</h3>
-                <h6>Afin : 9188370967</h6>
-                <h6>Basil : 9495121351</h6>
-                <h6></h6>
-            </div>
+    <footer class="footer-modern" id="about">
+      <div class="footer-container">
+        <div class="footer-left">
+          <h3>About Us</h3>
+          <p>
+            Welcome to the official website of Private Hostel Committee, an
+            initiative taken by Afin Shafi M (University Union Councillor,
+            College Union 23-34). We provide comprehensive hostel management and
+            grievance handling services for students.
+          </p>
         </div>
-        <div class="copyright">
-            <h6>copyright@cetcollegeunion 2023</h6>
+        <div class="footer-right">
+          <h3>Contact</h3>
+          <div class="contact-info">
+            <div class="contact-item">Afin : 9188370967</div>
+            <div class="contact-item">Basil : 9495121351</div>
+            <div class="contact-item">Sreelal S S : 8592008405</div>
+          </div>
         </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2023 CET College Union. All rights reserved.</p>
+      </div>
     </footer>
-</body>
+  </body>
 
-<script>
+  <script>
     var myList = {{ my_list | safe }}
-    
-    function performLogout() {
-        // Perform any logout-related actions here if needed
 
-        // Redirect to the logout URL
-        window.location.href = "/logout";
+    // Initialize complaints display
+    document.addEventListener('DOMContentLoaded', function() {
+        displayComplaints();
+    });
+
+    function displayComplaints() {
+        const container = document.getElementById('box');
+        const noComplaintsDiv = document.querySelector('.no-complaints');
+
+        if (!myList || myList.length === 0) {
+            container.innerHTML = '';
+            noComplaintsDiv.style.display = 'block';
+            return;
+        }
+
+        noComplaintsDiv.style.display = 'none';
+
+        let html = '';
+        myList.forEach((complaint, index) => {
+            const statusClass = getStatusClass(complaint.complaint_status || 'pending');
+            html += `
+                <div class="complaint-item">
+                    <div class="complaint-header">
+                        <h5 class="complaint-title">Complaint #${index + 1}</h5>
+                        <span class="complaint-status ${statusClass}">
+                            ${complaint.complaint_status || 'Pending'}
+                        </span>
+                    </div>
+                    <div class="complaint-meta">
+                        <strong>From:</strong> ${complaint.full_name || 'Anonymous'} |
+                        <strong>Date:</strong> ${complaint.date_submitted || 'Not specified'}
+                    </div>
+                    <p class="complaint-description">
+                        ${complaint.complaint_text || 'No description provided'}
+                    </p>
+                    <div class="complaint-actions">
+                        <button class="btn-action btn-view" onclick="viewComplaint(${index})">
+                            View Details
+                        </button>
+                        ${complaint.complaint_status !== 'resolved' ?
+                            `<button class="btn-action btn-resolve" onclick="resolveComplaint(${index})">
+                                Mark Resolved
+                            </button>` : ''
+                        }
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
     }
+
+    function getStatusClass(status) {
+        switch(status.toLowerCase()) {
+            case 'resolved': return 'status-resolved';
+            case 'in-progress': return 'status-in-progress';
+            default: return 'status-pending';
+        }
+    }
+
+    function viewComplaint(index) {
+        const complaint = myList[index];
+        alert(`Complaint Details:\n\nFrom: ${complaint.full_name}\nStatus: ${complaint.complaint_status}\nDescription: ${complaint.complaint_text}`);
+    }
+
+    function resolveComplaint(index) {
+        if (confirm('Mark this complaint as resolved?')) {
+            // Here you would typically make an AJAX call to update the status
+            myList[index].complaint_status = 'resolved';
+            displayComplaints();
+        }
+    }
+
+    function performLogout() {
+        if (confirm('Are you sure you want to logout?')) {
+            window.location.href = "/logout";
+        }
+    }
+
     function showcomplaints(){
         window.location.href = "/admin_complaint_view";
     }
-    function showdashboard()
-    {
+
+    function showdashboard() {
         window.location.href = "/administration";
-    
     }
+
     function showhostelapproval(){
         window.location.href = "/hostel_approval";
     }
-</script>
 
-<script src="{% static 'complaint.js' %}"></script>
+    function showvacancyapproval() {
+        window.location.href = "/approve_vacancy";
+    }
 
+    function showhostelrequests() {
+        window.location.href = "/approve_hostel_requests";
+    }
+  </script>
+
+  <script src="{% static 'complaint.js' %}"></script>
 </html>

@@ -1,92 +1,400 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin login</title>
-    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
-    <link rel="stylesheet" href="{% static 'loginpage.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-</head>
-<body>
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png" />
+    <link rel="stylesheet" href="{% static 'global-styles.css' %}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <style>
+      /* Login page specific styles to match other pages */
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg-color, #f8f9fa);
+      }
+
+      .login-container {
+        min-height: calc(100vh - 120px); /* Account for navbar and footer */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: var(--bg-color, #f8f9fa);
+      }
+
+      .login-card {
+        width: 100%;
+        max-width: 420px;
+        background: var(--bg-dark, #212529);
+        border-radius: var(--border-radius-lg, 12px);
+        box-shadow: var(--shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.3));
+        overflow: hidden;
+      }
+
+      .login-header {
+        background: var(--primary-color, #212529);
+        color: var(--text-white, white);
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .login-header h1 {
+        margin: 0;
+        font-size: 1.75rem;
+        font-weight: 600;
+      }
+
+      .login-body {
+        padding: 2rem;
+        background: var(--bg-primary, white);
+      }
+
+      .login-form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .login-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--text-primary, #212529);
+      }
+
+      .login-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid var(--border-color, #dee2e6);
+        border-radius: var(--border-radius, 8px);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: var(--bg-primary, white);
+        color: var(--text-primary, #212529);
+      }
+
+      .login-input:focus {
+        outline: none;
+        border-color: var(--primary-color, #212529);
+        box-shadow: 0 0 0 3px rgba(33, 37, 41, 0.1);
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        background: var(--primary-color, #212529);
+        color: var(--text-white, white);
+        border: none;
+        border-radius: var(--border-radius, 8px);
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+      }
+
+      .login-btn:hover {
+        background: var(--primary-hover, #343a40);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md, 0 4px 8px rgba(0, 0, 0, 0.15));
+      }
+
+      /* Modern Footer Styling */
+      .footer-modern {
+        background-color: #212529;
+        color: white;
+        margin-top: auto;
+        padding: 0;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 3rem;
+      }
+
+      .footer-left {
+        flex: 1;
+        max-width: 60%;
+      }
+
+      .footer-right {
+        flex: 1;
+        max-width: 35%;
+      }
+
+      .footer-modern h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      .footer-left p {
+        color: #e9ecef;
+        line-height: 1.7;
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        color: #e9ecef;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #28a745;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        background-color: #1a1e23;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: #adb5bd;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .login-container {
+          padding: 1rem 0.5rem;
+        }
+
+        .login-card {
+          max-width: 95%;
+        }
+
+        .login-header {
+          padding: 1.5rem;
+        }
+
+        .login-header h1 {
+          font-size: 1.5rem;
+        }
+
+        .login-body {
+          padding: 1.5rem;
+        }
+
+        .footer-container {
+          flex-direction: column;
+          padding: 2rem 1rem;
+          gap: 2rem;
+        }
+
+        .footer-left,
+        .footer-right {
+          max-width: 100%;
+        }
+
+        .footer-modern h3 {
+          font-size: 1.3rem;
+        }
+
+        .footer-left p {
+          font-size: 0.95rem;
+        }
+
+        .contact-item {
+          font-size: 1rem;
+          padding: 0.6rem 0.8rem;
+        }
+
+        .footer-bottom {
+          padding: 1rem;
+        }
+      }
+
+      /* Navbar navigation links styling with green underlines */
+      .navbar-nav .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+        padding-bottom: 0.75rem !important;
+      }
+
+      .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background-color: #28a745;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .navbar-nav .nav-link:hover::after,
+      .navbar-nav .nav-link.active::after {
+        width: 100%;
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #28a745 !important;
+      }
+    </style>
+  </head>
+  <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid" >
-            <div  style="display: flex;align-items: center;gap:1rem;">
-                
-                <img id="logo" src="{% static './assets/Cet_emblem.png' %}" alt="CET Emblem">
-                <a class="navbar-brand" style="margin-right: 0;"  href="/"><h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2><h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6></a>
-            </div>
-            
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="justify-content: end; padding-right: 3rem;">
-            <div class="navbar-nav" style="gap: 2rem;">
-              <a class="nav-link " aria-current="page" href="/">Home</a>
-              <a class="nav-link " href="/hostel">Hostels</a>
-              <a class="nav-link" href="/grievance">Grievance</a>
-              <a class="nav-link" href="#about">About US</a>
-              <a class="nav-link active" href="/page_admin">Admin</a>
-            </div>
-          </div>
+      <div class="container" style="max-width: 900px; padding: 0 1rem">
+        <div style="display: flex; align-items: center; gap: 0.75rem">
+          <img
+            id="logo"
+            src="{% static './assets/Cet_emblem.png' %}"
+            alt="CET Emblem"
+            style="height: 3rem"
+          />
+          <a class="navbar-brand" style="margin-right: 0" href="/"
+            ><h2
+              style="margin: 0 0; text-wrap: wrap; font-size: 1.1rem"
+              class="title"
+            >
+              <b>PRIVATE HOSTELS </b>
+            </h2>
+            <h6 style="text-wrap: wrap; font-size: 0.75rem">
+              COLLEGE OF ENGINEERING TRIVANDRUM
+            </h6></a
+          >
         </div>
-      </nav>
-      <div class="main">
-        
-        <div class="wrapper">
-          <form action="/login" method='post'>
-            {% csrf_token %}
-              <h1>Administrator Login</h1>
-              <div class="input-box">
-                <input type="text" name="reg_username" placeholder="Username" required />
-                
-              </div>
-      
-              <div class="input-box">
-                <input type="password" name="reg_pwd" placeholder="Password" required />
-                
-              </div>
-      
-            
-      
-              <button type="submit" class="btn">
-                Login
-              </button>
-      
-            </form>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNavAltMarkup"
+          style="justify-content: end; padding-right: 1rem"
+        >
+          <div class="navbar-nav" style="gap: 1rem">
+            <a class="nav-link" aria-current="page" href="/">Home</a>
+            <a class="nav-link" href="/hostel">Hostels</a>
+            <a class="nav-link" href="/grievance">Grievance</a>
+            <a class="nav-link" href="#about">About US</a>
+            <a class="nav-link active" href="/page_admin">Admin</a>
           </div>
         </div>
       </div>
-      <div class="footer">
-
-        <div id="about" class="about">
-            <h3>About Us</h3>
-            <h6>Welcome to the official website of Private Hostel Committee, an initiative taken by Afin Shafi M
-                (University Union Councillor, College Union 23-34).</h6>
-
+    </nav>
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <h1>Administrator Login</h1>
         </div>
-        <div class="contact">
-            <h3>Contact</h3>
-            <h6>Afin : 9188370967</h6>
-            <h6>Basil : 9495121351</h6>
-            <h6></h6>
+        <div class="login-body">
+          <form action="/login" method="post">
+            {% csrf_token %}
+            <div class="login-form-group">
+              <label class="login-label">Username</label>
+              <input
+                type="text"
+                name="reg_username"
+                placeholder="Enter your username"
+                class="login-input"
+                required
+              />
+            </div>
 
+            <div class="login-form-group">
+              <label class="login-label">Password</label>
+              <input
+                type="password"
+                name="reg_pwd"
+                placeholder="Enter your password"
+                class="login-input"
+                required
+              />
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+          </form>
         </div>
-
-
+      </div>
     </div>
-
-    <div class="copyright">
-        <h6>copyright@cetcollegeunion 2023</h6>
-    </div>
-
-    </div>
-</body>
+    <footer class="footer-modern" id="about">
+      <div class="footer-container">
+        <div class="footer-left">
+          <h3>About Us</h3>
+          <p>
+            Welcome to the official website of Private Hostel Committee, an
+            initiative taken by Afin Shafi M (University Union Councillor,
+            College Union 23-34). We provide comprehensive hostel management and
+            grievance handling services for students.
+          </p>
+        </div>
+        <div class="footer-right">
+          <h3>Contact</h3>
+          <div class="contact-info">
+            <div class="contact-item">Afin : 9188370967</div>
+            <div class="contact-item">Basil : 9495121351</div>
+            <div class="contact-item">Sreelal S S : 8592008405</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2023 CET College Union. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
 </html>

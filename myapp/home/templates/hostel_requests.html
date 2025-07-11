@@ -1,0 +1,553 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Registration Requests - Admin</title>
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #343a40, #495057);
+            color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .request-item {
+            background-color: white;
+            margin-bottom: 1.5rem;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #007bff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .request-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .hostel-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .hostel-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #343a40;
+            margin: 0;
+        }
+        
+        .type-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .new-registration-badge {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .existing-hostel-badge {
+            background-color: #6f42c1;
+            color: white;
+        }
+        
+        .status-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+        
+        .detail-group {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 3px solid #007bff;
+        }
+        
+        .detail-title {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-value {
+            font-size: 1rem;
+            color: #343a40;
+            word-break: break-word;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .filter-button {
+            background-color: #f8f9fa;
+            color: #495057;
+            border: 2px solid #dee2e6;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-button:hover {
+            background-color: #e9ecef;
+            border-color: #adb5bd;
+        }
+        
+        .filter-button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .filter-button.active:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        
+        .action-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            border: 1px solid #dee2e6;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-approve {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn-approve:hover {
+            background-color: #218838;
+        }
+        
+        .btn-reject {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn-reject:hover {
+            background-color: #c82333;
+        }
+        
+        .admin-notes {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+        }
+        
+        .notes-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.5rem;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .notes-textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .navbar-logo {
+            height: 3rem;
+            filter: invert(100%);
+        }
+        
+        .count-display {
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center">
+                <img src="{% static 'assets/Cet_emblem.png' %}" alt="CET Logo" class="navbar-logo me-3">
+                <a class="navbar-brand" href="/administration">
+                    <h4 class="mb-0">PRIVATE HOSTELS - ADMIN</h4>
+                    <small>COLLEGE OF ENGINEERING TRIVANDRUM</small>
+                </a>
+            </div>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/administration">Dashboard</a>
+                <a class="nav-link" href="/hostel_approval">Hostels</a>
+                <a class="nav-link" href="/approve_vacancy">Vacancy Requests</a>
+                <a class="nav-link active" href="/approve_hostel_requests">Hostel Requests</a>
+                <a class="nav-link" href="/admin_complaint_view">Complaints</a>
+                <a class="nav-link" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="mb-3">Hostel Registration Requests</h1>
+            <p class="mb-0">Review and manage hostel registration requests from owners</p>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Filter by Status:</h5>
+                <span id="requestCount" class="count-display"></span>
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-button active" onclick="filterByStatus('all', this)">
+                    All Requests
+                </button>
+                <button class="filter-button" onclick="filterByStatus('Pending', this)">
+                    Pending
+                </button>
+                <button class="filter-button" onclick="filterByStatus('Approved', this)">
+                    Approved
+                </button>
+                <button class="filter-button" onclick="filterByStatus('Rejected', this)">
+                    Rejected
+                </button>
+            </div>
+        </div>
+
+        <!-- Requests List -->
+        {% if requests %}
+            {% for request in requests %}
+            <div class="request-item" data-status="{{ request.approval_status }}">
+                <div class="request-header">
+                    <div class="hostel-title">
+                        <h3 class="hostel-name">{{ request.name }}</h3>
+                        {% if request.request_type == 'new_registration' %}
+                            <span class="type-badge new-registration-badge">New Registration</span>
+                        {% else %}
+                            <span class="type-badge existing-hostel-badge">Existing Hostel</span>
+                        {% endif %}
+                    </div>
+                    <div class="status-indicator status-{{ request.approval_status|lower }}">
+                        {{ request.approval_status }}
+                    </div>
+                </div>
+
+                <div class="details-grid">
+                    <div class="detail-group">
+                        <div class="detail-title">Owner Name</div>
+                        <div class="detail-value">{{ request.owner_name }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-title">Contact Details</div>
+                        <div class="detail-value">{{ request.contact_details }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-title">Address</div>
+                        <div class="detail-value">{{ request.address }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-title">Capacity / Vacancy</div>
+                        <div class="detail-value">{{ request.total_capacity }} / {{ request.current_vacancy }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-title">Gender Type</div>
+                        <div class="detail-value">{{ request.mens_or_ladies }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-title">Monthly Rent</div>
+                        <div class="detail-value">₹{{ request.average_rent }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-title">Accommodation Type</div>
+                        <div class="detail-value">{{ request.accommodation_type|title }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-title">Mess Available</div>
+                        <div class="detail-value">{{ request.mess }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-title">Curfew Time</div>
+                        <div class="detail-value">{{ request.curfew }}</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-title">Distance from College</div>
+                        <div class="detail-value">{{ request.distance }} km</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-title">Location Coordinates</div>
+                        <div class="detail-value">{{ request.latitude }}, {{ request.longitude }}</div>
+                    </div>
+                    {% if request.request_type == 'new_registration' and request.created_at %}
+                    <div class="detail-group">
+                        <div class="detail-title">Submitted On</div>
+                        <div class="detail-value">{{ request.created_at|date:"M d, Y H:i" }}</div>
+                    </div>
+                    {% endif %}
+                    {% if request.approved_at %}
+                    <div class="detail-group">
+                        <div class="detail-title">{{ request.approval_status }} On</div>
+                        <div class="detail-value">{{ request.approved_at|date:"M d, Y H:i" }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if request.admin_notes %}
+                <div class="admin-notes">
+                    <strong>Admin Notes:</strong>
+                    <p class="mb-0 mt-2">{{ request.admin_notes }}</p>
+                </div>
+                {% endif %}
+
+                {% if request.approval_status == 'Pending' %}
+                <div class="action-section">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="request_id" value="{{ request.id }}">
+                        <input type="hidden" name="request_type" value="{{ request.request_type }}">
+                        
+                        <div class="mb-3">
+                            <label for="notes_{{ request.id }}" class="form-label fw-bold">
+                                Admin Notes (Optional):
+                            </label>
+                            <textarea 
+                                class="notes-textarea" 
+                                name="admin_notes" 
+                                id="notes_{{ request.id }}"
+                                rows="3" 
+                                placeholder="Add notes about your decision..."></textarea>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            {% if request.request_type == 'new_registration' %}
+                                <button type="submit" name="action" value="approve" class="btn-approve">
+                                    ✓ Approve & Create Hostel
+                                </button>
+                            {% else %}
+                                <button type="submit" name="action" value="approve" class="btn-approve">
+                                    ✓ Approve Hostel
+                                </button>
+                            {% endif %}
+                            <button type="submit" name="action" value="reject" class="btn-reject">
+                                ✗ Reject Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📋</div>
+                <h4>No Hostel Requests Found</h4>
+                <p class="text-muted mb-4">There are currently no hostel registration requests to review.</p>
+                <a href="/administration" class="btn btn-primary">Return to Dashboard</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Filter functionality
+        function filterByStatus(status, clickedButton) {
+            const requestItems = document.querySelectorAll('.request-item');
+            const filterButtons = document.querySelectorAll('.filter-button');
+            
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+            
+            // Filter requests
+            let visibleCount = 0;
+            requestItems.forEach(item => {
+                const itemStatus = item.getAttribute('data-status');
+                if (status === 'all' || itemStatus === status) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Update count display
+            const countDisplay = document.getElementById('requestCount');
+            if (countDisplay) {
+                countDisplay.textContent = `Showing ${visibleCount} request(s)`;
+            }
+        }
+        
+        // Update filter button counts
+        function updateFilterCounts() {
+            const requestItems = document.querySelectorAll('.request-item');
+            const filterButtons = document.querySelectorAll('.filter-button');
+            
+            const counts = {
+                all: requestItems.length,
+                Pending: 0,
+                Approved: 0,
+                Rejected: 0
+            };
+            
+            requestItems.forEach(item => {
+                const status = item.getAttribute('data-status');
+                if (counts.hasOwnProperty(status)) {
+                    counts[status]++;
+                }
+            });
+            
+            filterButtons.forEach(button => {
+                const onclick = button.getAttribute('onclick');
+                if (onclick.includes("'all'")) {
+                    button.textContent = `All Requests (${counts.all})`;
+                } else if (onclick.includes("'Pending'")) {
+                    button.textContent = `Pending (${counts.Pending})`;
+                } else if (onclick.includes("'Approved'")) {
+                    button.textContent = `Approved (${counts.Approved})`;
+                } else if (onclick.includes("'Rejected'")) {
+                    button.textContent = `Rejected (${counts.Rejected})`;
+                }
+            });
+        }
+        
+        // Confirmation dialogs for actions
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFilterCounts();
+            
+            // Add confirmation to all forms
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const action = e.submitter.value;
+                    const hostelName = this.closest('.request-item').querySelector('.hostel-name').textContent;
+                    
+                    let confirmMessage = '';
+                    if (action === 'approve') {
+                        confirmMessage = `Are you sure you want to approve "${hostelName}"? This will create a new hostel listing.`;
+                    } else if (action === 'reject') {
+                        confirmMessage = `Are you sure you want to reject "${hostelName}"? This action cannot be undone.`;
+                    }
+                    
+                    if (confirmMessage && !confirm(confirmMessage)) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

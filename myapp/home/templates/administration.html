@@ -1,587 +1,1038 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administrator view</title>
-    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png" />
+    <link rel="stylesheet" href="{% static 'global-styles.css' %}" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
 
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f8f8;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            overflow-x: hidden;
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      ::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+
+      ::-webkit-scrollbar {
+        width: 5px;
+        border-radius: 2px;
+        background-color: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: #d3d3d3;
+        border: none solid #555555;
+      }
+
+      @media screen and (max-width: 500px) {
+        .mobile {
+          display: block !important;
         }
 
-        ::-webkit-scrollbar-track {
-
-            background-color: transparent;
-        }
-
-        ::-webkit-scrollbar {
-            width: 5px;
-            border-radius: 2px;
-            background-color: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: #d3d3d3;
-            border: none solid #555555;
-        }
-
-        #logo {
-            height: 7vw;
-            filter: invert(100%);
-        }
-
-        @media screen and (max-width: 500px) {
-            .mobile {
-                display: block !important;
-
-            }
-
-            aside {
-                display: none;
-            }
-
-            .logout {
-                display: block !important;
-            }
-
-            #admin {
-                display: none !important;
-            }
-        }
-
-        @media screen and (max-width: 400px) {
-            #logo {
-                height: 1.75rem;
-            }
-
-            .title {
-                font-size: 0.75rem;
-            }
-
-            h6 {
-                font-size: 0.50rem;
-            }
-
-            input,
-            select {
-                width: 55vw !important;
-
-            }
-
-            .hero {
-                padding: 0.5rem 0.5rem !important;
-            }
-        }
-
-        .footer {
-            background-color: rgb(28, 28, 28);
-            display: flex;
-            padding: 5%;
-            justify-content: space-between;
-            color: white;
-        }
-
-        .about {
-            width: 50%;
-        }
-
-        .footer hr {
-            border-top: 1px solid;
-        }
-
-        .copyright {
-            background-color: rgb(28, 28, 28);
-            color: white;
-            border-top: 1px solid white;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
+        aside {
+          display: none;
         }
 
         .logout {
-            position: relative;
-            overflow: hidden;
-            height: 2rem;
-            width: max-content;
-            padding: 0 1rem;
-            border-radius: 0.5rem;
-            background: #3d3a4e;
-            background-size: 400%;
-            color: #fff;
-            border: none;
-            text-align: center;
-            align-items: center;
-            padding-bottom: 0.1rem;
-            display: none;
+          display: block !important;
         }
 
-        .logout:hover::before {
-            transform: scaleX(1);
+        #admin {
+          display: none !important;
         }
 
-        .logout-content {
-            position: relative;
-            z-index: 1;
+        .hero {
+          flex-direction: column !important;
+          padding: 0.5rem !important;
         }
 
-        .logout::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            transform: scaleX(0);
-            transform-origin: 0 50%;
-            width: 100%;
-            height: inherit;
-            border-radius: inherit;
-            background: linear-gradient(82.3deg,
-                    rgb(0, 0, 0) 94.3%);
-            transition: all 0.475s;
+        .addHostel {
+          margin: 0.5rem !important;
         }
 
-
-
-        .addHostel h3,
-        .notification h3,
-        .overview h3 {
-            text-align: left;
-            align-self: flex-start;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            color: white;
-            width: 100%;
-            background-color: rgb(29, 29, 29);
-            box-shadow: 1px 5px 7px rgba(0, 0, 0, 0.238);
+        .notification {
+          margin: 0.5rem !important;
         }
 
+        .overview {
+          margin: 0.5rem !important;
+        }
+      }
 
-
-        form {
-            padding: 1rem;
-            width: 100%;
-            display: grid;
-            gap: 0.5rem;
-
+      @media screen and (max-width: 400px) {
+        .title {
+          font-size: 0.75rem;
         }
 
-        label {
-            display: flex;
-            flex-direction: row;
-            margin-bottom: 8px;
-            text-align: left;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
+        h6:not(.contact h6) {
+          font-size: 0.65rem;
         }
 
         input,
         select {
-
-            width: min(300px, 30vw);
-            align-self: flex-start;
-            padding: 0 0.5em;
-
-            height: 2rem;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .submit {
-            display: flex;
-            justify-content: center;
-        }
-
-        .submitbtn {
-            width: 50%;
-            align-items: center;
-            background-color: #5f5f5f;
-            color: #fff;
-            padding: 12px;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #414141;
+          width: 55vw !important;
         }
 
         .hero {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            width: 100vw;
-            margin: 0 auto;
-            padding: 1rem 2rem;
+          padding: 0.5rem 0.5rem !important;
         }
 
-        aside {
-            flex: 1;
-            height: 85vh;
-            padding: 15px 0;
-            margin-right: 1rem;
+        .footer {
+          flex-direction: column !important;
+          padding: 1.5rem !important;
+          gap: 1.5rem !important;
         }
 
-        .add {
-            flex: 5;
-            display: flex;
-            flex-direction: column;
-            height: 85vh;
-            overflow: scroll;
+        .about,
+        .contact {
+          width: 100% !important;
+          max-width: 100% !important;
+          min-width: auto !important;
+          margin-bottom: 1rem;
         }
 
-        .right {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap-reverse;
-            justify-content: space-evenly;
-
+        .contact-list h5 {
+          font-size: 1rem !important;
+          padding: 0.4rem 0 !important;
+          padding-left: 0.8rem !important;
         }
 
-        .addHostel {
-            background-color: #fff;
-            border-radius: 1rem 1rem 8px 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 1rem;
-            height: fit-content;
-            flex: 3;
+        .about h3,
+        .contact h3 {
+          font-size: 1.2rem !important;
         }
 
-        .notification {
-            flex: 2;
+        .about p {
+          font-size: 0.9rem !important;
         }
 
-        .noti {
-            background-color: #fff;
-            border-radius: 1rem 1rem 8px 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 1rem;
-            height: fit-content;
+        .addHostel h3,
+        .notification h3,
+        .overview h3 {
+          padding: 0.5rem 1rem !important;
+          font-size: 1rem !important;
         }
 
-        .message {
-
-            padding: 0 1rem;
+        form {
+          padding: 0.5rem !important;
         }
 
-        hr {
-            margin: 0.5rem 0;
-        }
-
-        .overview {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: flex 1;
-            margin: 10px;
-            background-color: #fff;
-            border-radius: 1rem 1rem 8px 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .overview-header {
-            width: 100%;
+        label {
+          flex-direction: column !important;
+          align-items: flex-start !important;
+          gap: 0.5rem !important;
         }
 
         .overview-item {
-            display: flex;
-            flex-direction: row;
-            padding: 1rem;
+          padding: 0.5rem !important;
+          flex-direction: column !important;
+          align-items: flex-start !important;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .hero {
+          flex-direction: column;
+        }
+
+        aside {
+          width: 100%;
+          height: auto;
+          margin-right: 0;
+          margin-bottom: 1rem;
+        }
+
+        .add {
+          width: 100%;
+          height: auto;
+        }
+
+        .right {
+          flex-direction: column;
+        }
+
+        .addHostel,
+        .notification {
+          flex: 1;
+          margin: 0.5rem 0;
         }
 
         .sidebar {
-            display: flex;
-            overflow: hidden;
-            height: 100%;
-            flex-direction: column;
-            align-items: FLE;
-            justify-content: space-between;
-            background-color: #fff;
-            border-radius: 0.5rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          flex-direction: row;
+          height: auto;
+          overflow-x: auto;
         }
 
         .option {
-            padding: 1rem;
-            border: none;
-            color: white;
-            background: #242425;
-            border-bottom: 1px solid #ccc;
-            cursor: pointer;
-            width: 100%;
+          white-space: nowrap;
+          min-width: max-content;
+        }
+      }
+
+      /* Modern Footer Styling */
+      .footer-modern {
+        background-color: #212529;
+        color: white;
+        margin-top: auto;
+        padding: 0;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 3rem;
+      }
+
+      .footer-left {
+        flex: 1;
+        max-width: 60%;
+      }
+
+      .footer-right {
+        flex: 1;
+        max-width: 35%;
+      }
+
+      .footer-modern h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      .footer-left p {
+        color: #e9ecef;
+        line-height: 1.7;
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        color: #e9ecef;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #28a745;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        background-color: #1a1e23;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: #adb5bd;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive footer */
+      @media (max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          padding: 2rem 1rem;
+          gap: 2rem;
         }
 
-        .sidebar img {
-            height: 1.25rem;
-            filter: invert(100%);
-            margin: 0 0.5rem;
+        .footer-left,
+        .footer-right {
+          max-width: 100%;
         }
+
+        .footer-modern h3 {
+          font-size: 1.3rem;
+        }
+
+        .footer-left p {
+          font-size: 0.95rem;
+        }
+
+        .contact-item {
+          font-size: 1rem;
+          padding: 0.6rem 0.8rem;
+        }
+
+        .footer-bottom {
+          padding: 1rem;
+        }
+      }
+
+      .logout {
+        position: relative;
+        overflow: hidden;
+        height: 2rem;
+        width: max-content;
+        padding: 0 1rem;
+        border-radius: 10px;
+        background: #212529;
+        background-size: 400%;
+        color: #fff;
+        border: none;
+        text-align: center;
+        align-items: center;
+        padding-bottom: 0.1rem;
+        display: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .logout:hover::before {
+        transform: scaleX(1);
+      }
+
+      .logout-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .logout::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+        width: 100%;
+        height: inherit;
+        border-radius: inherit;
+        background: linear-gradient(82.3deg, rgb(0, 0, 0) 94.3%);
+        transition: all 0.475s;
+      }
+
+      .addHostel h3,
+      .notification h3,
+      .overview h3 {
+        text-align: left;
+        align-self: flex-start;
+        padding: 1rem 2rem;
+        border-radius: 0.75rem 0.75rem 0 0;
+        color: white;
+        width: 100%;
+        background-color: #212529;
+        box-shadow: 1px 5px 7px rgba(0, 0, 0, 0.238);
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.2rem;
+        position: relative;
+        border-bottom: 3px solid #28a745;
+      }
+
+      .addHostel h3::after,
+      .notification h3::after,
+      .overview h3::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 2rem;
+        width: 60px;
+        height: 3px;
+        background-color: #28a745;
+        border-radius: 2px;
+      }
+
+      form {
+        padding: 1rem;
+        width: 100%;
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      label {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 8px;
+        text-align: left;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      input,
+      select {
+        width: min(300px, 30vw);
+        align-self: flex-start;
+        padding: 0 0.5em;
+
+        height: 2rem;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .submit {
+        display: flex;
+        justify-content: center;
+      }
+
+      .submitbtn {
+        width: 50%;
+        align-items: center;
+        background-color: #212529;
+        color: #fff;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        justify-content: center;
+      }
+
+      .submitbtn:hover,
+      button:hover {
+        background-color: #343a40;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+
+      .hero {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100vw;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+      }
+
+      aside {
+        flex: 1;
+        height: 85vh;
+        padding: 15px 0;
+        margin-right: 1rem;
+      }
+
+      .add {
+        flex: 5;
+        display: flex;
+        flex-direction: column;
+        height: 85vh;
+        overflow: scroll;
+      }
+
+      .right {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap-reverse;
+        justify-content: space-evenly;
+      }
+
+      .addHostel {
+        background-color: #fff;
+        border-radius: 1rem 1rem 8px 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 1rem;
+        height: fit-content;
+        flex: 3;
+      }
+
+      .notification {
+        flex: 2;
+      }
+
+      .noti {
+        background-color: #fff;
+        border-radius: 1rem 1rem 8px 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 1rem;
+        height: fit-content;
+      }
+
+      .message {
+        padding: 0 1rem;
+      }
+
+      hr {
+        margin: 0.5rem 0;
+      }
+
+      .overview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: flex 1;
+        margin: 10px;
+        background-color: #fff;
+        border-radius: 1rem 1rem 8px 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .overview-header {
+        width: 100%;
+      }
+
+      .overview-item {
+        display: flex;
+        flex-direction: row;
+        padding: 1rem;
+      }
+
+      .sidebar {
+        display: flex;
+        overflow: hidden;
+        height: 100%;
+        flex-direction: column;
+        align-items: FLE;
+        justify-content: space-between;
+        background-color: #fff;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .option {
+        padding: 1rem;
+        border: none;
+        color: white;
+        background: #212529;
+        border-bottom: 1px solid #343a40;
+        cursor: pointer;
+        width: 100%;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 0;
+      }
+
+      .option:hover {
+        background-color: #343a40;
+        transform: translateX(2px);
+      }
+
+      .sidebar img {
+        height: 1.25rem;
+        filter: invert(100%);
+        margin: 0 0.5rem;
+      }
+
+      /* Navbar navigation links styling with green underlines */
+      .navbar-nav .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+        padding-bottom: 0.75rem !important;
+      }
+
+      .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background-color: #28a745;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .navbar-nav .nav-link:hover::after,
+      .navbar-nav .nav-link.active::after {
+        width: 100%;
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #28a745 !important;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <nav style="width: 100vw;" class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <div style="display: flex;align-items: center;gap:1rem;">
-                <img id="logo" src="{% static '/assets/Cet_emblem.png' %}" alt="CET Emblem">
-                <a class="navbar-brand" style="margin-right: 0;" href="/administration">
-                    <h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2>
-                    <h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
-                </a>
-            </div>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup"
-                style="justify-content: end; padding-right: 3rem;">
-                <div class="navbar-nav" style="gap: 2rem;">
-                    <div class="mobile" style="display: none;">
-                        <a class="nav-link active" href="/administration"> Dashboard</a>
-                        <a class="nav-link " href="/hostel_approval"> Hostel Lists</a>
-                        <a class="nav-link " href="/admin_complaint_view"> Complaints</a>
-                    </div>
-                    <div id="admin" class="nav-link active">Admin</div>
-                    <button class="logout" onclick="performLogout()"> <span class="logout-content" >Log out </span>
-                    </button>
-                </div>
-
-            </div>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container" style="max-width: 900px; padding: 0 1rem">
+        <div style="display: flex; align-items: center; gap: 0.75rem">
+          <img
+            id="logo"
+            src="{% static '/assets/Cet_emblem.png' %}"
+            alt="CET Emblem"
+            style="height: 3rem"
+          />
+          <a
+            class="navbar-brand"
+            style="margin-right: 0"
+            href="/administration"
+          >
+            <h2
+              style="margin: 0 0; text-wrap: wrap; font-size: 1.1rem"
+              class="title"
+            >
+              <b>PRIVATE HOSTELS </b>
+            </h2>
+            <h6 style="text-wrap: wrap; font-size: 0.75rem">
+              COLLEGE OF ENGINEERING TRIVANDRUM
+            </h6>
+          </a>
         </div>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNavAltMarkup"
+          style="justify-content: end; padding-right: 1rem"
+        >
+          <div class="navbar-nav" style="gap: 1rem">
+            <div class="mobile" style="display: none">
+              <a class="nav-link active" href="/administration"> Dashboard</a>
+              <a class="nav-link" href="/hostel_approval"> Hostel Lists</a>
+              <a class="nav-link" href="/admin_complaint_view"> Complaints</a>
+            </div>
+            <div id="admin" class="nav-link active">Admin</div>
+            <button class="logout" onclick="performLogout()">
+              <span class="logout-content">Log out </span>
+            </button>
+          </div>
+        </div>
+      </div>
     </nav>
     <div class="hero">
-        <aside>
-            <div class="sidebar">   
-                <div>
-                    <button class="option" onclick="showdashboard()">
-                        <span><img src="{%static '/assets/dash.png'%}" alt=""></span>
-                        Dashboard
-                    </button>
-                   
-                    <button class="option" onclick="showhostelapproval()">
-                        <span><img src="{% static '/assets/home_1946436.png' %}" alt=""></span>
-                        Hostel Lists
-                    </button>
-                        <button class="option" onclick="showcomplaints()">
-                            <span><img src="{% static '/assets/ebook_7200537.png'%}" alt=""></span>
-                            
-                            Complaints
-                        </button>
+      <aside>
+        <div class="sidebar">
+          <div>
+            <button class="option" onclick="showdashboard()">
+              <span><img src="{%static '/assets/dash.png'%}" alt="" /></span>
+              Dashboard
+            </button>
 
+            <button class="option" onclick="showhostelapproval()">
+              <span
+                ><img src="{% static '/assets/home_1946436.png' %}" alt=""
+              /></span>
+              Hostel Lists
+            </button>
+            <button class="option" onclick="showvacancyapproval()">
+              <span><img src="{% static '/assets/dash.png' %}" alt="" /></span>
+              Vacancy Requests
+            </button>
+            <button class="option" onclick="showhostelrequests()">
+              <span
+                ><img src="{% static '/assets/home_1946436.png' %}" alt=""
+              /></span>
+              Hostel Requests
+            </button>
+            <button class="option" onclick="showcomplaints()">
+              <span
+                ><img src="{% static '/assets/ebook_7200537.png'%}" alt=""
+              /></span>
+
+              Complaints
+            </button>
+          </div>
+
+          <button type="button" class="option" onclick="performLogout()">
+            <span
+              ><img src="{%static '/assets/exit_1286853.png'%}" alt=""
+            /></span>
+            {% comment %} src="{%static '/assets/dash.png'%}" {% endcomment %}
+            logout
+          </button>
+        </div>
+      </aside>
+
+      <div class="add">
+        <div class="right">
+          <div class="addHostel">
+            <h3><b>Add Hostels </b></h3>
+            <form action="/insert" method="post">
+              {% csrf_token %}
+              <label for="hostelName">
+                Hostel Name
+                <input type="text" id="hostelName" name="hostelName" />
+              </label>
+
+              <label for="address"
+                >Address
+                <input type="text" id="address" name="address" />
+              </label>
+
+              <label for="ownerName"
+                >Owner Name
+                <input type="text" id="ownerName" name="ownerName" />
+              </label>
+
+              <label for="contact"
+                >Contact
+                <input type="tel" id="contact" name="contact" />
+              </label>
+
+              <label for="capacity"
+                >Capacity
+                <input type="number" id="capacity" name="capacity" />
+              </label>
+
+              <label for="vacancy"
+                >Vacancy
+                <input type="number" id="vacancy" name="vacancy" />
+              </label>
+
+              <label for="gender"
+                >Mens/Ladies/Mixed
+                <select id="gender" name="gender">
+                  <option value="mens">Mens</option>
+                  <option value="ladies">Ladies</option>
+                  <option value="mixed">Mixed</option>
+                </select>
+              </label>
+
+              <label for="rent"
+                >Rent
+                <input type="number" id="rent" name="rent" />
+              </label>
+              <label for="mess"
+                >mess_availability
+                <select id="gender" name="mess">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </label>
+              <label for="distance"
+                >distance_from_college
+                <input
+                  type="text"
+                  id="longitude"
+                  name="distance"
+                  pattern="[0-9]+([\.,][0-9]+)?"
+                  title="Please enter a valid decimal number"
+                />
+              </label>
+
+              <label for="type"
+                >Type (Hostel/PG)
+                <select id="type" name="type">
+                  <option value="hostel">Hostel</option>
+                  <option value="pg">PG</option>
+                </select>
+              </label>
+
+              <label for="curfewTime">
+                Curfew Time
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                    width: min(300px, 30vw);
+                  "
+                >
+                  <select
+                    id="curfewType"
+                    name="curfewType"
+                    onchange="toggleCurfewInput()"
+                    style="
+                      padding: 0.5rem;
+                      border: 1px solid #ccc;
+                      border-radius: 4px;
+                      width: 100%;
+                    "
+                  >
+                    <option value="time">Set Curfew Time</option>
+                    <option value="none">No Curfew</option>
+                  </select>
+                  <input
+                    type="time"
+                    id="curfewTime"
+                    name="curfewTime"
+                    style="width: 100%"
+                  />
                 </div>
-
-
-                <button type="button" class="option" onclick="performLogout()">
-                    <span><img src="{%static '/assets/exit_1286853.png'%}" alt=""></span>
-                    {% comment %} src="{%static '/assets/dash.png'%}" {% endcomment %}
-                    logout
-                </button>
-            </div>
-        </aside>
-
-        <div class="add">
-            <div class="right">
-                <div class="addHostel">
-                    <h3> <b>Add Hostels </b></h3>
-                    <form action="/insert" method="post">
-                        {% csrf_token %}
-                        <label for="hostelName">
-                            Hostel Name
-                            <input type="text" id="hostelName" name="hostelName" >
-                        </label>
-
-                        <label for="address">Address
-                            <input type="text" id="address" name="address" >
-                        </label>
-
-                        <label for="ownerName">Owner Name
-                            <input type="text" id="ownerName" name="ownerName" >
-                        </label>
-
-                        <label for="contact">Contact
-                            <input type="tel" id="contact" name="contact" >
-                        </label>
-
-                        <label for="capacity">Capacity
-                            <input type="number" id="capacity" name="capacity" >
-                        </label>
-
-                        <label for="vacancy">Vacancy
-                            <input type="number" id="vacancy" name="vacancy" >
-                        </label>
-
-                        <label for="gender">Mens/Ladies
-                            <select id="gender" name="gender" >
-                                <option value="mens">Mens</option>
-                                <option value="ladies">Ladies</option>
-                            </select>
-                        </label>
-
-                        <label for="rent">Rent
-                            <input type="number" id="rent" name="rent" >
-                        </label>
-                        <label for="mess">mess_availability
-                            <select id="gender" name="mess" >
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                            
-                        </label>
-                        <label for="distance">distance_from_college
-                            <input type="text" id="longitude" name="distance" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" >
-                        </label>
-
-                        <label for="type">Type (Hostel/PG)
-                            <select id="type" name="type" >
-                                <option value="hostel">Hostel</option>
-                                <option value="pg">PG</option>
-                            </select>
-                        </label>
-
-                        <label for="curfewTime">Curfew Time
-                            <input type="time" id="curfewTime" name="curfewTime" >
-                        </label>
-                        <label for="longitude">longitude
-                             
-                        <input type="text" id="longitude" name="longitude" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" >
-                        </label>
-                        <label for="latitude">latitude
-                            <input type="text" id="latitude" name="latitude" pattern="[0-9]+([\.,][0-9]+)?" title="Please enter a valid decimal number" >
-                            
-                        </label>
-                        <div class="submit">
-                            <button class="submitbtn" type="submit">Submit</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="notification">
-                    <div class="noti">
-                        <h3>Notifications</h3>
-                        <div class="message">
-                           <!---- {% for item in my_list %}
+              </label>
+              <label for="map">
+                Drag the Pin to Indicate Your Hostel's Location
+                <div
+                  id="map"
+                  style="
+                    width: 100%;
+                    height: 300px;
+                    margin-top: 0.5rem;
+                    border-radius: 8px;
+                    border: 1px solid #ccc;
+                  "
+                ></div>
+                <input type="hidden" id="latitude" name="latitude" />
+                <input type="hidden" id="longitude" name="longitude" />
+              </label>
+              <div class="submit">
+                <button class="submitbtn" type="submit">Submit</button>
+              </div>
+            </form>
+          </div>
+          <div class="notification">
+            <div class="noti">
+              <h3>Notifications</h3>
+              <div class="message">
+                <!---- {% for item in my_list %}
                                 <div class="msg">
                                     {{ item.full_name }}: {{ item.complaint_text }} (Status: {{ item.complaint_status }})
                                 </div>
                                 {% if not forloop.last %}<hr>{% endif %}
                             {% endfor %} -->
-                            <a href="approve_vacancy">Click here to see vaccancy update requests</a>
-                        </div>
-                    </div>
-                </div>
-                
+                <a href="approve_vacancy"
+                  >Click here to see vacancy update requests</a
+                >
+                <br /><br />
+                <a href="approve_hostel_requests"
+                  >Click here to see hostel registration requests</a
+                >
+              </div>
             </div>
-            <div class="overview">
-                <div class="overview-header">
-                    <h3>Overview</h3>
-                </div>
-                <div class="overview-content">
-                    <div class="overview-item">
-                        <div class="item">Hostels &colon; </div>
-                        
-                        <div class="count">{{ downbar.numberofhostel }}</div>
-
-
-                    </div>
-                    <div class="overview-item">
-                        <div class="item">Pending Grievances &colon; </div>
-                        <div class="count">{{ downbar.numberofpending_grievances}}</div>
-                    </div>
-                    <div class="overview-item">
-                        <div class="item">Resolved Grievances &colon; </div>
-                        <div class="count">{{ downbar.numberofresolved_grievances}}</div>
-                    </div>
-                    <div class="overview-item">
-                        <div class="item">Total Vacancy &colon; </div>
-                        <div class="count">{{ downbar.numberofvacancy}}</div>
-                    </div>
-                </div>
-
-            </div>
+          </div>
         </div>
+        <div class="overview">
+          <div class="overview-header">
+            <h3>Overview</h3>
+          </div>
+          <div class="overview-content">
+            <div class="overview-item">
+              <div class="item">Hostels &colon;</div>
 
-
+              <div class="count">{{ downbar.numberofhostel }}</div>
+            </div>
+            <div class="overview-item">
+              <div class="item">Pending Grievances &colon;</div>
+              <div class="count">{{ downbar.numberofpending_grievances}}</div>
+            </div>
+            <div class="overview-item">
+              <div class="item">Resolved Grievances &colon;</div>
+              <div class="count">{{ downbar.numberofresolved_grievances}}</div>
+            </div>
+            <div class="overview-item">
+              <div class="item">Total Vacancy &colon;</div>
+              <div class="count">{{ downbar.numberofvacancy}}</div>
+            </div>
+            <div class="overview-item">
+              <div class="item">Pending Hostel Requests &colon;</div>
+              <div class="count">{{ downbar.pending_hostel_requests}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-
-    <footer style="width: 100vw;overflow-y: hidden;">
-        <div class="footer">
-            <div id="about" class="about">
-                <h3>About Us</h3>
-                <h6>Welcome to the official website of Private Hostel Committee, an initiative taken by Afin Shafi M
-                    (University Union Councillor, College Union 23-34).</h6>
-            </div>
-            <div class="contact">
-                <h3>Contact</h3>
-                <h6>Afin : 9188370967</h6>
-                <h6>Basil : 9495121351</h6>
-                <h6></h6>
-            </div>
+    <footer class="footer-modern" id="about">
+      <div class="footer-container">
+        <div class="footer-left">
+          <h3>About Us</h3>
+          <p>
+            Welcome to the official website of Private Hostel Committee, an
+            initiative taken by Afin Shafi M (University Union Councillor,
+            College Union 23-34). We provide comprehensive hostel management and
+            grievance handling services for students.
+          </p>
         </div>
-        <div class="copyright">
-            <h6>copyright@cetcollegeunion 2023</h6>
+        <div class="footer-right">
+          <h3>Contact</h3>
+          <div class="contact-info">
+            <div class="contact-item">Afin : 9188370967</div>
+            <div class="contact-item">Basil : 9495121351</div>
+            <div class="contact-item">Sreelal S S : 8592008405</div>
+          </div>
         </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2023 CET College Union. All rights reserved.</p>
+      </div>
     </footer>
-</body>
-<script>
-    var myList = {{ my_list | safe }};
-    
-</script>
 
-<script>
-    function performLogout() {
-        // Perform any logout-related actions here if needed
+    <!-- JavaScript Section -->
+    <script>
+      // Data passed from Django view
+      var myList = {{ my_list | safe }};
+      console.log('Loaded grievance data:', myList);
 
-        // Redirect to the logout URL
-        window.location.href = "/logout";
-    }
-    function showcomplaints(){
+      // Curfew time toggle function
+      function toggleCurfewInput() {
+        const curfewType = document.getElementById('curfewType');
+        const curfewTimeInput = document.getElementById('curfewTime');
+
+        if (curfewType.value === 'none') {
+          curfewTimeInput.style.display = 'none';
+          curfewTimeInput.value = '';
+          curfewTimeInput.removeAttribute('required');
+        } else {
+          curfewTimeInput.style.display = 'block';
+          curfewTimeInput.setAttribute('required', 'required');
+        }
+      }
+
+      // Navigation functions
+      function performLogout() {
+        if (confirm('Are you sure you want to logout?')) {
+          window.location.href = "/logout";
+        }
+      }
+
+      function showcomplaints() {
         window.location.href = "/admin_complaint_view";
-    }
-    function showdashboard()
-    {
-        window.location.href = "/administration";
-    
-    }
-    function showhostelapproval(){
-        window.location.href = "/hostel_approval";
-    }
-</script>
+      }
 
+      function showvacancyapproval() {
+        window.location.href = "/approve_vacancy";
+      }
+
+      function showhostelrequests() {
+        window.location.href = "/approve_hostel_requests";
+      }
+
+      function showdashboard() {
+        window.location.href = "/administration";
+      }
+
+      function showhostelapproval() {
+        window.location.href = "/hostel_approval";
+      }
+
+      // Form validation
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialize curfew input state
+        toggleCurfewInput();
+
+        // Initialize map
+        initializeMap();
+
+        const form = document.querySelector('form[action="/insert"]');
+        if (form) {
+          form.addEventListener('submit', function(e) {
+            // Basic form validation
+            const requiredFields = ['hostelName', 'address', 'ownerName', 'contact', 'capacity', 'vacancy', 'rent'];
+            let isValid = true;
+
+            requiredFields.forEach(fieldName => {
+              const field = form.querySelector(`[name="${fieldName}"]`);
+              if (field && !field.value.trim()) {
+                alert(`Please fill in the ${fieldName.replace(/([A-Z])/g, ' $1').toLowerCase()} field.`);
+                field.focus();
+                isValid = false;
+                return false;
+              }
+            });
+
+            if (!isValid) {
+              e.preventDefault();
+            }
+          });
+        }
+      });
+
+      // Map initialization function
+      function initializeMap() {
+        let inputLng = document.getElementById("longitude");
+        let inputLat = document.getElementById("latitude");
+
+        // Default position (CET College coordinates)
+        var position = [8.545968336333125, 76.9061007276918];
+
+        var map = L.map("map", { attributionControl: false }).setView(position, 15);
+        let lng, lat;
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 25,
+          attribution: "© OpenStreetMap",
+        }).addTo(map);
+
+        var marker = L.marker(position, {
+          draggable: true,
+        }).addTo(map);
+
+        // Set initial coordinates
+        inputLat.value = position[0];
+        inputLng.value = position[1];
+
+        marker.on("dragend", function (e) {
+          var latting = marker.getLatLng();
+          lat = latting.lat;
+          lng = latting.lng;
+          console.log("Latitude " + lat + ", Longitude " + lng);
+          inputLat.value = lat;
+          inputLng.value = lng;
+        });
+
+        map.on("click", function (e) {
+          var clickPosition = e.latlng;
+          marker.setLatLng(clickPosition);
+          inputLat.value = clickPosition.lat;
+          inputLng.value = clickPosition.lng;
+          console.log("Map clicked - Latitude " + clickPosition.lat + ", Longitude " + clickPosition.lng);
+        });
+      }
+    </script>
+  </body>
 </html>

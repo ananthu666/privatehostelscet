@@ -1,181 +1,275 @@
- body {
-            font-family: 'Poppins', sans-serif;
+body {
+  font-family: "Poppins", sans-serif;
+}
 
-        }
+#map {
+  height: max(50vh, 50vw);
+  border-radius: 10px;
+  width: 100%;
+  margin-bottom: 10%;
+}
 
-        #map {
+#logo {
+  height: 5em;
+  filter: invert(100%);
+}
 
-            height: max(50vh, 50vw);
-            border-radius: 10px;
-            width: 100%;
-            margin-bottom: 10%;
-        }
+.Hero {
+  padding: 2rem 3rem;
+  color: white;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)),
+    url("assets/bgimg.jpg");
 
-        #logo {
-            height: 5em;
-            filter: invert(100%);
-        }
+  background-position: center;
+  background-size: cover;
+  height: 70vh;
+  display: flex;
 
-        .Hero { 
-            padding: 2rem 3rem;
-            color: white;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('assets/bgimg.jpg');
-            
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
- 
- 
-            background-position: center;
-            background-size: cover;
-            height: 70vh;
-            display: flex;
+.Hero h4 {
+  width: 80%;
+}
 
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+@media screen and (max-width: 600px) {
+  h4 {
+    font-size: 1.25rem;
+  }
 
-        .Hero h4 {
+  .Hero {
+    height: 60vh;
+    padding: 1rem;
+  }
 
-            width: 80%;
-            
-        }
-        
-        @media screen and (max-width: 600px) {
-            h4{
-                font-size: 1.25rem;
-            }
-        }
+  .Hero h1 {
+    width: 90%;
+    text-wrap: wrap;
+    font-size: 1.5rem;
+  }
 
-        .Hero h1 {
+  .Hero h4 {
+    width: 95%;
+    font-size: 1rem;
+  }
 
-            width: 60%;
-            text-wrap: nowrap;
-            text-align: left;
-            display: flex;
-            justify-content: center;
-            
+  #map {
+    height: max(40vh, 40vw);
+  }
 
-        }
+  .footer {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 3%;
+  }
 
+  .about,
+  .contact {
+    width: 100%;
+  }
 
-        .container h1 {
-            display: flex;
-            justify-content: center;
-            padding-left: 2.5rem;
-        }
+  .selection {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
 
-        .container h2 {
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-            font-weight: 600;
-        }
+@media screen and (max-width: 480px) {
+  #logo {
+    height: 3rem;
+  }
 
-        .footer {
-            margin-top: 5%;
-            background-color: black;
-            display: flex;
-            padding: 5%;
-            justify-content: space-between;
-            color: white;
+  .title {
+    font-size: 1rem;
+  }
 
-        }
+  h6 {
+    font-size: 0.5rem;
+  }
 
-        .button {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0.1rem 0.1rem;
-            border-radius: 10px;
-            border: none;
-            overflow: hidden;
-            background: rgb(39, 34, 34);
-            color: #fff;
-            text-decoration:underline rgb(39, 34, 34);
-        }
-        .button p{
-            padding-top: 0.2re;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            
-        }
-        .button-text {
-            transform: translateX(15px);
-            font-size: 1em;
-            font-weight: 700;
-            transition-duration: 0.3s;
-          
-        }
+  .Hero {
+    height: 50vh;
+    padding: 0.5rem;
+  }
 
-        .iconer {
-            transform: translateY(35px);
-            transition-duration: 0.3s;
-        }
+  .Hero h1 {
+    font-size: 1.25rem;
+    width: 100%;
+  }
 
-        .button:hover .button-text {
-            transform: translateX(0px);
-        }
+  .Hero h4 {
+    font-size: 0.9rem;
+    width: 100%;
+  }
 
-        .button:hover .iconer {
-            transform: translateY(0px);
-        }
+  .container {
+    padding: 1rem;
+  }
 
+  .container h1 {
+    padding-left: 0;
+    font-size: 1.5rem;
+  }
 
+  #map {
+    height: max(35vh, 35vw);
+    margin-bottom: 5%;
+  }
 
-        .selection {
-            display: flex;
-            justify-content: space-between;
-        }
+  .footer {
+    padding: 2%;
+  }
 
-        .about {
-            width: 50%;
-        }
+  .about h3,
+  .contact h3 {
+    font-size: 1.1rem;
+  }
 
-        .about h3 {
-            font-size: 100%;
-        }
+  .about h6,
+  .contact h6 {
+    font-size: 0.8rem;
+  }
+}
 
-        .contact h3 {
-            font-size: 100%;
-        }
+@media screen and (max-width: 320px) {
+  .Hero {
+    height: 45vh;
+    padding: 0.25rem;
+  }
 
-        .footer hr {
-            border-top: 1px solid;
-        }
+  .Hero h1 {
+    font-size: 1rem;
+  }
 
-        .copyright {
-            background-color: black;
-            color: white;
-            border-top: 1px solid white;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
+  .Hero h4 {
+    font-size: 0.8rem;
+  }
 
-        }
+  .title {
+    font-size: 0.8rem;
+  }
 
-        .navbar-toggler {
-            padding: 0.2rem;
-            font-size: .9rem;
-            line-height: 1;
-            background-color: transparent;
-            border: 1px solid transparent;
-            border-radius: 0.25rem;
-            transition: box-shadow .15s ease-in-out;
-        }
+  #logo {
+    height: 2.5rem;
+  }
+}
 
-        @media screen and (max-width: 480px) {
-            #logo {
-                height: 3rem;
-            }
+.Hero h1 {
+  width: 60%;
+  text-wrap: nowrap;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+}
 
-            .title {
-                font-size: 1rem;
+.container h1 {
+  display: flex;
+  justify-content: center;
+  padding-left: 2.5rem;
+}
 
-            }
+.container h2 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
 
-            h6 {
-                font-size: 0.50rem;
+.footer {
+  margin-top: 5%;
+  background-color: black;
+  display: flex;
+  padding: 5%;
+  justify-content: space-between;
+  color: white;
+}
 
-            }
-        }
-        
+.button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.1rem 0.1rem;
+  border-radius: 10px;
+  border: none;
+  overflow: hidden;
+  background: #212529;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #343a40;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.button p {
+  padding-top: 0.2re;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-text {
+  transform: translateX(15px);
+  font-size: 1em;
+  font-weight: 700;
+  transition-duration: 0.3s;
+}
+
+.iconer {
+  transform: translateY(35px);
+  transition-duration: 0.3s;
+}
+
+.button:hover .button-text {
+  transform: translateX(0px);
+}
+
+.button:hover .iconer {
+  transform: translateY(0px);
+}
+
+.selection {
+  display: flex;
+  justify-content: space-between;
+}
+
+.about {
+  width: 50%;
+}
+
+.about h3 {
+  font-size: 100%;
+}
+
+.contact h3 {
+  font-size: 100%;
+}
+
+.footer hr {
+  border-top: 1px solid;
+}
+
+.copyright {
+  background-color: black;
+  color: white;
+  border-top: 1px solid white;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-toggler {
+  padding: 0.2rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  transition: box-shadow 0.15s ease-in-out;
+}
