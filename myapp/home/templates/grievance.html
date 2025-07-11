@@ -1,375 +1,1511 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Grievance</title>
-    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png">
-    <meta name="description"
-        content="This is a comprehensive online platform dedicated to facilitate your search for the perfect stay, offering a vast array of private hostels tailored to your preferences and requirements. Each listing is detailed with essential information, including room types, amenities, proximity to campus, and local facilities, enabling you to make an informed decision that suits your lifestyle and academic needs.">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png" />
+    <link rel="stylesheet" href="{% static 'global-styles.css' %}" />
+    <meta
+      name="description"
+      content="This is a comprehensive online platform dedicated to facilitate your search for the perfect stay, offering a vast array of private hostels tailored to your preferences and requirements. Each listing is detailed with essential information, including room types, amenities, proximity to campus, and local facilities, enabling you to make an informed decision that suits your lifestyle and academic needs."
+    />
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    {% comment %} <script>
-        function resetForm() {
-            // Get the form element by its ID
-            var form = document.getElementById("myForm");
-           
-            alert("Successfully Submitted");
-            form.reset();
-            
-        }
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    {% comment %}
+    <script>
+      function resetForm() {
+        // Get the form element by its ID
+        var form = document.getElementById("myForm");
 
-    </script> {% endcomment %}
+        alert("Successfully Submitted");
+        form.reset();
+      }
+    </script>
+    {% endcomment %}
     <style>
-        @media screen and (max-width:300px) {
-            #logo {
-                height: 1.75rem;
-            }
-
-            .title {
-                font-size: 0.75rem;
-
-            }
-
-
-            h6 {
-                font-size: 0.50rem;
-
-            }
-
-            .navbar-toggler-icon {
-                height: 1.75rem;
-            }
-
-
-            form {
-
-                width: 95vw;
-                font-size: small;
-                padding-right: 10%;
-                padding-left: 3rem;
-                background-color: white;
-                margin: auto;
-                overflow-y: scroll;
-            }
-
-            form input,
-            textarea {
-                margin-left: 10%;
-                margin-right: 1%;
-
-            }
-
-            .grievance-head {
-                font-size: small;
-            }
-            .footer{
-                position: absolute;
-                bottom: 1rem;
-            }
-            .copyright{
-                width: 100vw;
-                position: absolute;
-                bottom: 0;
-            }
-
+      @media screen and (max-width: 768px) {
+        .complaint {
+          padding: 1rem;
         }
 
-        @media screen and (min-width: 301px) {
-            form {
-                width: 96vw;
-                background-color: white;
-                margin-left: 23%;
-                font-size: medium;
-            }
-
-            form input,
-            textarea {
-
-                margin-left: 1%;
-            }
-
-            form .Name {
-                margin-left: 5%;
-            }
-
-            .grievance-head {
-                font-size: 0.92rem;
-
-            }
-
-        }
-
-        @media screen and (min-width: 850px) {
-            .complaint{
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-            form {
-                width: 830px;
-                font-size: medium;
-                margin: auto;
-                margin-top: 5%;
-                padding: 2%;
-            }
-            .grievance-head{
-                width: 830px;
-                padding-bottom: 1rem;
-            }
+        form {
+          width: 95%;
+          margin: 1rem auto;
+          padding: 1.5rem;
         }
 
         .grievance-head {
-
-
-            padding: 0.4rem;
-
-            height: 3.5rem;
-            color: white;
-            background-color: black;
-            margin: 0.4rem;
-            margin-bottom: -1.3rem;
-            border-radius: 0.7rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-       
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #e5e5e5;
-        }
-
-        #logo{
-            height: 5em;
-            filter: invert(100%);
-        }
-
-        .about {
-            width: 50%;
-        }
-
-        .about h3 {
-            font-size: 100%;
-        }
-
-        .contact h3 {
-            font-size: 100%;
-        }
-
-        .footer hr {
-            border-top: 1px solid;
-        }
-
-        .footer {
-            margin-top: 5%;
-            background-color: black;
-            display: flex;
-            padding: 5%;
-            justify-content: space-between;
-            color: white;
-
-        }
-
-        .copyright {
-            background-color: black;
-            color: white;
-            border-top: 1px solid white;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-           
-
-        }
-
-        .navbar-toggler {
-            padding: 0.2rem;
-            font-size: .9rem;
-            line-height: 1;
-            background-color: transparent;
-            border: 1px solid transparent;
-            border-radius: 0.25rem;
-            transition: box-shadow .15s ease-in-out;
-        }
-
-        .complaint h2 {
-            padding: 1% 20%;
-            font-size: 140%;
-            width: 100%;
-            text-align: center;
-        }
-        .complaint{
-            position: relative;
-        }
-        .complaint form {
-            border: 1px solid black;
-            padding: 1%;
-
-
-        }
-
-        form div {
-            display: flex;
-            justify-content: space-between;
-            padding: 2%;
-            padding-right: 0;
-            padding-left: 0;
+          width: 100%;
+          font-size: 1rem;
+          padding: 0.8rem;
+          height: auto;
+          margin-bottom: 1rem;
         }
 
         form input,
-        textarea {
-            width: 60%;
-            outline: none;
+        textarea,
+        select {
+          width: 100%;
+          margin: 0.5rem 0;
+          padding: 0.8rem;
+          font-size: 1rem;
         }
 
-        form button {
-            outline: none;
-            border: none;
-            border-radius: 8px;
-            padding: 0.3rem;
-            padding-left: 0.8rem;
-            padding-right: 0.8rem;
-            margin-left: 35%;
-            color: white;
-            background-color: black;
+        .dropdown-menu {
+          position: static !important;
+          transform: none !important;
+          border: none;
+          box-shadow: none;
+          background-color: transparent;
         }
 
-        #myForm {
-            outline: none;
-            border: none;
-            border-end-end-radius: 1rem;
-            border-end-start-radius: 1rem;
-            box-shadow: 1px 1px 4px rgb(126, 118, 118);
-            padding-top: 1rem;
-            margin: 2%;
-            padding-left: 0.3rem;
+        .navbar-nav {
+          text-align: center;
+        }
+      }
 
+      @media screen and (max-width: 600px) {
+        #logo {
+          height: 3rem;
+        }
+
+        .title {
+          font-size: 1rem;
+        }
+
+        h6 {
+          font-size: 0.5rem;
+        }
+
+        form {
+          width: 98%;
+          padding: 1rem;
+          margin: 0.5rem auto;
+        }
+
+        .grievance-head {
+          font-size: 0.9rem;
+          padding: 0.6rem;
+          margin-bottom: 0.8rem;
+        }
+
+        form input,
+        textarea,
+        select {
+          font-size: 0.9rem;
+          padding: 0.7rem;
         }
 
         .btn {
-            justify-content: center;
-            align-items: center;
-            display: flex;
+          font-size: 0.9rem;
+          padding: 0.7rem 1.5rem;
+        }
+      }
+
+      @media screen and (max-width: 400px) {
+        #logo {
+          height: 1.75rem;
         }
 
-        .button:hover {
-            background-color: rgb(45, 41, 41);
+        .title {
+          font-size: 0.75rem;
         }
+
+        h6 {
+          font-size: 0.45rem;
+        }
+
+        .navbar-toggler-icon {
+          height: 1.75rem;
+        }
+
+        form {
+          width: 100%;
+          padding: 0.8rem;
+          margin: 0.25rem auto;
+        }
+
+        .grievance-head {
+          font-size: 0.8rem;
+          padding: 0.5rem;
+          height: auto;
+          margin-bottom: 0.5rem;
+        }
+
+        form input,
+        textarea,
+        select {
+          font-size: 0.8rem;
+          padding: 0.6rem;
+        }
+
+        .btn {
+          font-size: 0.8rem;
+          padding: 0.6rem 1.2rem;
+        }
+
+        .navbar-brand h2 {
+          font-size: 0.75rem !important;
+        }
+
+        .navbar-brand h6 {
+          font-size: 0.45rem !important;
+        }
+      }
+
+      @media screen and (max-width: 300px) {
+        #logo {
+          height: 1.5rem;
+        }
+
+        .title {
+          font-size: 0.6rem;
+        }
+
+        h6 {
+          font-size: 0.4rem;
+        }
+
+        .navbar-toggler-icon {
+          height: 1.5rem;
+        }
+
+        form {
+          width: 100%;
+          font-size: small;
+          padding: 0.5rem;
+          margin: 0;
+        }
+
+        form input,
+        textarea,
+        select {
+          font-size: 0.75rem;
+          padding: 0.5rem;
+          margin: 0.25rem 0;
+        }
+
+        .grievance-head {
+          font-size: 0.7rem;
+          padding: 0.4rem;
+          height: auto;
+          margin-bottom: 0.5rem;
+        }
+
+        .btn {
+          font-size: 0.7rem;
+          padding: 0.5rem 1rem;
+        }
+
+        .footer {
+          position: relative;
+          margin-top: 2rem;
+        }
+
+        .copyright {
+          width: 100vw;
+          position: relative;
+        }
+      }
+
+      @media screen and (min-width: 769px) and (max-width: 849px) {
+        form {
+          width: 90%;
+          background-color: white;
+          margin: 2rem auto;
+          font-size: medium;
+          padding: 2rem;
+        }
+
+        .grievance-head {
+          width: 100%;
+          font-size: 1rem;
+          padding: 1rem;
+        }
+      }
+
+      @media screen and (min-width: 850px) {
+        .complaint {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        form {
+          width: 830px;
+          font-size: medium;
+          margin: auto;
+          margin-top: 5%;
+          padding: 2%;
+        }
+        .grievance-head {
+          width: 830px;
+          padding-bottom: 1rem;
+        }
+      }
+
+      .grievance-head {
+        padding: 0.4rem;
+
+        height: 3.5rem;
+        color: white;
+        background-color: black;
+        margin: 0.4rem;
+        margin-bottom: -1.3rem;
+        border-radius: 0.7rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #e5e5e5;
+      }
+
+      #logo {
+        height: 5em;
+        filter: invert(100%);
+      }
+
+      .about {
+        width: 50%;
+      }
+
+      .about h3 {
+        font-size: 100%;
+      }
+
+      .contact h3 {
+        font-size: 100%;
+      }
+
+      .footer hr {
+        border-top: 1px solid;
+      }
+
+      .footer {
+        margin-top: 5%;
+        background-color: black;
+        display: flex;
+        padding: 5%;
+        justify-content: space-between;
+        color: white;
+      }
+
+      .copyright {
+        background-color: black;
+        color: white;
+        border-top: 1px solid white;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .navbar-toggler {
+        padding: 0.2rem;
+        font-size: 0.9rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+        transition: box-shadow 0.15s ease-in-out;
+      }
+
+      .complaint h2 {
+        padding: 1% 20%;
+        font-size: 140%;
+        width: 100%;
+        text-align: center;
+      }
+      .complaint {
+        position: relative;
+      }
+      .complaint form {
+        border: 1px solid black;
+        padding: 1%;
+      }
+
+      form div {
+        display: flex;
+        justify-content: space-between;
+        padding: 2%;
+        padding-right: 0;
+        padding-left: 0;
+      }
+
+      form input,
+      textarea {
+        width: 60%;
+        outline: none;
+      }
+
+      form button,
+      .button {
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 24px;
+        margin-left: 35%;
+        color: white;
+        background-color: #212529;
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      form button:hover,
+      .button:hover {
+        background-color: #343a40;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+
+      /* Hostel Autocomplete Styles */
+      .hostel-input-container {
+        position: relative;
+        margin-bottom: 1rem;
+      }
+
+      #hostelInput {
+        width: 100%;
+        padding: 0.75rem 2.5rem 0.75rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #ffffff;
+        outline: none;
+      }
+
+      #hostelInput:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        background-color: #ffffff;
+      }
+
+      #hostelInput.valid {
+        border-color: #28a745;
+        background-color: #f8fff8;
+      }
+
+      #hostelInput.invalid {
+        border-color: #dc3545;
+        background-color: #fff8f8;
+      }
+
+      .search-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+        font-size: 1.1rem;
+        pointer-events: none;
+        transition: color 0.3s ease;
+      }
+
+      #hostelInput:focus + .search-icon {
+        color: #007bff;
+      }
+
+      .hostel-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border: 2px solid #e0e0e0;
+        border-top: none;
+        border-radius: 0 0 0.75rem 0.75rem;
+        max-height: 280px;
+        overflow-y: auto;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: none;
+        animation: slideDown 0.2s ease-out;
+        pointer-events: auto;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .suggestion-item {
+        display: block;
+        padding: 1rem 1.25rem;
+        cursor: pointer;
+        border-bottom: 1px solid #f1f3f4;
+        transition: all 0.2s ease;
+        position: relative;
+        background: white;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+      }
+
+      .suggestion-item:hover,
+      .suggestion-item.selected {
+        background-color: #f8f9fa;
+        transform: translateX(4px);
+        border-left: 4px solid #007bff;
+      }
+
+      .suggestion-item:last-child {
+        border-bottom: none;
+        border-radius: 0 0 0.75rem 0.75rem;
+      }
+
+      .suggestion-item:first-child {
+        border-top: 1px solid #f1f3f4;
+      }
+
+      .suggestion-name {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.4rem;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        pointer-events: none;
+      }
+
+      .suggestion-name::before {
+        content: "🏠";
+        font-size: 1.1rem;
+      }
+
+      .suggestion-details {
+        font-size: 0.875rem;
+        color: #6c757d;
+        line-height: 1.4;
+        pointer-events: none;
+      }
+
+      .suggestion-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.8rem;
+        color: #8e9aaf;
+        margin-top: 0.3rem;
+      }
+
+      .hostel-type {
+        background-color: #e3f2fd;
+        color: #1976d2;
+        padding: 0.2rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+      .vacancy-info {
+        color: #4caf50;
+        font-weight: 500;
+      }
+
+      .no-results {
+        padding: 1.5rem;
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+        background-color: #f8f9fa;
+        border-radius: 0 0 0.75rem 0.75rem;
+      }
+
+      .hostel-validation {
+        margin-top: 0.6rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .validation-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .validation-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      /* Loading state */
+      .hostel-suggestions.loading::before {
+        content: "🔍 Searching hostels...";
+        display: block;
+        padding: 1rem;
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+      }
+
+      /* Scrollbar styling */
+      .hostel-suggestions::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .hostel-suggestions::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+      }
+
+      .hostel-suggestions::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+      }
+
+      .hostel-suggestions::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+
+      .validation-error {
+        color: #dc3545;
+        font-weight: 500;
+      }
+
+      .validation-success {
+        color: #28a745;
+        font-weight: 500;
+      }
+
+      .no-results {
+        padding: 1rem;
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+      }
+
+      .loading {
+        padding: 1rem;
+        text-align: center;
+        color: #007bff;
+      }
+
+      #hostelInput.invalid {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+      }
+
+      #hostelInput.valid {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+      }
+
+      /* Enhanced hostel selection styles */
+      .hostel-suggestions.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .suggestion-item.selected {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        transform: translateX(4px);
+      }
+
+      .suggestion-item.selected .suggestion-name::before {
+        content: "🎯";
+      }
+
+      .suggestion-icon {
+        font-size: 18px;
+        opacity: 0.7;
+        min-width: 20px;
+        text-align: center;
+      }
+
+      .suggestion-content {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .suggestion-action {
+        font-size: 12px;
+        padding: 6px 12px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        opacity: 0;
+        transform: translateX(10px);
+        transition: all 0.2s ease;
+        font-weight: 500;
+        min-width: 50px;
+        text-align: center;
+      }
+
+      .suggestion-item:hover .suggestion-action,
+      .suggestion-item.selected .suggestion-action {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .no-results-icon {
+        font-size: 32px;
+        opacity: 0.5;
+        margin-bottom: 8px;
+      }
+
+      .no-results-text {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 4px;
+      }
+
+      .no-results-suggestion {
+        font-size: 13px;
+        opacity: 0.7;
+      }
+
+      .hostel-input-container.focused {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
+      }
+
+      .hostel-validation {
+        margin-top: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+
+      .validation-success {
+        color: #10b981;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .validation-error {
+        color: #ef4444;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      @keyframes validationPulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateX(-5px);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateX(5px);
+        }
+      }
+
+      .shake {
+        animation: shake 0.5s ease-in-out;
+      }
+
+      /* Enhanced mobile responsiveness for new features */
+      @media (max-width: 768px) {
+        .suggestion-action {
+          font-size: 11px;
+          padding: 4px 8px;
+          min-width: 40px;
+        }
+
+        .no-results-icon {
+          font-size: 28px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .suggestion-item.selected {
+          transform: translateX(2px);
+        }
+
+        .suggestion-details {
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      }
     </style>
-</head>
+    
+    <style>
+      /* Modern Footer Styling */
+      .footer-modern {
+        background-color: #212529;
+        color: white;
+        margin-top: auto;
+        padding: 0;
+      }
 
-<body>
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 3rem;
+      }
+
+      .footer-left {
+        flex: 1;
+        max-width: 60%;
+      }
+
+      .footer-right {
+        flex: 1;
+        max-width: 35%;
+      }
+
+      .footer-modern h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      .footer-left p {
+        color: #e9ecef;
+        line-height: 1.7;
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        color: #e9ecef;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #28a745;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        background-color: #1a1e23;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: #adb5bd;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive footer */
+      @media (max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          padding: 2rem 1rem;
+          gap: 2rem;
+        }
+
+        .footer-left,
+        .footer-right {
+          max-width: 100%;
+        }
+
+        .footer-modern h3 {
+          font-size: 1.3rem;
+        }
+
+        .footer-left p {
+          font-size: 0.95rem;
+        }
+
+        .contact-item {
+          font-size: 1rem;
+          padding: 0.6rem 0.8rem;
+        }
+
+        .footer-bottom {
+          padding: 1rem;
+        }
+      }
+
+      /* Navbar navigation links styling with green underlines */
+      .navbar-nav .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+        padding-bottom: 0.75rem !important;
+      }
+
+      .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background-color: #28a745;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .navbar-nav .nav-link:hover::after,
+      .navbar-nav .nav-link.active::after {
+        width: 100%;
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #28a745 !important;
+      }
+    </style>
+  </head>
+
+  <body>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <div style="display: flex;align-items: center;gap:1rem;">
-                    <img id="logo" src="{% static './assets/Cet_emblem.png' %}" alt="CET Emblem">
-                    <a class="navbar-brand" style="margin-right: 0;" href="/">
-                        <h2 style="margin:  0 0;text-wrap: wrap;" class="title"> <b>PRIVATE HOSTELS </b> </h2>
-                        <h6 style="text-wrap: wrap;">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
-                    </a>
-                </div>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <div style="display: flex; align-items: center; gap: 1rem">
+            <img
+              id="logo"
+              src="{% static './assets/Cet_emblem.png' %}"
+              alt="CET Emblem"
+            />
+            <a class="navbar-brand" style="margin-right: 0" href="/">
+              <h2 style="margin: 0 0; text-wrap: wrap" class="title">
+                <b>PRIVATE HOSTELS </b>
+              </h2>
+              <h6 style="text-wrap: wrap">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
+            </a>
+          </div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup"
-                    style="justify-content: end; padding-right: 3rem;">
-                    <div class="navbar-nav" style="gap: 2rem;">
-                        <a class="nav-link " aria-current="page" href="/">Home</a>
-                        <a class="nav-link" href="hostel">Hostels</a>
-                        <a class="nav-link active" href="grievance">Grievance</a>
-                        <a class="nav-link" href="#about">About Us</a>
-                    </div>
-                </div>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse"
+            id="navbarNavAltMarkup"
+            style="justify-content: end; padding-right: 3rem"
+          >
+            <div class="navbar-nav" style="gap: 2rem">
+              <a class="nav-link" aria-current="page" href="/">Home</a>
+              <a class="nav-link" href="hostel">Hostels</a>
+              <a class="nav-link active" href="grievance">Grievance</a>
+              <a class="nav-link" href="#about">About Us</a>
             </div>
-        </nav>
-        <div class="complaint">
-            <div class="grievance-head">
-                <h2>Grievance Form</h2>
-            </div>
-            <form action="/commit_complaint" method="post" id="myForm">
-                {% csrf_token %}
-                <div>
-                    <label  class="Name">Full Name</label>
-                    <input type="text"  name="name" placeholder="First Name" required>
-                </div>
-               
-                <div>
-                    <label class="Name">Email</label>
-                    <input type="text" name="email" placeholder="abc@gmail.com" required>
-                </div>
-                <div>
-                    <label class="Name">Phone</label>
-                    <input type="text" name="phone" placeholder="(+91)01234-56789" required>
-                </div>
-                <div>
-                    <label class="Name">Semester</label>
-                    <input type="text" name="semester" placeholder="sem" required>
-                </div>
-                <div>
-                    <label class="Name">Department</label>
-                    <input type="text" name="department" placeholder="Department" required>
-                </div>
-                <div>
-                    <label class="Name">Hostel</label>
-                    <input type="text" name="hostel" placeholder="Hostel " required>
-                </div>
-                <div>
-                    <label class="Name">Location</label>
-                    <input type="text" name="location" placeholder="Location" required>
-                </div>
-                <div>
-                    <label class="Name">Complaint</label>
-                    <textarea name="complaint" rows="5" placeholder="Raise your voice..." required></textarea>
-                </div>
-                <div class="btn">
-                    <button type="submit" class="button" >Submit</button>
-                </div>
-            </form>
+          </div>
         </div>
-        <div class="footer">
-
-            <div id="about" class="about">
-                <h3>About Us</h3>
-                <h6>Welcome to the official website of Private Hostel Committee, an initiative taken by Afin Shafi M
-                    (University Union Councillor, College Union 23-34).</h6>
-
-            </div>
-            <div class="contact">
-                <h3>Contact</h3>
-                <h6>Afin : 9188370967</h6>
-                <h6>Basil : 9495121351</h6>
-                <h6></h6>
-
-            </div>
-
-
+      </nav>
+      <div class="complaint">
+        <div class="grievance-head">
+          <h2>Grievance Form</h2>
         </div>
+        <form action="/commit_complaint" method="post" id="myForm">
+          {% csrf_token %}
 
-        <div class="copyright">
-            <h6>copyright@cetcollegeunion 2023</h6>
+          <!-- Success Message -->
+          {% if success %}
+          <div
+            class="alert alert-success"
+            style="
+              background-color: #d4edda;
+              color: #155724;
+              padding: 1rem;
+              border: 1px solid #c3e6cb;
+              border-radius: 0.5rem;
+              margin-bottom: 1rem;
+            "
+          >
+            {{ success }}
+          </div>
+          {% endif %}
+
+          <!-- Error Message -->
+          {% if error %}
+          <div
+            class="alert alert-danger"
+            style="
+              background-color: #f8d7da;
+              color: #721c24;
+              padding: 1rem;
+              border: 1px solid #f5c6cb;
+              border-radius: 0.5rem;
+              margin-bottom: 1rem;
+            "
+          >
+            {{ error }}
+          </div>
+          {% endif %}
+
+          <div>
+            <label class="Name">Full Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="First Name"
+              value="{% if form_data %}{{ form_data.name }}{% endif %}"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="Name">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="abc@gmail.com"
+              value="{% if form_data %}{{ form_data.email }}{% endif %}"
+              required
+            />
+          </div>
+          <div>
+            <label class="Name">Phone</label>
+            <input
+              type="text"
+              name="phone"
+              placeholder="(+91)01234-56789"
+              value="{% if form_data %}{{ form_data.phone }}{% endif %}"
+              required
+            />
+          </div>
+          <div>
+            <label class="Name">Semester</label>
+            <input
+              type="text"
+              name="semester"
+              placeholder="sem"
+              value="{% if form_data %}{{ form_data.semester }}{% endif %}"
+              required
+            />
+          </div>
+          <div>
+            <label class="Name">Department</label>
+            <input
+              type="text"
+              name="department"
+              placeholder="Department"
+              value="{% if form_data %}{{ form_data.department }}{% endif %}"
+              required
+            />
+          </div>
+          <div>
+            <label class="Name">Hostel</label>
+            <div class="hostel-input-container">
+              <input
+                type="text"
+                name="hostel"
+                id="hostelInput"
+                placeholder="Start typing hostel name..."
+                value="{% if form_data %}{{ form_data.hostel }}{% endif %}"
+                autocomplete="off"
+                required
+              />
+              <i class="search-icon">🔍</i>
+              <div id="hostelSuggestions" class="hostel-suggestions"></div>
+              <div id="hostelValidation" class="hostel-validation"></div>
+            </div>
+          </div>
+          <div>
+            <label class="Name">Location</label>
+            <input
+              type="text"
+              name="location"
+              placeholder="Location"
+              value="{% if form_data %}{{ form_data.location }}{% endif %}"
+              required
+            />
+          </div>
+          <div>
+            <label class="Name">Complaint</label>
+            <textarea
+              name="complaint"
+              rows="5"
+              placeholder="Raise your voice..."
+              required
+            >
+{% if form_data %}{{ form_data.complaint }}{% endif %}</textarea
+            >
+          </div>
+          <div class="btn">
+            <button type="submit" class="button">Submit</button>
+          </div>
+        </form>
+      </div>
+      <footer class="footer-modern" id="about">
+        <div class="footer-container">
+          <div class="footer-left">
+            <h3>About Us</h3>
+            <p>
+              Welcome to the official website of Private Hostel Committee, an
+              initiative taken by Afin Shafi M (University Union Councillor, College
+              Union 23-34). We provide comprehensive hostel management 
+              and grievance handling services for students.
+            </p>
+          </div>
+          <div class="footer-right">
+            <h3>Contact</h3>
+            <div class="contact-info">
+              <div class="contact-item">Afin : 9188370967</div>
+              <div class="contact-item">Basil : 9495121351</div>
+              <div class="contact-item">Sreelal S S : 8592008405</div>
+            </div>
+          </div>
         </div>
-
+        <div class="footer-bottom">
+          <p>© 2023 CET College Union. All rights reserved.</p>
+        </div>
+      </footer>
+      </div>
     </div>
-</body>
 
+    <script>
+      // Hostel autocomplete functionality
+      let debounceTimer;
+      let selectedHostels = new Set();
+      let isValidHostel = false;
+      let selectedIndex = -1;
+
+      const hostelInput = document.getElementById("hostelInput");
+      const suggestionsDiv = document.getElementById("hostelSuggestions");
+      const validationDiv = document.getElementById("hostelValidation");
+      const form = document.getElementById("myForm");
+
+      // Load existing hostels for validation
+      async function loadAllHostels() {
+        try {
+          console.log("Loading all hostels for validation...");
+          // Try to get hostels with a common letter to get all results
+          const response = await fetch("/api/search_hostels?q=a");
+          const data = await response.json();
+          console.log("API response:", data);
+
+          if (data.hostels && data.hostels.length > 0) {
+            data.hostels.forEach((hostel) => {
+              selectedHostels.add(hostel.name.toLowerCase());
+              console.log(
+                "Added hostel to validation set:",
+                hostel.name.toLowerCase()
+              );
+            });
+            console.log(
+              "Total hostels loaded for validation:",
+              selectedHostels.size
+            );
+          } else {
+            console.log("No hostels found, trying alternative approach...");
+            // Try with different common letters
+            const alternatives = ["b", "c", "h", "s", "m"];
+            for (const letter of alternatives) {
+              try {
+                const altResponse = await fetch(
+                  `/api/search_hostels?q=${letter}`
+                );
+                const altData = await altResponse.json();
+                if (altData.hostels && altData.hostels.length > 0) {
+                  altData.hostels.forEach((hostel) => {
+                    selectedHostels.add(hostel.name.toLowerCase());
+                  });
+                }
+              } catch (e) {
+                console.log(`Failed to load hostels with letter ${letter}`);
+              }
+            }
+            console.log(
+              "Total hostels after alternative loading:",
+              selectedHostels.size
+            );
+          }
+        } catch (error) {
+          console.error("Error loading hostels for validation:", error);
+        }
+      }
+
+      // Search hostels function
+      async function searchHostels(query) {
+        if (query.length < 2) {
+          hideSuggestions();
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `/api/search_hostels?q=${encodeURIComponent(query)}`
+          );
+          const data = await response.json();
+
+          if (data.hostels && data.hostels.length > 0) {
+            showSuggestions(data.hostels);
+          } else {
+            showNoResults(data.message || "No hostels found");
+          }
+        } catch (error) {
+          showNoResults("Error loading hostels");
+        }
+      }
+
+      // Show suggestions
+      function showSuggestions(hostels) {
+        selectedIndex = -1;
+        suggestionsDiv.innerHTML = ""; // Clear previous suggestions
+
+        hostels.forEach((hostel, index) => {
+          // Add hostel to validation set (in case loadAllHostels didn't get all)
+          selectedHostels.add(hostel.name.toLowerCase());
+
+          // Create suggestion element
+          const suggestionItem = document.createElement("div");
+          suggestionItem.className = "suggestion-item";
+          suggestionItem.setAttribute("data-hostel-name", hostel.name);
+          suggestionItem.setAttribute("data-index", index);
+
+          // Create suggestion content
+          suggestionItem.innerHTML = `
+            <div class="suggestion-name">${hostel.name}</div>
+            <div class="suggestion-details">${hostel.address} • Owner: ${hostel.owner_name}</div>
+          `;
+
+          // Add click event listener directly
+          suggestionItem.onclick = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("Clicked on hostel:", hostel.name);
+            selectHostel(hostel.name);
+            return false;
+          };
+
+          // Add to suggestions container
+          suggestionsDiv.appendChild(suggestionItem);
+        });
+
+        suggestionsDiv.style.display = "block";
+
+        // Add smooth entrance animation
+        setTimeout(() => {
+          suggestionsDiv.classList.add("show");
+        }, 10);
+      }
+
+      // Show no results
+      function showNoResults(message) {
+        suggestionsDiv.innerHTML = `<div class="no-results">${message}</div>`;
+        suggestionsDiv.style.display = "block";
+        setTimeout(() => {
+          suggestionsDiv.classList.add("show");
+        }, 10);
+      }
+
+      // Hide suggestions
+      function hideSuggestions() {
+        suggestionsDiv.classList.remove("show");
+        setTimeout(() => {
+          suggestionsDiv.style.display = "none";
+        }, 200);
+        selectedIndex = -1;
+      }
+
+      // Select a hostel
+      function selectHostel(hostelName) {
+        console.log("selectHostel called with:", hostelName);
+
+        if (!hostelName) {
+          console.error("No hostel name provided");
+          return;
+        }
+
+        hostelInput.value = hostelName;
+        console.log("Input value set to:", hostelInput.value);
+
+        // Add the selected hostel to our validation set immediately
+        selectedHostels.add(hostelName.toLowerCase());
+        console.log(
+          "Added selected hostel to validation set:",
+          hostelName.toLowerCase()
+        );
+
+        hideSuggestions();
+        validateHostel(hostelName);
+
+        // Add visual feedback for selection
+        hostelInput.style.transform = "scale(1.02)";
+        setTimeout(() => {
+          hostelInput.style.transform = "scale(1)";
+        }, 150);
+
+        console.log("Hostel selection completed");
+      }
+
+      // Validate hostel
+      function validateHostel(value) {
+        console.log("Validating hostel:", value);
+        const trimmedValue = value.trim();
+
+        if (trimmedValue.length === 0) {
+          clearValidation();
+          return;
+        }
+
+        // Check if exact match exists (case insensitive)
+        const lowerValue = trimmedValue.toLowerCase();
+        const isValid = selectedHostels.has(lowerValue);
+
+        console.log("Hostel to validate (lowercase):", lowerValue);
+        console.log("Available hostels in set:", Array.from(selectedHostels));
+        console.log("Is valid:", isValid);
+
+        if (isValid) {
+          showValidation("✓ Valid hostel selected", "success");
+          hostelInput.classList.remove("invalid");
+          hostelInput.classList.add("valid");
+          isValidHostel = true;
+          console.log("Hostel validation: SUCCESS");
+        } else {
+          showValidation(
+            "⚠ Please select a hostel from the suggestions",
+            "error"
+          );
+          hostelInput.classList.remove("valid");
+          hostelInput.classList.add("invalid");
+          isValidHostel = false;
+          console.log("Hostel validation: FAILED");
+        }
+      }
+
+      // Show validation message
+      function showValidation(message, type) {
+        validationDiv.innerHTML = `<div class="validation-${type}">${message}</div>`;
+
+        // Add pulse animation for feedback
+        validationDiv.style.animation = "validationPulse 0.3s ease-out";
+        setTimeout(() => {
+          validationDiv.style.animation = "";
+        }, 300);
+      }
+
+      // Clear validation
+      function clearValidation() {
+        validationDiv.innerHTML = "";
+        hostelInput.classList.remove("valid", "invalid");
+        isValidHostel = false;
+      }
+
+      // Handle keyboard navigation
+      function handleKeyboardNavigation(e) {
+        const suggestions = suggestionsDiv.querySelectorAll(".suggestion-item");
+
+        if (suggestions.length === 0) return;
+
+        switch (e.key) {
+          case "ArrowDown":
+            e.preventDefault();
+            selectedIndex = Math.min(selectedIndex + 1, suggestions.length - 1);
+            updateSelectedSuggestion(suggestions);
+            break;
+          case "ArrowUp":
+            e.preventDefault();
+            selectedIndex = Math.max(selectedIndex - 1, -1);
+            updateSelectedSuggestion(suggestions);
+            break;
+          case "Enter":
+            e.preventDefault();
+            if (selectedIndex >= 0 && suggestions[selectedIndex]) {
+              const hostelName =
+                suggestions[selectedIndex].getAttribute("data-hostel-name");
+              selectHostel(hostelName);
+            }
+            break;
+          case "Escape":
+            hideSuggestions();
+            break;
+        }
+      }
+
+      // Update selected suggestion visual state
+      function updateSelectedSuggestion(suggestions) {
+        suggestions.forEach((item, index) => {
+          item.classList.toggle("selected", index === selectedIndex);
+        });
+
+        // Scroll selected item into view
+        if (selectedIndex >= 0 && suggestions[selectedIndex]) {
+          suggestions[selectedIndex].scrollIntoView({
+            block: "nearest",
+            behavior: "smooth",
+          });
+        }
+      }
+
+      // Event listeners
+      hostelInput.addEventListener("input", function () {
+        const query = this.value;
+
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          if (query.length >= 2) {
+            searchHostels(query);
+          } else {
+            hideSuggestions();
+          }
+          validateHostel(query);
+        }, 300);
+      });
+
+      hostelInput.addEventListener("focus", function () {
+        this.parentElement.classList.add("focused");
+        if (this.value.length >= 2) {
+          searchHostels(this.value);
+        }
+      });
+
+      hostelInput.addEventListener("blur", function () {
+        this.parentElement.classList.remove("focused");
+      });
+
+      hostelInput.addEventListener("keydown", handleKeyboardNavigation);
+
+      // Hide suggestions when clicking outside
+      document.addEventListener("click", function (e) {
+        // Don't hide if clicking on input or suggestions
+        if (
+          !e.target.closest("#hostelInput") &&
+          !e.target.closest("#hostelSuggestions") &&
+          !e.target.closest(".suggestion-item")
+        ) {
+          hideSuggestions();
+        }
+      });
+
+      // Form submission validation
+      form.addEventListener("submit", function (e) {
+        const hostelValue = hostelInput.value.trim();
+
+        if (!isValidHostel && hostelValue.length > 0) {
+          e.preventDefault();
+
+          // Enhanced error feedback
+          hostelInput.classList.add("shake");
+          setTimeout(() => {
+            hostelInput.classList.remove("shake");
+          }, 500);
+
+          showValidation(
+            "❌ Please select a valid hostel from the suggestions",
+            "error"
+          );
+          hostelInput.focus();
+          return false;
+        }
+      });
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM loaded, initializing hostel autocomplete");
+        loadAllHostels();
+
+        // If there's a value in the input (from form_data), validate it
+        if (hostelInput.value.trim()) {
+          validateHostel(hostelInput.value);
+        }
+
+        // Test function for debugging - can be called from browser console
+        window.testHostelSelection = function (hostelName) {
+          console.log("Testing hostel selection:", hostelName);
+          selectHostel(hostelName);
+        };
+
+        console.log("Hostel autocomplete initialized successfully");
+      });
+    </script>
+  </body>
 </html>

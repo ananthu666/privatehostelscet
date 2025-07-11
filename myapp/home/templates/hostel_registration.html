@@ -1,0 +1,769 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hostel Registration</title>
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background-color: #343a40;
+        color: white;
+        border-radius: 0.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .form-control {
+        border-radius: 0.5rem;
+        border: 1px solid #ddd;
+        padding: 0.75rem;
+      }
+
+      .form-control:focus {
+        border-color: #343a40;
+        box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.25);
+      }
+
+      .btn-submit {
+        background-color: #343a40;
+        color: white;
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1.1rem;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      .btn-submit:hover {
+        background-color: #495057;
+      }
+
+      .error-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .capacity-validation-message {
+        margin-top: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .capacity-validation-message.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .capacity-validation-message.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .form-control.invalid {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+      }
+
+      .form-control.valid {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+      }
+
+      .row {
+        margin-bottom: 1rem;
+      }
+
+      .info-text {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .navbar {
+        margin-bottom: 0;
+      }
+
+      #logo {
+        height: 3rem;
+        filter: invert(100%);
+      }
+
+      /* Modern Footer Styling */
+      .footer-modern {
+        background-color: #212529;
+        color: white;
+        margin-top: auto;
+        padding: 0;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 3rem;
+      }
+
+      .footer-left {
+        flex: 1;
+        max-width: 60%;
+      }
+
+      .footer-right {
+        flex: 1;
+        max-width: 35%;
+      }
+
+      .footer-modern h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      .footer-left p {
+        color: #e9ecef;
+        line-height: 1.7;
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        color: #e9ecef;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #28a745;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        background-color: #1a1e23;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: #adb5bd;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive footer */
+      @media (max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          padding: 2rem 1rem;
+          gap: 2rem;
+        }
+
+        .footer-left,
+        .footer-right {
+          max-width: 100%;
+        }
+
+        .footer-modern h3 {
+          font-size: 1.3rem;
+        }
+
+        .footer-left p {
+          font-size: 0.95rem;
+        }
+
+        .contact-item {
+          font-size: 1rem;
+          padding: 0.6rem 0.8rem;
+        }
+
+        .footer-bottom {
+          padding: 1rem;
+        }
+      }
+
+      /* Navbar navigation links styling with green underlines */
+      .navbar-nav .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+        padding-bottom: 0.75rem !important;
+      }
+
+      .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background-color: #28a745;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .navbar-nav .nav-link:hover::after,
+      .navbar-nav .nav-link.active::after {
+        width: 100%;
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #28a745 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <div style="display: flex; align-items: center; gap: 1rem">
+          <img
+            id="logo"
+            src="{% static '/assets/Cet_emblem.png' %}"
+            alt="CET Emblem"
+          />
+
+          <a class="navbar-brand" style="margin-right: 0" href="/">
+            <h2 style="margin: 0 0; text-wrap: wrap" class="title">
+              <b>PRIVATE HOSTELS </b>
+            </h2>
+            <h6 style="text-wrap: wrap">COLLEGE OF ENGINEERING TRIVANDRUM</h6>
+          </a>
+        </div>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNavAltMarkup"
+          style="justify-content: end; padding-right: 3rem"
+        >
+          <div class="navbar-nav" style="gap: 2rem">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="./hostel">Hostels</a>
+            <div class="dropdown">
+              <a
+                class="nav-link"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Manage Hostels
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="./grievance"
+                  >Register Grievance</a
+                >
+                <a class="dropdown-item" href="hostel_registration"
+                  >Register Hostel</a
+                >
+                <a class="dropdown-item" href="vaccancy">Edit Vacancy</a>
+              </div>
+            </div>
+            <a class="nav-link" href="#about">About Us</a>
+
+            <a class="nav-link" href="./page_admin">Admin</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="header">
+        <h2>Hostel Registration</h2>
+        <p>Register your hostel for approval by the Private Hostel Committee</p>
+      </div>
+
+      <div class="info-text">
+        <strong>Registration Process:</strong>
+        <ul style="margin: 0.5rem 0">
+          <li>Fill out all required information about your hostel</li>
+          <li>Your request will be reviewed by the admin team</li>
+          <li>Once approved, your hostel will be listed on the platform</li>
+          <li>You'll be notified about the approval status</li>
+        </ul>
+      </div>
+
+      {% if error %}
+      <div class="error-message">{{ error }}</div>
+      {% endif %}
+
+      <form
+        action="/submit_hostel_request"
+        method="post"
+        id="hostelRegistrationForm"
+      >
+        {% csrf_token %}
+
+        <!-- Basic Information -->
+        <h4 style="margin-bottom: 1rem; color: #343a40">Basic Information</h4>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="hostelName">Hostel Name *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="hostelName"
+                name="hostelName"
+                required
+                value="{{ form_data.hostelName|default:'' }}"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ownerName">Owner Name *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="ownerName"
+                name="ownerName"
+                required
+                value="{{ form_data.ownerName|default:'' }}"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address *</label>
+          <textarea
+            class="form-control"
+            id="address"
+            name="address"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="contact">Contact Details *</label>
+          <input
+            type="text"
+            class="form-control"
+            id="contact"
+            name="contact"
+            placeholder="Phone number and/or email"
+            required
+          />
+        </div>
+
+        <!-- Capacity and Pricing -->
+        <h4 style="margin: 2rem 0 1rem; color: #343a40">Capacity & Pricing</h4>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="capacity">Total Capacity *</label>
+              <input
+                type="number"
+                class="form-control"
+                id="capacity"
+                name="capacity"
+                min="1"
+                required
+                value="{{ form_data.capacity|default:'' }}"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="vacancy">Current Vacancy *</label>
+              <input
+                type="number"
+                class="form-control"
+                id="vacancy"
+                name="vacancy"
+                min="0"
+                required
+                value="{{ form_data.vacancy|default:'' }}"
+              />
+              <div
+                class="capacity-validation-message"
+                id="capacityValidationMessage"
+                style="display: none"
+              ></div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="rent">Average Monthly Rent *</label>
+              <input
+                type="number"
+                class="form-control"
+                id="rent"
+                name="rent"
+                min="0"
+                required
+                value="{{ form_data.rent|default:'' }}"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Preferences & Facilities -->
+        <h4 style="margin: 2rem 0 1rem; color: #343a40">
+          Preferences & Facilities
+        </h4>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="gender">Gender Preference *</label>
+              <select class="form-control" id="gender" name="gender" required>
+                <option value="mens">Mens</option>
+                <option value="ladies">Ladies</option>
+                <option value="mixed">Mixed</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="type">Accommodation Type *</label>
+              <select class="form-control" id="type" name="type" required>
+                <option value="hostel">Hostel</option>
+                <option value="pg">PG</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="mess">Mess Availability *</label>
+              <select class="form-control" id="mess" name="mess" required>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="curfewTime">Curfew Time</label>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem">
+            <select
+              class="form-control"
+              id="curfewType"
+              name="curfewType"
+              onchange="toggleCurfewInput()"
+            >
+              <option value="time">Set Curfew Time</option>
+              <option value="none">No Curfew</option>
+            </select>
+            <input
+              type="time"
+              class="form-control"
+              id="curfewTime"
+              name="curfewTime"
+              value="22:00"
+            />
+          </div>
+        </div>
+
+        <!-- Location -->
+        <h4 style="margin: 2rem 0 1rem; color: #343a40">Location</h4>
+
+        <div class="form-group">
+          <label for="distance">Distance from College (km) *</label>
+          <input
+            type="number"
+            class="form-control"
+            id="distance"
+            name="distance"
+            step="0.1"
+            min="0"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="map">Select Your Hostel's Location</label>
+          <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem">
+            Drag the marker on the map to indicate your hostel's exact location.
+            You can also click on the map to place the marker.
+          </p>
+          <div
+            id="map"
+            style="
+              width: 100%;
+              height: 400px;
+              border-radius: 0.5rem;
+              border: 1px solid #ccc;
+            "
+          ></div>
+          <input type="hidden" id="latitude" name="latitude" />
+          <input type="hidden" id="longitude" name="longitude" />
+        </div>
+
+        <div style="margin-top: 2rem">
+          <button type="submit" class="btn-submit">
+            Submit Registration Request
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script>
+      // Curfew time toggle function
+      function toggleCurfewInput() {
+        const curfewType = document.getElementById("curfewType");
+        const curfewTimeInput = document.getElementById("curfewTime");
+
+        if (curfewType.value === "none") {
+          curfewTimeInput.style.display = "none";
+          curfewTimeInput.value = "";
+          curfewTimeInput.removeAttribute("required");
+        } else {
+          curfewTimeInput.style.display = "block";
+          curfewTimeInput.setAttribute("required", "required");
+        }
+      }
+
+      // Initialize map
+      function initializeMap() {
+        let inputLng = document.getElementById("longitude");
+        let inputLat = document.getElementById("latitude");
+
+        // Default position (CET College coordinates)
+        var position = [8.545968336333125, 76.9061007276918];
+
+        var map = L.map("map", { attributionControl: false }).setView(
+          position,
+          15
+        );
+        let lng, lat;
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 25,
+          attribution: "© OpenStreetMap",
+        }).addTo(map);
+
+        var marker = L.marker(position, {
+          draggable: true,
+        }).addTo(map);
+
+        // Set initial coordinates
+        inputLat.value = position[0];
+        inputLng.value = position[1];
+
+        marker.on("dragend", function (e) {
+          var latting = marker.getLatLng();
+          lat = latting.lat;
+          lng = latting.lng;
+          console.log("Latitude " + lat + ", Longitude " + lng);
+          inputLat.value = lat;
+          inputLng.value = lng;
+        });
+
+        map.on("click", function (e) {
+          var clickPosition = e.latlng;
+          marker.setLatLng(clickPosition);
+          inputLat.value = clickPosition.lat;
+          inputLng.value = clickPosition.lng;
+          console.log(
+            "Map clicked - Latitude " +
+              clickPosition.lat +
+              ", Longitude " +
+              clickPosition.lng
+          );
+        });
+      }
+
+      // Form validation
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize curfew input state
+        toggleCurfewInput();
+
+        // Initialize map
+        initializeMap();
+
+        // Form validation
+        // Capacity validation function
+        function validateCapacity() {
+          const capacityInput = document.getElementById("capacity");
+          const vacancyInput = document.getElementById("vacancy");
+          const validationMessage = document.getElementById(
+            "capacityValidationMessage"
+          );
+
+          const capacity = parseInt(capacityInput.value) || 0;
+          const vacancy = parseInt(vacancyInput.value) || 0;
+
+          // Clear previous validation styles
+          capacityInput.classList.remove("valid", "invalid");
+          vacancyInput.classList.remove("valid", "invalid");
+          validationMessage.style.display = "none";
+
+          if (capacity > 0 && vacancy >= 0) {
+            if (vacancy > capacity) {
+              // Error state
+              vacancyInput.classList.add("invalid");
+              capacityInput.classList.add("invalid");
+              validationMessage.className = "capacity-validation-message error";
+              validationMessage.innerHTML = `⚠️ Vacancy (${vacancy}) cannot exceed capacity (${capacity})`;
+              validationMessage.style.display = "block";
+              return false;
+            } else {
+              // Success state
+              vacancyInput.classList.add("valid");
+              capacityInput.classList.add("valid");
+              const occupied = capacity - vacancy;
+              validationMessage.className =
+                "capacity-validation-message success";
+              validationMessage.innerHTML = `✓ Valid - Occupied: ${occupied}, Available: ${vacancy}`;
+              validationMessage.style.display = "block";
+              return true;
+            }
+          }
+          return true;
+        }
+
+        // Add event listeners for real-time validation
+        document
+          .getElementById("capacity")
+          .addEventListener("input", validateCapacity);
+        document
+          .getElementById("vacancy")
+          .addEventListener("input", validateCapacity);
+
+        // Initialize validation on page load (for pre-filled values)
+        document.addEventListener("DOMContentLoaded", function () {
+          validateCapacity();
+        });
+
+        // Form submission validation
+        document
+          .getElementById("hostelRegistrationForm")
+          .addEventListener("submit", function (e) {
+            const capacity = parseInt(
+              document.getElementById("capacity").value
+            );
+            const vacancy = parseInt(document.getElementById("vacancy").value);
+
+            if (vacancy > capacity) {
+              e.preventDefault();
+              alert("Current vacancy cannot be greater than total capacity.");
+              return false;
+            }
+          });
+      });
+    </script>
+
+    <footer class="footer-modern" id="about">
+      <div class="footer-container">
+        <div class="footer-left">
+          <h3>About Us</h3>
+          <p>
+            Welcome to the official website of Private Hostel Committee, an
+            initiative taken by Afin Shafi M (University Union Councillor,
+            College Union 23-34). We provide comprehensive hostel management and
+            grievance handling services for students.
+          </p>
+        </div>
+        <div class="footer-right">
+          <h3>Contact</h3>
+          <div class="contact-info">
+            <div class="contact-item">Afin : 9188370967</div>
+            <div class="contact-item">Basil : 9495121351</div>
+            <div class="contact-item">Sreelal S S : 8592008405</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2023 CET College Union. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

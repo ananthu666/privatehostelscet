@@ -1,43 +1,1451 @@
-<!doctype html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Vacancy - Private Hostels CET</title>
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png" />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
 
-    <title>Add Vacancy</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-top: 80px; /* Account for fixed navbar */
+      }
+
+      /* Navbar Styling */
+      .navbar {
+        padding: 0;
+      }
+
+      .navbar .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      #logo {
+        height: 3rem;
+        filter: invert(100%);
+      }
+
+      .navbar-nav .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+        padding-bottom: 0.75rem !important;
+      }
+
+      .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background-color: #28a745;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .navbar-nav .nav-link:hover::after,
+      .navbar-nav .nav-link.active::after {
+        width: 100%;
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #28a745 !important;
+      }
+
+      /* Dropdown Menu Styling */
+      .dropdown-menu {
+        background-color: #212529;
+        border: 1px solid #343a40;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        margin-top: 0.5rem;
+      }
+
+      .dropdown-item {
+        color: #e9ecef;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .dropdown-item:hover,
+      .dropdown-item:focus {
+        background-color: #28a745;
+        color: white;
+        transform: translateX(4px);
+      }
+
+      .dropdown-divider {
+        border-top: 1px solid #343a40;
+        margin: 0.5rem 0;
+      }
+
+      .dropdown-toggle::after {
+        margin-left: 0.5rem;
+        vertical-align: 0.1em;
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+      }
+
+      /* Main Content Styling */
+      .main-content {
+        flex: 1;
+        padding: 3rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      }
+
+      .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .page-header h1 {
+        color: #212529;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .page-header .subtitle {
+        color: #6c757d;
+        font-size: 1.1rem;
+        font-weight: 400;
+      }
+
+      /* Form Container */
+      .form-container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 3rem;
+        margin-bottom: 2rem;
+        border: none;
+      }
+
+      /* Container */
+      .container {
+        max-width: 800px;
+      }
+
+      /* Enhanced Hostel Selection Styles */
+      .hostel-input-container {
+        position: relative;
+        margin-bottom: 1rem;
+      }
+
+      #hostelname {
+        width: 100%;
+        padding: 0.75rem 2.5rem 0.75rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #ffffff;
+        outline: none;
+      }
+
+      #hostelname:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        background-color: #ffffff;
+      }
+
+      #hostelname.valid {
+        border-color: #28a745;
+        background-color: #f8fff8;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+      }
+
+      #hostelname.invalid {
+        border-color: #dc3545;
+        background-color: #fff8f8;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+      }
+
+      .search-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+        font-size: 1.1rem;
+        pointer-events: none;
+        transition: color 0.3s ease;
+      }
+
+      #hostelname:focus + .search-icon {
+        color: #28a745;
+      }
+
+      .search-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border: 2px solid #e0e0e0;
+        border-top: none;
+        border-radius: 0 0 0.75rem 0.75rem;
+        max-height: 280px;
+        overflow-y: auto;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: none;
+        animation: slideDown 0.2s ease-out;
+        pointer-events: auto;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .search-item {
+        display: block;
+        padding: 1rem 1.25rem;
+        cursor: pointer;
+        border-bottom: 1px solid #f1f3f4;
+        transition: all 0.2s ease;
+        position: relative;
+        background: white;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+      }
+
+      .search-item:hover,
+      .search-item.selected {
+        background-color: #f8f9fa;
+        transform: translateX(4px);
+        border-left: 4px solid #28a745;
+      }
+
+      .search-item:last-child {
+        border-bottom: none;
+        border-radius: 0 0 0.75rem 0.75rem;
+      }
+
+      .search-item:first-child {
+        border-top: 1px solid #f1f3f4;
+      }
+
+      .hostel-name {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.4rem;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        pointer-events: none;
+      }
+
+      .hostel-name::before {
+        content: "🏠";
+        font-size: 1.1rem;
+      }
+
+      .hostel-details {
+        font-size: 0.875rem;
+        color: #6c757d;
+        line-height: 1.4;
+        pointer-events: none;
+      }
+
+      .hostel-capacity {
+        font-size: 0.8rem;
+        color: #28a745;
+        font-weight: 600;
+        margin-top: 0.3rem;
+        padding: 0.2rem 0.5rem;
+        background-color: #f8fff8;
+        border-radius: 0.25rem;
+        border-left: 3px solid #28a745;
+        pointer-events: none;
+      }
+
+      .search-message {
+        padding: 1.5rem;
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+        background-color: #f8f9fa;
+        border-radius: 0 0 0.75rem 0.75rem;
+      }
+
+      .validation-message {
+        margin-top: 0.6rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .validation-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .validation-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .hostel-input-container.focused {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.25);
+      }
+
+      /* Form Styling */
+      .form-group label {
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-control {
+        border-radius: 0.5rem;
+        border: 2px solid #e0e0e0;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+      }
+
+      /* Button Styling - Using Standardized Classes */
+      .btn-submit {
+        background-color: #212529;
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        font-size: 1.1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .btn-submit:hover {
+        background-color: #343a40;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        color: white;
+      }
+
+      .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+        padding: 0.8rem 2rem;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .btn-secondary:hover {
+        background-color: #5a6268;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        color: white;
+        text-decoration: none;
+      }
+
+      /* Alert Styling */
+      .alert {
+        border: none;
+        border-radius: 0.75rem;
+        padding: 1rem 1.25rem;
+      }
+
+      .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid #dc3545;
+      }
+
+      /* Modern Footer Styling */
+      .footer-modern {
+        background-color: #212529;
+        color: white;
+        margin-top: auto;
+        padding: 0;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 3rem;
+      }
+
+      .footer-left {
+        flex: 1;
+        max-width: 60%;
+      }
+
+      .footer-right {
+        flex: 1;
+        max-width: 35%;
+      }
+
+      .footer-modern h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      .footer-left p {
+        color: #e9ecef;
+        line-height: 1.7;
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        color: #e9ecef;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #28a745;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        background-color: #1a1e23;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: #adb5bd;
+        font-size: 0.9rem;
+      }
+
+      /* Scrollbar styling */
+      .search-dropdown::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .search-dropdown::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+      }
+
+      .search-dropdown::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+      }
+
+      .search-dropdown::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+
+      /* Enhanced animations */
+      @keyframes validationPulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateX(-5px);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateX(5px);
+        }
+      }
+
+      .shake {
+        animation: shake 0.5s ease-in-out;
+      }
+
+      /* Capacity Information Box */
+      .capacity-info-box {
+        margin-top: 1rem;
+        padding: 1.25rem;
+        background: linear-gradient(135deg, #f8fff8 0%, #e8f5e8 100%);
+        border: 2px solid #28a745;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .capacity-header {
+        margin-bottom: 1rem;
+      }
+
+      .capacity-header h6 {
+        color: #155724;
+        font-weight: 700;
+        margin: 0;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .capacity-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .capacity-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0.75rem;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 0.5rem;
+        border-left: 4px solid #28a745;
+      }
+
+      .capacity-label {
+        font-weight: 600;
+        color: #2d5a3d;
+        font-size: 0.9rem;
+      }
+
+      .capacity-value {
+        font-weight: 700;
+        color: #155724;
+        font-size: 1rem;
+        padding: 0.25rem 0.75rem;
+        background-color: #d4edda;
+        border-radius: 0.375rem;
+      }
+
+      .capacity-value.available {
+        background-color: #cce5ff;
+        color: #004085;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        body {
+          padding-top: 70px;
+        }
+
+        .footer-container {
+          flex-direction: column;
+          padding: 2rem 1rem;
+          gap: 2rem;
+        }
+
+        .footer-left,
+        .footer-right {
+          max-width: 100%;
+        }
+
+        .page-header h1 {
+          font-size: 2rem;
+        }
+
+        .form-container {
+          padding: 2rem;
+        }
+
+        .search-dropdown {
+          max-height: 200px;
+        }
+
+        .search-item {
+          padding: 14px 12px;
+        }
+
+        .hostel-name {
+          font-size: 14px;
+        }
+
+        .hostel-details {
+          font-size: 12px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hostel-input-container {
+          margin: 0 -5px;
+        }
+
+        .search-dropdown {
+          left: -5px;
+          right: -5px;
+          max-height: 180px;
+        }
+
+        .search-item {
+          padding: 12px 10px;
+        }
+
+        .hostel-details {
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      }
+    </style>
   </head>
   <body>
-    
-    <div class="container">
-      <h2 class="text-center">Add Vacancy</h2>
-      <form action="vaccancy" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="hostelname">Hostel Name</label>
-          <input type="text" class="form-control" id="hostelname" name="hostelname" placeholder="Enter hostel name">
+    <!-- Modern Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+          <img
+            src="{% static 'assets/Cet_emblem.png' %}"
+            alt="CET Logo"
+            id="logo"
+            class="me-2"
+          />
+          <span class="fw-bold">Hostel Management</span>
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav w-100 justify-content-evenly">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/hostel">Hostels</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Manage Hostels
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li>
+                  <a class="dropdown-item" href="/hostel_reg">Add Hostel</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/vaccancy">Edit Vacancy</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/grievance"
+                    >Register Grievance</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/grievance">Grievance</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/administration">Admin</a>
+            </li>
+          </ul>
         </div>
-        <div class="form-group">
-          <label for="vacancycount">Vacancy Count</label>
-          <input type="number" class="form-control" id="vacancycount" name="vacancycount" placeholder="Enter Number of available rooms">
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="page-header">
+        <h1>Edit Vacancy</h1>
+        <p class="subtitle">Update your hostel room availability</p>
+      </div>
+
+      <div class="container">
+        <div class="form-container">
+          {% if error_message %}
+          <div class="alert alert-danger" role="alert">
+            <strong>Error:</strong> {{ error_message }}
+          </div>
+          {% endif %}
+
+          <form action="vaccancy" method="post" id="vacancyForm">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="hostelname">Hostel Name</label>
+              <div class="hostel-input-container">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="hostelname"
+                  name="hostelname"
+                  placeholder="Start typing hostel name..."
+                  autocomplete="off"
+                  required
+                  value="{{ hostel_name|default:'' }}"
+                />
+                <i class="fas fa-search search-icon"></i>
+                <div class="search-dropdown" id="searchDropdown"></div>
+                <div class="validation-message" id="validationMessage"></div>
+              </div>
+              <input type="hidden" id="hostelId" name="hostel_id" />
+              <!-- Capacity Information Box -->
+              <div
+                class="capacity-info-box"
+                id="capacityInfoBox"
+                style="display: none"
+              >
+                <div class="capacity-header">
+                  <h6>📊 Hostel Capacity Information</h6>
+                </div>
+                <div class="capacity-details">
+                  <div class="capacity-item">
+                    <span class="capacity-label">Total Capacity:</span>
+                    <span class="capacity-value" id="totalCapacity">-</span>
+                  </div>
+                  <div class="capacity-item">
+                    <span class="capacity-label">Current Vacancy:</span>
+                    <span class="capacity-value" id="currentVacancy">-</span>
+                  </div>
+                  <div class="capacity-item">
+                    <span class="capacity-label">Available to Add:</span>
+                    <span class="capacity-value available" id="availableToAdd"
+                      >-</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="vacancycount">Vacancy Count Change</label>
+              <input
+                type="number"
+                class="form-control"
+                id="vacancycount"
+                name="vacancycount"
+                placeholder="Enter vacancy change (+ to add, - to remove)"
+                required
+                value="{{ vacancy_count|default:'' }}"
+              />
+              <small class="form-text text-muted">
+                ⚠️ Positive values add vacancy, negative values remove
+                vacancy.<br />
+                📌 New vacancy cannot be negative or exceed total capacity.<br />
+                💡 Example: If current vacancy is 5, you can add max
+                (capacity-5) or remove max 5.
+              </small>
+            </div>
+            <div class="text-center">
+              <button
+                type="submit"
+                class="btn btn-submit me-3"
+                id="submitBtn"
+                disabled
+              >
+                Update Vacancy
+              </button>
+              <a href="/" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+      </div>
     </div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
+    <!-- Modern Footer -->
+    <footer class="footer-modern" id="about">
+      <div class="footer-container">
+        <div class="footer-left">
+          <h3>About Us</h3>
+          <p>
+            Welcome to the official website of Private Hostel Committee, an
+            initiative taken by Afin Shafi M (University Union Councillor,
+            College Union 23-34). We provide comprehensive hostel management and
+            grievance handling services for students.
+          </p>
+        </div>
+        <div class="footer-right">
+          <h3>Contact</h3>
+          <div class="contact-info">
+            <div class="contact-item">Afin : 9188370967</div>
+            <div class="contact-item">Basil : 9495121351</div>
+            <div class="contact-item">Sreelal S S : 8592008405</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2023 CET College Union. All rights reserved.</p>
+      </div>
+    </footer>
 
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <!-- Bootstrap Bundle (includes Popper) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
 
-    <!-- Option 2: jQuery, Popper.js, and Bootstrap JS
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-    -->
+    <script>
+      // Enhanced Hostel autocomplete functionality - matching grievance page
+      let debounceTimer;
+      let selectedHostels = new Set();
+      let isValidHostel = false;
+      let selectedIndex = -1;
+      let selectedHostel = null;
+
+      const hostelInput = document.getElementById("hostelname");
+      const searchDropdown = document.getElementById("searchDropdown");
+      const validationMessage = document.getElementById("validationMessage");
+      const hostelIdInput = document.getElementById("hostelId");
+      const submitBtn = document.getElementById("submitBtn");
+      const vacancyForm = document.getElementById("vacancyForm");
+
+      // Load existing hostels for validation
+      async function loadAllHostels() {
+        try {
+          console.log("Loading all hostels for validation...");
+          // Try to get hostels with a common letter to get all results
+          const response = await fetch("/api/search_hostels?q=a");
+          const data = await response.json();
+          console.log("API response:", data);
+
+          if (data.hostels && data.hostels.length > 0) {
+            data.hostels.forEach((hostel) => {
+              selectedHostels.add(hostel.name.toLowerCase());
+              console.log(
+                "Added hostel to validation set:",
+                hostel.name.toLowerCase()
+              );
+            });
+            console.log(
+              "Total hostels loaded for validation:",
+              selectedHostels.size
+            );
+          } else {
+            console.log("No hostels found, trying alternative approach...");
+            // Try with different common letters
+            const alternatives = ["b", "c", "h", "s", "m"];
+            for (const letter of alternatives) {
+              try {
+                const altResponse = await fetch(
+                  `/api/search_hostels?q=${letter}`
+                );
+                const altData = await altResponse.json();
+                if (altData.hostels && altData.hostels.length > 0) {
+                  altData.hostels.forEach((hostel) => {
+                    selectedHostels.add(hostel.name.toLowerCase());
+                  });
+                }
+              } catch (e) {
+                console.log(`Failed to load hostels with letter ${letter}`);
+              }
+            }
+            console.log(
+              "Total hostels after alternative loading:",
+              selectedHostels.size
+            );
+          }
+        } catch (error) {
+          console.error("Error loading hostels for validation:", error);
+        }
+      }
+
+      // Search hostels function
+      async function searchHostels(query) {
+        if (query.length < 2) {
+          hideDropdown();
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `/api/search_hostels?q=${encodeURIComponent(query)}`
+          );
+          const data = await response.json();
+
+          if (data.hostels && data.hostels.length > 0) {
+            displaySearchResults(data.hostels);
+          } else {
+            showDropdownMessage(data.message || "No hostels found");
+          }
+        } catch (error) {
+          showDropdownMessage("Error loading hostels");
+        }
+      }
+
+      // Display search results
+      function displaySearchResults(hostels) {
+        selectedIndex = -1;
+        searchDropdown.innerHTML = ""; // Clear previous suggestions
+
+        hostels.forEach((hostel, index) => {
+          // Add hostel to validation set (in case loadAllHostels didn't get all)
+          selectedHostels.add(hostel.name.toLowerCase());
+
+          // Create suggestion element
+          const searchItem = document.createElement("div");
+          searchItem.className = "search-item";
+          searchItem.setAttribute("data-hostel-id", hostel.id);
+          searchItem.setAttribute("data-hostel-name", hostel.name);
+          searchItem.setAttribute("data-index", index);
+
+          // Create suggestion content
+          searchItem.innerHTML = `
+            <div class="hostel-name">${hostel.name}</div>
+            <div class="hostel-details">${hostel.address} • Owner: ${hostel.owner_name}</div>
+            <div class="hostel-capacity">Current Vacancy: ${hostel.current_vacancy} / Total Capacity: ${hostel.total_capacity}</div>
+          `;
+
+          // Add click event listener directly
+          searchItem.onclick = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("Clicked on hostel:", hostel.name);
+            selectHostel(hostel);
+            return false;
+          };
+
+          // Add to dropdown container
+          searchDropdown.appendChild(searchItem);
+        });
+
+        showDropdown();
+        resetValidation();
+      }
+
+      // Select a hostel
+      function selectHostel(hostel) {
+        console.log("selectHostel called with:", hostel);
+
+        if (!hostel) {
+          console.error("No hostel provided");
+          return;
+        }
+
+        selectedHostel = hostel;
+        hostelInput.value = hostel.name;
+        hostelIdInput.value = hostel.id;
+
+        // Add the selected hostel to our validation set immediately
+        selectedHostels.add(hostel.name.toLowerCase());
+        console.log(
+          "Added selected hostel to validation set:",
+          hostel.name.toLowerCase()
+        );
+
+        hideDropdown();
+
+        // Update validation message to show capacity info
+        const capacityInfo = `Current Vacancy: ${hostel.current_vacancy} / Total Capacity: ${hostel.total_capacity}`;
+        showValidationMessage(
+          `✓ Selected: ${hostel.name} | ${capacityInfo}`,
+          "success"
+        );
+
+        // Show capacity information box
+        showCapacityInfo(hostel);
+
+        isValidHostel = true;
+        hostelInput.classList.remove("invalid");
+        hostelInput.classList.add("valid");
+
+        // Update vacancy input validation
+        updateVacancyValidation();
+
+        // Add visual feedback for selection
+        hostelInput.style.transform = "scale(1.02)";
+        setTimeout(() => {
+          hostelInput.style.transform = "scale(1)";
+        }, 150);
+
+        console.log("Hostel selection completed");
+      }
+
+      // Show dropdown
+      function showDropdown() {
+        searchDropdown.style.display = "block";
+
+        // Add smooth entrance animation
+        setTimeout(() => {
+          searchDropdown.classList.add("show");
+        }, 10);
+      }
+
+      // Hide dropdown
+      function hideDropdown() {
+        searchDropdown.classList.remove("show");
+        setTimeout(() => {
+          searchDropdown.style.display = "none";
+        }, 200);
+        selectedIndex = -1;
+      }
+
+      // Show dropdown message
+      function showDropdownMessage(message) {
+        searchDropdown.innerHTML = `<div class="search-message">${message}</div>`;
+        showDropdown();
+      }
+
+      // Show validation message
+      function showValidationMessage(message, type) {
+        validationMessage.className = `validation-message validation-${type}`;
+        validationMessage.textContent = message;
+        validationMessage.style.display = "block";
+
+        // Add pulse animation for feedback
+        validationMessage.style.animation = "validationPulse 0.3s ease-out";
+        setTimeout(() => {
+          validationMessage.style.animation = "";
+        }, 300);
+      }
+
+      // Reset validation
+      function resetValidation() {
+        validationMessage.style.display = "none";
+        selectedHostel = null;
+        hostelIdInput.value = "";
+        submitBtn.disabled = true;
+        isValidHostel = false;
+        hostelInput.classList.remove("valid", "invalid");
+
+        // Hide capacity info box
+        const capacityInfoBox = document.getElementById("capacityInfoBox");
+        capacityInfoBox.style.display = "none";
+      }
+
+      // Show capacity information box
+      function showCapacityInfo(hostel) {
+        const capacityInfoBox = document.getElementById("capacityInfoBox");
+        const totalCapacityEl = document.getElementById("totalCapacity");
+        const currentVacancyEl = document.getElementById("currentVacancy");
+        const availableToAddEl = document.getElementById("availableToAdd");
+
+        const availableToAdd = hostel.total_capacity - hostel.current_vacancy;
+
+        totalCapacityEl.textContent = hostel.total_capacity;
+        currentVacancyEl.textContent = hostel.current_vacancy;
+        availableToAddEl.textContent = availableToAdd;
+
+        // Color code the available slots
+        if (availableToAdd === 0) {
+          availableToAddEl.style.backgroundColor = "#f8d7da";
+          availableToAddEl.style.color = "#721c24";
+        } else if (availableToAdd < 5) {
+          availableToAddEl.style.backgroundColor = "#fff3cd";
+          availableToAddEl.style.color = "#856404";
+        } else {
+          availableToAddEl.style.backgroundColor = "#cce5ff";
+          availableToAddEl.style.color = "#004085";
+        }
+
+        capacityInfoBox.style.display = "block";
+      }
+
+      // Update vacancy validation based on selected hostel
+      function updateVacancyValidation() {
+        const vacancyInput = document.getElementById("vacancycount");
+        const vacancyValue = parseInt(vacancyInput.value) || 0;
+
+        if (selectedHostel && vacancyValue !== 0) {
+          const currentVacancy = selectedHostel.current_vacancy;
+          const totalCapacity = selectedHostel.total_capacity;
+          const newVacancy = currentVacancy + vacancyValue;
+
+          // Check if new vacancy would be negative
+          if (newVacancy < 0) {
+            vacancyInput.classList.add("invalid");
+            vacancyInput.classList.remove("valid");
+            showValidationMessage(
+              `❌ Cannot reduce vacancy by ${Math.abs(
+                vacancyValue
+              )}. Current vacancy is only ${currentVacancy}. Maximum reduction: ${currentVacancy}`,
+              "error"
+            );
+            submitBtn.disabled = true;
+            return false;
+          }
+
+          // Check if new vacancy would exceed total capacity
+          if (newVacancy > totalCapacity) {
+            vacancyInput.classList.add("invalid");
+            vacancyInput.classList.remove("valid");
+            const maxIncrease = totalCapacity - currentVacancy;
+            showValidationMessage(
+              `❌ Cannot add ${vacancyValue} vacancy. Current: ${currentVacancy}, Capacity: ${totalCapacity}. Maximum addition: ${maxIncrease}`,
+              "error"
+            );
+            submitBtn.disabled = true;
+            return false;
+          }
+
+          // Valid change
+          vacancyInput.classList.remove("invalid");
+          vacancyInput.classList.add("valid");
+
+          // Show what the change will result in
+          const changeType = vacancyValue > 0 ? "increase" : "decrease";
+          const absValue = Math.abs(vacancyValue);
+          showValidationMessage(
+            `✓ Valid change: ${changeType} by ${absValue}. New vacancy will be: ${newVacancy}/${totalCapacity}`,
+            "success"
+          );
+
+          submitBtn.disabled = false;
+          return true;
+        }
+
+        // Reset validation if no value or no hostel selected
+        vacancyInput.classList.remove("invalid", "valid");
+        submitBtn.disabled = !isValidHostel || vacancyValue === 0;
+        return true;
+      }
+
+      // Validate hostel
+      function validateHostel(value) {
+        console.log("Validating hostel:", value);
+        const trimmedValue = value.trim();
+
+        if (trimmedValue.length === 0) {
+          resetValidation();
+          return;
+        }
+
+        // Check if exact match exists (case insensitive)
+        const lowerValue = trimmedValue.toLowerCase();
+        const isValid = selectedHostels.has(lowerValue);
+
+        console.log("Hostel to validate (lowercase):", lowerValue);
+        console.log("Available hostels in set:", Array.from(selectedHostels));
+        console.log("Is valid:", isValid);
+
+        if (
+          isValid &&
+          selectedHostel &&
+          selectedHostel.name.toLowerCase() === lowerValue
+        ) {
+          showValidationMessage("✓ Valid hostel selected", "success");
+          hostelInput.classList.remove("invalid");
+          hostelInput.classList.add("valid");
+          isValidHostel = true;
+          submitBtn.disabled = false;
+          console.log("Hostel validation: SUCCESS");
+        } else {
+          showValidationMessage(
+            "⚠ Please select a hostel from the suggestions",
+            "error"
+          );
+          hostelInput.classList.remove("valid");
+          hostelInput.classList.add("invalid");
+          isValidHostel = false;
+          submitBtn.disabled = true;
+          console.log("Hostel validation: FAILED");
+        }
+      }
+
+      // Handle keyboard navigation
+      function handleKeyboardNavigation(e) {
+        const suggestions = searchDropdown.querySelectorAll(".search-item");
+
+        if (suggestions.length === 0) return;
+
+        switch (e.key) {
+          case "ArrowDown":
+            e.preventDefault();
+            selectedIndex = Math.min(selectedIndex + 1, suggestions.length - 1);
+            updateSelectedSuggestion(suggestions);
+            break;
+          case "ArrowUp":
+            e.preventDefault();
+            selectedIndex = Math.max(selectedIndex - 1, -1);
+            updateSelectedSuggestion(suggestions);
+            break;
+          case "Enter":
+            e.preventDefault();
+            if (selectedIndex >= 0 && suggestions[selectedIndex]) {
+              const hostelId =
+                suggestions[selectedIndex].getAttribute("data-hostel-id");
+              const hostelName =
+                suggestions[selectedIndex].getAttribute("data-hostel-name");
+              selectHostel({ id: hostelId, name: hostelName });
+            }
+            break;
+          case "Escape":
+            hideDropdown();
+            break;
+        }
+      }
+
+      // Update selected suggestion visual state
+      function updateSelectedSuggestion(suggestions) {
+        suggestions.forEach((item, index) => {
+          item.classList.toggle("selected", index === selectedIndex);
+        });
+
+        // Scroll selected item into view
+        if (selectedIndex >= 0 && suggestions[selectedIndex]) {
+          suggestions[selectedIndex].scrollIntoView({
+            block: "nearest",
+            behavior: "smooth",
+          });
+        }
+      }
+
+      // Event listeners
+      hostelInput.addEventListener("input", function () {
+        const query = this.value;
+
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          if (query.length >= 2) {
+            searchHostels(query);
+          } else {
+            hideDropdown();
+          }
+
+          // Reset validation when user starts typing again
+          if (selectedHostel && query !== selectedHostel.name) {
+            resetValidation();
+          }
+        }, 300);
+      });
+
+      hostelInput.addEventListener("focus", function () {
+        this.parentElement.classList.add("focused");
+        if (this.value.length >= 2) {
+          searchHostels(this.value);
+        }
+      });
+
+      hostelInput.addEventListener("blur", function () {
+        this.parentElement.classList.remove("focused");
+      });
+
+      hostelInput.addEventListener("keydown", handleKeyboardNavigation);
+
+      // Add vacancy count validation
+      const vacancyInput = document.getElementById("vacancycount");
+      vacancyInput.addEventListener("input", function () {
+        updateVacancyValidation();
+      });
+
+      // Hide dropdown when clicking outside
+      document.addEventListener("click", function (e) {
+        if (
+          !e.target.closest("#hostelname") &&
+          !e.target.closest("#searchDropdown") &&
+          !e.target.closest(".search-item")
+        ) {
+          hideDropdown();
+        }
+      });
+
+      // Form submission validation
+      vacancyForm.addEventListener("submit", function (e) {
+        const hostelValue = hostelInput.value.trim();
+        const vacancyValue = parseInt(vacancyInput.value) || 0;
+
+        if (!isValidHostel && hostelValue.length > 0) {
+          e.preventDefault();
+
+          // Enhanced error feedback
+          hostelInput.classList.add("shake");
+          setTimeout(() => {
+            hostelInput.classList.remove("shake");
+          }, 500);
+
+          showValidationMessage(
+            "❌ Please select a valid hostel from the suggestions",
+            "error"
+          );
+          hostelInput.focus();
+          return false;
+        }
+
+        if (!selectedHostel) {
+          e.preventDefault();
+          showValidationMessage(
+            "Please select a valid hostel from the search results.",
+            "error"
+          );
+          return false;
+        }
+
+        // Check capacity validation for both positive and negative changes
+        if (selectedHostel && vacancyValue !== 0) {
+          const currentVacancy = selectedHostel.current_vacancy;
+          const totalCapacity = selectedHostel.total_capacity;
+          const newVacancy = currentVacancy + vacancyValue;
+
+          // Check if new vacancy would be negative
+          if (newVacancy < 0) {
+            e.preventDefault();
+            showValidationMessage(
+              `❌ Cannot reduce vacancy by ${Math.abs(
+                vacancyValue
+              )}. Current vacancy is only ${currentVacancy}. Maximum reduction: ${currentVacancy}`,
+              "error"
+            );
+            vacancyInput.focus();
+            return false;
+          }
+
+          // Check if new vacancy would exceed total capacity
+          if (newVacancy > totalCapacity) {
+            e.preventDefault();
+            const maxIncrease = totalCapacity - currentVacancy;
+            showValidationMessage(
+              `❌ Cannot add ${vacancyValue} vacancy. Current: ${currentVacancy}, Capacity: ${totalCapacity}. Maximum addition: ${maxIncrease}`,
+              "error"
+            );
+            vacancyInput.focus();
+            return false;
+          }
+        }
+      });
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM loaded, initializing hostel autocomplete");
+        loadAllHostels();
+
+        // If there's a value in the input (from form_data), validate it
+        if (hostelInput.value.trim()) {
+          // Try to find the hostel in our validation set
+          validateHostel(hostelInput.value);
+        }
+
+        // Test function for debugging - can be called from browser console
+        window.testHostelSelection = function (hostelName) {
+          console.log("Testing hostel selection:", hostelName);
+          selectHostel({ id: 1, name: hostelName });
+        };
+
+        console.log("Hostel autocomplete initialized successfully");
+      });
+    </script>
   </body>
 </html>

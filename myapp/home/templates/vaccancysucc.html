@@ -1,72 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Request Submitted</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Link to external CSS file -->
     <style>
-        /* Inline CSS for quick testing; move to styles.css for production */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            padding: 20px;
-            width: 100%;
-            max-width: 400px;
-        }
-        h1 {
-            color: #171817;
-            margin-bottom: 20px;
-        }
-        p {
-            color: #333;
-            font-size: 18px;
-        }
-        .btn {
-            background-color: #2e2f2e;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 20px;
-        }
-        .btn:hover {
-            background-color: #0e0f0e;
-        }
-        .icon {
-            font-size: 50px;
-            color: #151715;
-            margin-bottom: 20px;
-        }
+      /* Inline CSS for quick testing; move to styles.css for production */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f4f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .container {
+        text-align: center;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        width: 100%;
+        max-width: 400px;
+      }
+      h1 {
+        color: #171817;
+        margin-bottom: 20px;
+      }
+      p {
+        color: #333;
+        font-size: 18px;
+      }
+      .btn {
+        background-color: #2e2f2e;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+      }
+      .btn:hover {
+        background-color: #0e0f0e;
+      }
+      .icon {
+        font-size: 50px;
+        color: #151715;
+        margin-bottom: 20px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="icon">
-            <!-- You can use an icon library or SVG here -->
-            <i class="fa fa-check-circle"></i>
-        </div>
-        <h1>Request Submitted!</h1>
-        <p>Thank you for your request. We will get back to you soon.</p>
-        <a href="/" class="btn">Back to Home</a>
+      <div class="icon">
+        <!-- You can use an icon library or SVG here -->
+        <i class="fa fa-check-circle"></i>
+      </div>
+      <h1>Vacancy Request Submitted!</h1>
+      {% if hostel_name and vacancy_count %}
+      <div
+        style="
+          margin: 20px 0;
+          padding: 15px;
+          background-color: #f8f9fa;
+          border-radius: 5px;
+          border-left: 4px solid #28a745;
+        "
+      >
+        <p><strong>Hostel:</strong> {{ hostel_name }}</p>
+        <p><strong>Vacancy Count:</strong> {{ vacancy_count }} rooms</p>
+        {% if current_vacancy and total_capacity %}
+        <p><strong>Current Vacancy:</strong> {{ current_vacancy }} rooms</p>
+        <p><strong>Total Capacity:</strong> {{ total_capacity }} rooms</p>
+        <p>
+          <strong>New Total Vacancy:</strong> {{
+          current_vacancy|add:vacancy_count }} rooms
+        </p>
+        {% endif %}
+      </div>
+      {% endif %}
+      <p>
+        Thank you for your vacancy request. It has been submitted to the
+        administration for approval.
+      </p>
+      <a href="/vaccancy" class="btn" style="margin-right: 10px"
+        >Add Another Vacancy</a
+      >
+      <a href="/" class="btn">Back to Home</a>
     </div>
 
     <!-- Font Awesome for icons -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" integrity="sha512-Hc4l5gwkDK7LMrrM8lAeCrGvcK1Ldr8VXFsHP7zllD7SwD3n36H6v7YoUnsb/l7yE76Vw0oD3Lhsz6mjXAPqQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</body>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+      integrity="sha512-Hc4l5gwkDK7LMrrM8lAeCrGvcK1Ldr8VXFsHP7zllD7SwD3n36H6v7YoUnsb/l7yE76Vw0oD3Lhsz6mjXAPqQg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </body>
 </html>

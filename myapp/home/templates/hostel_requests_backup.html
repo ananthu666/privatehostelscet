@@ -1,0 +1,546 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hostel Requests - Admin</title>
+    <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container-fluid {
+        padding: 2rem;
+      }
+
+      .header {
+        background-color: #343a40;
+        color: white;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .request-card {
+        background-color: white;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #ffc107;
+      }
+
+      .request-card.approved {
+        border-left-color: #28a745;
+      }
+
+      .request-card.rejected {
+        border-left-color: #dc3545;
+      }
+
+      .btn-approve {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        margin-right: 0.5rem;
+      }
+
+      .btn-reject {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+      }
+
+      .btn-approve:hover {
+        background-color: #218838;
+      }
+
+      .btn-reject:hover {
+        background-color: #c82333;
+      }
+
+      .request-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .detail-item {
+        background-color: #f8f9fa;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+      }
+
+      .detail-label {
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .no-requests {
+        text-align: center;
+        padding: 3rem;
+        color: #6c757d;
+      }
+
+      .status-badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+
+      .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+
+      .status-approved {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .status-rejected {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      .filter-buttons {
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .filter-btn {
+        background-color: #f8f9fa;
+        color: #495057;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem 1rem;
+        margin: 0.25rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
+      }
+
+      .filter-btn.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+      }
+
+      .filter-btn:hover {
+        background-color: #e9ecef;
+      }
+
+      .filter-btn.active:hover {
+        background-color: #0056b3;
+      }
+
+      .status-approved {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .status-rejected {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      .filter-section {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .filter-btn {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid #ddd;
+        background-color: white;
+        color: #495057;
+        border-radius: 0.25rem;
+        cursor: pointer;
+      }
+
+      .filter-btn.active {
+        background-color: #343a40;
+        color: white;
+        border-color: #343a40;
+      }
+
+      .filter-btn:hover {
+        background-color: #495057;
+        color: white;
+      }
+
+      .navbar {
+        margin-bottom: 0;
+      }
+
+      #logo {
+        height: 3rem;
+        filter: invert(100%);
+      }
+
+      .admin-notes {
+        width: 100%;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <div style="display: flex; align-items: center; gap: 1rem">
+          <img
+            id="logo"
+            src="{% static 'assets/Cet_emblem.png' %}"
+            alt="CET Emblem"
+          />
+          <a class="navbar-brand" href="/administration">
+            <h4 style="margin: 0">PRIVATE HOSTELS - ADMIN</h4>
+            <small>COLLEGE OF ENGINEERING TRIVANDRUM</small>
+          </a>
+        </div>
+        <div class="navbar-nav">
+          <a class="nav-link" href="/administration">Dashboard</a>
+          <a class="nav-link" href="/hostel_approval">Hostels</a>
+          <a class="nav-link" href="/approve_vacancy">Vacancy Requests</a>
+          <a class="nav-link active" href="/approve_hostel_requests"
+            >Hostel Requests</a
+          >
+          <a class="nav-link" href="/admin_complaint_view">Complaints</a>
+          <a class="nav-link" href="/logout">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="header">
+        <h2>Hostel Registration Requests</h2>
+        <p>Review and manage all hostel registration requests from owners</p>
+      </div>
+
+      <!-- Filter Section -->
+      <div class="filter-section">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+          "
+        >
+          <h5 style="margin: 0">Filter by Status:</h5>
+          <span
+            id="request-count"
+            style="color: #6c757d; font-size: 0.9rem"
+          ></span>
+        </div>
+        <button class="filter-btn active" onclick="filterRequests('all', this)">
+          All Requests
+        </button>
+        <button class="filter-btn" onclick="filterRequests('Pending', this)">
+          Pending
+        </button>
+        <button class="filter-btn" onclick="filterRequests('Approved', this)">
+          Approved
+        </button>
+        <button class="filter-btn" onclick="filterRequests('Rejected', this)">
+          Rejected
+        </button>
+      </div>
+
+      {% if requests %}
+        {% for request in requests %}
+      <div class="request-card" data-status="{{ request.approval_status }}">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+          "
+        >
+          <div style="display: flex; align-items: center; gap: 0.5rem">
+            <h5 style="margin: 0">{{ request.name }}</h5>
+            {% if request.request_type == 'new_registration' %}
+            <span
+              style="
+                background-color: #007bff;
+                color: white;
+                padding: 0.2rem 0.5rem;
+                border-radius: 0.25rem;
+                font-size: 0.75rem;
+              "
+              >NEW</span
+            >
+            {% else %}
+            <span
+              style="
+                background-color: #6c757d;
+                color: white;
+                padding: 0.2rem 0.5rem;
+                border-radius: 0.25rem;
+                font-size: 0.75rem;
+              "
+              >EXISTING</span
+            >
+            {% endif %}
+          </div>
+          <span class="status-badge status-{{ request.approval_status|lower }}"
+            >{{ request.approval_status }}</span
+          >
+        </div>
+
+        <div class="request-details">
+          <div class="detail-item">
+            <div class="detail-label">Owner Name</div>
+            <div>{{ request.owner_name }}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Contact</div>
+            <div>{{ request.contact_details }}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Address</div>
+            <div>{{ request.address }}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Capacity / Vacancy</div>
+            <div>
+              {{ request.total_capacity }} / {{ request.current_vacancy }}
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Gender Preference</div>
+            <div>{{ request.mens_or_ladies }}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Monthly Rent</div>
+            <div>₹{{ request.average_rent }}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Type</div>
+            <div>{{ request.accommodation_type|title }}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Mess Available</div>
+            <div>{{ request.mess }}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Curfew Time</div>
+            <div>{{ request.curfew }}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Distance from College</div>
+            <div>{{ request.distance }} km</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Location</div>
+            <div>{{ request.latitude }}, {{ request.longitude }}</div>
+          </div>
+          {% if request.request_type == 'new_registration' and
+          request.created_at %}
+          <div class="detail-item">
+            <div class="detail-label">Submitted On</div>
+            <div>{{ request.created_at|date:"M d, Y H:i" }}</div>
+          </div>
+          {% endif %}
+          {% if request.approved_at %}
+          <div class="detail-item">
+            <div class="detail-label">{{ request.approval_status }} On</div>
+            <div>{{ request.approved_at|date:"M d, Y H:i" }}</div>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Show admin notes if they exist -->
+        {% if request.admin_notes %}
+        <div
+          style="
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0.25rem;
+          "
+        >
+          <strong>Admin Notes:</strong>
+          <p style="margin: 0.5rem 0 0">{{ request.admin_notes }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Action buttons for pending requests only -->
+        {% if request.approval_status == 'Pending' %}
+        <form method="post" style="margin-top: 1rem">
+          {% csrf_token %}
+          <input type="hidden" name="request_id" value="{{ request.id }}" />
+          <input
+            type="hidden"
+            name="request_type"
+            value="{{ request.request_type }}"
+          />
+
+          <div style="margin-bottom: 1rem">
+            <label for="admin_notes_{{ request.id }}"
+              >Admin Notes (Optional):</label
+            >
+            <textarea
+              name="admin_notes"
+              id="admin_notes_{{ request.id }}"
+              class="admin-notes"
+              rows="2"
+              placeholder="Add any notes or reasons for approval/rejection..."
+            ></textarea>
+          </div>
+
+          {% if request.request_type == 'new_registration' %}
+          <button
+            type="submit"
+            name="action"
+            value="approve"
+            class="btn-approve"
+          >
+            ✓ Approve & Create Hostel
+          </button>
+          {% else %}
+          <button
+            type="submit"
+            name="action"
+            value="approve"
+            class="btn-approve"
+          >
+            ✓ Approve Hostel
+          </button>
+          {% endif %}
+          <button type="submit" name="action" value="reject" class="btn-reject">
+            ✗ Reject Request
+          </button>
+        </form>
+        {% endif %}
+      </div>
+        {% endfor %}
+      {% else %}
+      <div class="no-requests">
+        <h4>No Hostel Requests</h4>
+        <p>No hostel registration requests found.</p>
+        <a href="/administration" class="btn btn-primary"
+          >Return to Dashboard</a
+        >
+      </div>
+      {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Filter functionality
+      function filterRequests(status, clickedButton) {
+        const cards = document.querySelectorAll(".request-card");
+        const buttons = document.querySelectorAll(".filter-btn");
+
+        // Update active button
+        buttons.forEach((btn) => btn.classList.remove("active"));
+        if (clickedButton) {
+          clickedButton.classList.add("active");
+        }
+
+        // Show/hide cards based on status
+        let visibleCount = 0;
+        cards.forEach((card) => {
+          const cardStatus = card.getAttribute("data-status");
+          if (status === "all" || cardStatus === status) {
+            card.style.display = "block";
+            visibleCount++;
+          } else {
+            card.style.display = "none";
+          }
+        });
+
+        // Update count display (if exists)
+        const countDisplay = document.getElementById("request-count");
+        if (countDisplay) {
+          countDisplay.textContent = `Showing ${visibleCount} request(s)`;
+        }
+
+        console.log(
+          `Filtered by: ${status}, Showing: ${visibleCount} requests`
+        );
+      }
+
+      // Initialize counts on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        updateFilterCounts();
+      });
+
+      function updateFilterCounts() {
+        const cards = document.querySelectorAll(".request-card");
+        const buttons = document.querySelectorAll(".filter-btn");
+
+        let counts = {
+          all: cards.length,
+          Pending: 0,
+          Approved: 0,
+          Rejected: 0,
+        };
+
+        cards.forEach((card) => {
+          const status = card.getAttribute("data-status");
+          if (counts.hasOwnProperty(status)) {
+            counts[status]++;
+          }
+        });
+
+        buttons.forEach((button) => {
+          const onclick = button.getAttribute("onclick");
+          if (onclick.includes("'all'")) {
+            button.textContent = `All Requests (${counts.all})`;
+          } else if (onclick.includes("'Pending'")) {
+            button.textContent = `Pending (${counts.Pending})`;
+          } else if (onclick.includes("'Approved'")) {
+            button.textContent = `Approved (${counts.Approved})`;
+          } else if (onclick.includes("'Rejected'")) {
+            button.textContent = `Rejected (${counts.Rejected})`;
+          }
+        });
+      }
+
+      // Confirmation for approve/reject actions
+      document.querySelectorAll("form").forEach((form) => {
+        form.addEventListener("submit", function (e) {
+          const action = e.submitter.value;
+          const hostelName =
+            this.closest(".request-card").querySelector("h5").textContent;
+
+          let message = "";
+          if (action === "approve") {
+            message = `Are you sure you want to approve "${hostelName}"? This will create a new hostel listing.`;
+          } else if (action === "reject") {
+            message = `Are you sure you want to reject "${hostelName}"? This action cannot be undone.`;
+          }
+
+          if (!confirm(message)) {
+            e.preventDefault();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
