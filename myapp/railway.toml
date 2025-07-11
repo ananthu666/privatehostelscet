@@ -1,0 +1,12 @@
+# Railway Configuration
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+
+[env]
+DJANGO_SETTINGS_MODULE = "myapp.settings"
+PYTHONPATH = "."
