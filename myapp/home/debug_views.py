@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 def test_view(request):
-    return HttpResponse("Django is working on Vercel!")
+    return HttpResponse("Django is working on Fly.io!")
 
 def debug_view(request):
     import os
@@ -27,7 +27,7 @@ def debug_view(request):
     """
     
     for key, value in os.environ.items():
-        if 'DJANGO' in key or 'VERCEL' in key or 'DATABASE' in key:
+        if 'DJANGO' in key or 'FLY' in key or 'DATABASE' in key:
             debug_info += f"<li><strong>{key}:</strong> {value}</li>"
     
     debug_info += "</ul>"

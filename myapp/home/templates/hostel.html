@@ -4,50 +4,250 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <title>Hostels</title>
-    <link rel="stylesheet" href="{% static 'global-styles.css' %}" />
-    <link rel="stylesheet" href="{% static 'hostel.css' %}" />
+    <title>Hostels - CET Private Hostels</title>
     <link rel="icon" href="{% static 'assets/logo.jpg' %}" type="image/png" />
+    <link rel="stylesheet" href="{% static 'global-styles.css' %}" />
 
-    <meta
-      name="description"
-      content="This is a comprehensive online platform dedicated to facilitate your search for the perfect stay, offering a vast array of private hostels tailored to your preferences and requirements. Each listing is detailed with essential information, including room types, amenities, proximity to campus, and local facilities, enabling you to make an informed decision that suits your lifestyle and academic needs."
-    />
+    <!-- Bootstrap 5 -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+
+    <!-- Leaflet for maps -->
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     />
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,800&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&display=swap"
       rel="stylesheet"
     />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
-    <link rel="stylesheet" href="{% static 'hostel.css' %}" />
 
     <style>
+      /* Page specific styles that match other pages */
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg-color, #f8f9fa);
+        font-family: "Poppins", sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .main-content {
+        flex: 1;
+        padding: 2rem 0;
+        background: var(--bg-color, #f8f9fa);
+      }
+
+      .page-title {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: var(--text-primary, #212529);
+        font-size: 2.5rem;
+        font-weight: 600;
+      }
+
+      /* Search Section */
+      .search-section {
+        background: var(--bg-primary, white);
+        border-radius: var(--border-radius-lg, 12px);
+        box-shadow: var(--shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .search-controls {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .search-input {
+        flex: 1;
+        min-width: 300px;
+        padding: 0.75rem 1rem;
+        border: 2px solid var(--border-color, #dee2e6);
+        border-radius: var(--border-radius, 8px);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary-color, #28a745);
+        box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+      }
+
+      .filter-select {
+        padding: 0.75rem 1rem;
+        border: 2px solid var(--border-color, #dee2e6);
+        border-radius: var(--border-radius, 8px);
+        font-size: 1rem;
+        background: var(--bg-primary, white);
+        min-width: 200px;
+      }
+
+      .btn-search {
+        background: var(--primary-color, #28a745);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--border-radius, 8px);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-search:hover {
+        background: var(--primary-hover, #218838);
+        transform: translateY(-1px);
+      }
+
+      /* Content Layout */
+      .content-layout {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 2rem;
+        height: 600px;
+      }
+
+      /* Hostels Grid */
+      .hostels-container {
+        background: var(--bg-primary, white);
+        border-radius: var(--border-radius-lg, 12px);
+        box-shadow: var(--shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
+        padding: 1.5rem;
+        overflow-y: auto;
+      }
+
+      .hostel-card {
+        background: var(--bg-primary, white);
+        border: 1px solid var(--border-color, #dee2e6);
+        border-radius: var(--border-radius, 8px);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .hostel-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.1));
+        border-color: var(--primary-color, #28a745);
+      }
+
+      .hostel-name {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary, #212529);
+        margin-bottom: 0.5rem;
+      }
+
+      .hostel-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .detail-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-secondary, #6c757d);
+        font-size: 0.9rem;
+      }
+
+      .detail-icon {
+        font-size: 1rem;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+
+      .status-available {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .status-full {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      /* Map Section */
+      .map-section {
+        background: var(--bg-primary, white);
+        border-radius: var(--border-radius-lg, 12px);
+        box-shadow: var(--shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
+        overflow: hidden;
+      }
+
+      .map-header {
+        background: var(--primary-color, #28a745);
+        color: white;
+        padding: 1rem;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      #map {
+        height: calc(100% - 60px);
+        width: 100%;
+      }
+
+      /* No Results */
+      .no-results {
+        text-align: center;
+        padding: 3rem;
+        color: var(--text-secondary, #6c757d);
+      }
+
+      .no-results-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .content-layout {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+
+        .map-section {
+          height: 400px;
+        }
+
+        .search-controls {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .search-input,
+        .filter-select {
+          min-width: auto;
+        }
+      }
+
       /* Modern Footer Styling */
       .footer-modern {
         background-color: #212529;
@@ -100,26 +300,24 @@
       }
 
       .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
         color: #e9ecef;
-        font-size: 1.1rem;
-        font-weight: 500;
-        padding: 0.75rem 1rem;
-        background-color: rgba(255, 255, 255, 0.05);
-        border-left: 3px solid #28a745;
-        border-radius: 6px;
-        transition: all 0.3s ease;
+        font-size: 0.95rem;
       }
 
-      .contact-item:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        transform: translateX(5px);
+      .contact-icon {
+        font-size: 1.2rem;
+        color: #28a745;
+        min-width: 20px;
       }
 
       .footer-bottom {
-        background-color: #1a1e23;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 1.5rem 2rem;
+        background-color: #1a1e21;
         text-align: center;
+        padding: 1.5rem;
+        border-top: 1px solid #333;
       }
 
       .footer-bottom p {
@@ -128,11 +326,10 @@
         font-size: 0.9rem;
       }
 
-      /* Responsive footer */
       @media (max-width: 768px) {
         .footer-container {
           flex-direction: column;
-          padding: 2rem 1rem;
+          text-align: center;
           gap: 2rem;
         }
 
@@ -141,29 +338,17 @@
           max-width: 100%;
         }
 
-        .footer-modern h3 {
-          font-size: 1.3rem;
-        }
-
-        .footer-left p {
-          font-size: 0.95rem;
-        }
-
         .contact-item {
-          font-size: 1rem;
-          padding: 0.6rem 0.8rem;
-        }
-
-        .footer-bottom {
-          padding: 1rem;
+          justify-content: center;
         }
       }
-
-      /* Navbar navigation links styling with green underlines */
+      /* Animated Underline for Navbar Links */
       .navbar-nav .nav-link {
         position: relative;
         transition: all 0.3s ease;
         padding-bottom: 0.75rem !important;
+        color: white !important;
+        font-weight: 500;
       }
 
       .navbar-nav .nav-link::after {
@@ -173,7 +358,7 @@
         left: 50%;
         width: 0;
         height: 3px;
-        background-color: #28a745;
+        background-color: #28a745; /* Green underline */
         transition: all 0.3s ease;
         transform: translateX(-50%);
         border-radius: 2px;
@@ -186,446 +371,152 @@
 
       .navbar-nav .nav-link:hover {
         color: #28a745 !important;
+      } /* Animated Underline for Navbar Links & Dropdown Toggle */
+      .navbar-nav .nav-link,
+      .navbar-nav .dropdown-toggle {
+        position: relative;
+        transition: all 0.3s ease;
+        padding-bottom: 0.75rem !important;
+        color: white !important;
+        font-weight: 500;
       }
 
-      .right {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 1rem;
-        padding: 1rem;
+      /* Underline effect */
+      .navbar-nav .nav-link::after,
+      .navbar-nav .dropdown-toggle::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background-color: #28a745;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      /* Hover & active underline show */
+      .navbar-nav .nav-link:hover::after,
+      .navbar-nav .nav-link.active::after,
+      .navbar-nav .dropdown-toggle:hover::after,
+      .navbar-nav .dropdown-toggle.active::after {
+        width: 100%;
+      }
+
+      /* Optional: Change link color on hover */
+      .navbar-nav .nav-link:hover,
+      .navbar-nav .dropdown-toggle:hover {
+        color: #28a745 !important;
+      }
+      .footer-modern {
+        background-color: #212529;
+        color: white;
+        margin-top: auto;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 3rem 2rem;
         max-width: 1200px;
         margin: 0 auto;
-      }
-
-      .hostel-card-standardized {
-        background: white;
-        border: 1px solid #e9ecef;
-        border-radius: 12px;
-        padding: 1.2rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hostel-card-standardized:hover {
-        border-color: #28a745;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        transform: translateY(-3px);
-      }
-
-      .hostel-card-standardized::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #28a745, #20c997);
-        border-radius: 12px 12px 0 0;
-      }
-
-      .hostel-card-standardized .hostel {
-        text-align: center;
-        margin-bottom: 1rem;
-      }
-
-      .hostel-card-standardized .hostel img {
-        width: 60px;
-        height: 40px;
-        border-radius: 4px;
-      }
-
-      .hostel-card-standardized .details h3 {
-        font-size: 1.1rem;
-        color: #333;
-        margin-bottom: 0.5rem;
-        text-align: center;
-      }
-
-      .hostel-card-standardized .details p {
-        margin: 0.3rem 0;
-        color: #666;
-        font-size: 0.9rem;
-      }
-
-      .gender-badge-mens {
-        background: #28a745 !important;
-        color: white !important;
-        padding: 0.3rem 0.8rem;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        display: inline-block;
-        margin: 0.3rem 0;
-        box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
-      }
-
-      .gender-badge-ladies {
-        background: #dc3545 !important;
-        color: white !important;
-        padding: 0.3rem 0.8rem;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        display: inline-block;
-        margin: 0.3rem 0;
-        box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
-      }
-
-      .gender-badge-mixed {
-        background: #fd7e14 !important;
-        color: white !important;
-        padding: 0.3rem 0.8rem;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        display: inline-block;
-        margin: 0.3rem 0;
-        box-shadow: 0 2px 4px rgba(253, 126, 20, 0.3);
-      }
-
-      .vacancy-highlight {
-        background: #f8f9fa;
-        border: 2px solid #28a745;
-        color: #28a745;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        font-weight: bold;
-        font-size: 0.95rem;
-        text-align: center;
-        margin: 0.8rem 0;
-        box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
-      }
-
-      .vacancy-available {
-        background: #d4edda;
-        border-color: #28a745;
-        color: #155724;
-      }
-
-      .vacancy-full {
-        background: #f8d7da;
-        border-color: #dc3545;
-        color: #721c24;
-        box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
-      }
-
-      .additional-info {
-        margin-top: 0.5rem;
-        padding-top: 0.5rem;
-        border-top: 1px solid #eee;
-      }
-
-      .additional-info p {
-        margin: 0.2rem 0;
-        font-size: 0.85rem;
-      }
-
-      .btn-standardized {
-        background: #212529;
-        color: white;
-        border: none;
-        padding: 0.6rem 1.2rem;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-weight: 600;
-        margin-top: 0.8rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(33, 37, 41, 0.3);
-      }
-
-      .btn-standardized:hover {
-        background: #343a40;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(33, 37, 41, 0.4);
-      }
-
-      /* Enhanced Search Section Styling */
-      .search-section {
-        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-        padding: 2rem;
-        border: none;
-        border-radius: 16px;
-        margin: 1.5rem auto;
-        max-width: 900px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .search-section::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #28a745, #20c997, #17a2b8);
-        border-radius: 16px 16px 0 0;
-      }
-
-      .search-filter-container-standardized {
-        display: flex;
-        gap: 1.5rem;
-        align-items: center;
+        gap: 3rem;
         flex-wrap: wrap;
-        justify-content: center;
       }
 
-      .search-container {
+      .footer-left {
         flex: 1;
-        min-width: 350px;
-        position: relative;
+        min-width: 280px;
       }
 
-      .filter-container {
-        min-width: 220px;
-        position: relative;
+      .footer-right {
+        flex: 1;
+        min-width: 280px;
       }
 
-      /* Enhanced Search Input Styling */
-      .coolinput {
-        position: relative;
-        background: white;
-        border: 2px solid #e9ecef;
-        border-radius: 12px;
-        padding: 0;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
-        height: 50px;
+      .footer-modern h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 0.5rem;
+        display: inline-block;
       }
 
-      .coolinput:hover {
-        border-color: #28a745;
-        box-shadow: 0 4px 16px rgba(40, 167, 69, 0.15);
+      .footer-left p {
+        color: #e9ecef;
+        line-height: 1.7;
+        font-size: 1rem;
+        margin: 0;
       }
 
-      .coolinput:focus-within {
-        border-color: #28a745;
-        box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.1), 0 4px 16px rgba(40, 167, 69, 0.15);
-        transform: translateY(-1px);
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
       }
 
-      .coolinput button {
-        background: none;
-        border: none;
-        padding: 0.75rem;
-        color: #6c757d;
-        cursor: pointer;
-        transition: color 0.3s ease;
+      .contact-item {
         display: flex;
         align-items: center;
-        justify-content: center;
+        gap: 0.75rem;
+        color: #e9ecef;
+        font-size: 0.95rem;
       }
 
-      .coolinput button:hover {
+      .contact-icon {
+        font-size: 1.2rem;
+        color: #28a745;
+        min-width: 20px;
+      }
+
+      .footer-socials a {
+        transition: color 0.3s ease;
+      }
+
+      .footer-socials a:hover {
         color: #28a745;
       }
 
-      .search-input-standardized {
-        flex: 1;
-        border: none;
-        outline: none;
-        padding: 0.75rem 0.5rem;
-        font-size: 1rem;
-        color: #333;
-        background: transparent;
-        font-weight: 500;
+      .footer-bottom {
+        background-color: #1a1e21;
+        text-align: center;
+        padding: 1.5rem;
+        border-top: 1px solid #333;
       }
 
-      .search-input-standardized::placeholder {
+      .footer-bottom p {
+        margin: 0;
         color: #adb5bd;
-        font-weight: 400;
+        font-size: 0.9rem;
       }
 
-      .coolinput .reset {
-        padding: 0.75rem;
-        color: #dc3545;
-        opacity: 0;
-        transition: all 0.3s ease;
-        cursor: pointer;
-      }
-
-      .coolinput:focus-within .reset,
-      .coolinput .reset:hover {
-        opacity: 1;
-      }
-
-      .coolinput .reset:hover {
-        background: rgba(220, 53, 69, 0.1);
-        border-radius: 6px;
-      }
-
-      /* Enhanced Filter Select Styling */
-      .filter-select-standardized {
-        width: 100%;
-        padding: 0.875rem 1rem;
-        padding-right: 3rem;
-        border: 2px solid #e9ecef;
-        border-radius: 12px;
-        background: white;
-        font-size: 1rem;
-        font-weight: 500;
-        color: #333;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        appearance: none;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2328a745' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 1rem center;
-        background-size: 1.2em;
-      }
-
-      .filter-select-standardized:hover {
-        border-color: #28a745;
-        box-shadow: 0 4px 16px rgba(40, 167, 69, 0.15);
-        transform: translateY(-1px);
-      }
-
-      .filter-select-standardized:focus {
-        outline: none;
-        border-color: #28a745;
-        box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.1), 0 4px 16px rgba(40, 167, 69, 0.15);
-        transform: translateY(-1px);
-      }
-
-      .filter-select-standardized option {
-        padding: 0.75rem;
-        font-weight: 500;
-        color: #333;
-        background: white;
-      }
-
-      .filter-select-standardized option:hover,
-      .filter-select-standardized option:checked {
-        background: #f8f9fa;
-        color: #28a745;
-      }
-
-      /* Filter Label Enhancement */
-      .filter-container::before {
-        content: "Filter:";
-        position: absolute;
-        top: -1.5rem;
-        left: 0.5rem;
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: #6c757d;
-        background: white;
-        padding: 0 0.5rem;
-        border-radius: 4px;
-      }
-
-      .search-container::before {
-        content: "Search Hostels:";
-        position: absolute;
-        top: -1.5rem;
-        left: 0.5rem;
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: #6c757d;
-        background: white;
-        padding: 0 0.5rem;
-        border-radius: 4px;
-      }
-
-      /* Map Section */
-      .map-section {
-        padding: 1rem;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin: 1rem auto;
-        max-width: 800px;
-      }
-
-      .map-container-standardized {
-        border-radius: 8px;
-        overflow: hidden;
-      }
-
-      /* Responsive Design */
+      /* Responsive */
       @media (max-width: 768px) {
-        .right {
-          grid-template-columns: 1fr;
-          padding: 0.5rem;
-        }
-
-        .search-section {
-          margin: 1rem;
-          padding: 1.5rem;
-        }
-
-        .search-filter-container-standardized {
+        .footer-container {
           flex-direction: column;
-          gap: 1rem;
+          text-align: center;
+          gap: 2rem;
         }
 
-        .search-container, .filter-container {
-          width: 100%;
-          min-width: auto;
+        .contact-item {
+          justify-content: center;
         }
 
-        .search-container::before,
-        .filter-container::before {
-          font-size: 0.8rem;
-          top: -1.2rem;
-        }
-
-        .coolinput {
-          height: 48px;
-        }
-
-        .filter-select-standardized {
-          padding: 0.8rem 1rem;
-          padding-right: 2.8rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .search-section {
-          margin: 0.5rem;
-          padding: 1rem;
-          border-radius: 12px;
-        }
-
-        .search-container::before,
-        .filter-container::before {
-          display: none;
-        }
-
-        .coolinput {
-          height: 44px;
-        }
-
-        .filter-select-standardized {
-          font-size: 0.9rem;
-          padding: 0.7rem 0.9rem;
-          padding-right: 2.5rem;
-        }
-
-        .search-input-standardized {
-          font-size: 0.9rem;
-        }
-      }
-          font-size: 1.1rem;
-        }
-
-        .hostel-card-standardized .details p {
-          font-size: 0.9rem;
+        .footer-socials {
+          justify-content: center;
         }
       }
     </style>
   </head>
+
   <body>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <div style="display: flex; align-items: center; gap: 1rem">
@@ -633,15 +524,16 @@
             id="logo"
             src="{% static './assets/Cet_emblem.png' %}"
             alt="CET Emblem"
+            style="height: 50px"
           />
-          <a class="navbar-brand" style="margin-right: 0" href="/"
-            ><h2 style="margin: 0 0; text-wrap: wrap" class="title">
-              <b>PRIVATE HOSTELS </b>
+          <a class="navbar-brand" style="margin-right: 0" href="/">
+            <h2 style="margin: 0; text-wrap: wrap" class="title">
+              <b>PRIVATE HOSTELS</b>
             </h2>
-            <h6 style="text-wrap: wrap">
+            <h6 style="text-wrap: wrap; margin: 0">
               COLLEGE OF ENGINEERING TRIVANDRUM
-            </h6></a
-          >
+            </h6>
+          </a>
         </div>
 
         <button
@@ -655,6 +547,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div
           class="collapse navbar-collapse"
           id="navbarNavAltMarkup"
@@ -665,102 +558,85 @@
             <a class="nav-link active" href="/hostel">Hostels</a>
             <div class="dropdown">
               <a
-                class="nav-link"
+                class="nav-link dropdown-toggle"
                 href="#"
                 role="button"
-                id="dropdownMenuLink"
-                data-toggle="dropdown"
-                aria-haspopup="true"
+                data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 Manage Hostels
               </a>
-
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="hostel_reg">Add Hostel</a>
-                <a class="dropdown-item" href="vaccancy">Edit Vacancy</a>
-                <a class="dropdown-item" href="./grievance"
-                  >Register Grievance</a
-                >
-              </div>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="/vaccancy">Edit vacancy</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/hostel_reg"
+                    >Register Hostel</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/grievance">Complaints</a>
+                </li>
+              </ul>
             </div>
-            <a class="nav-link" href="#about">About US</a>
           </div>
         </div>
       </div>
     </nav>
-    <div class="main">
-      <div class="search-section">
-        <div class="search-filter-container-standardized">
-          <div class="coolinput search-container" id="coolinput">
-            <button>
-              <svg
-                width="17"
-                height="16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-labelledby="search"
-              >
-                <path
-                  d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                  stroke="currentColor"
-                  stroke-width="1.333"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
-              </svg>
-            </button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="container-fluid px-4">
+        <h1 class="page-title">Find Your Perfect Hostel</h1>
+
+        <!-- Search Section -->
+        <div class="search-section">
+          <div class="search-controls">
             <input
-              placeholder="Search here..."
-              class="search-input-standardized"
               type="text"
               id="searchInput"
+              class="search-input"
+              placeholder="Search hostels by name, location, owner..."
               oninput="filterHostels()"
             />
-            <button class="reset" type="reset" onclick="clearSearch()">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                ></path>
-              </svg>
-            </button>
-          </div>
-
-          <div class="filter-container">
             <select
               id="genderFilter"
-              class="filter-select-standardized"
+              class="filter-select"
               onchange="filterHostels()"
             >
               <option value="all">All Hostels</option>
-              <option value="mens">Mens Hostels</option>
-              <option value="ladies">Ladies Hostels</option>
+              <option value="mens">Men's Hostels</option>
+              <option value="ladies">Women's Hostels</option>
               <option value="mixed">Mixed Hostels</option>
             </select>
+            <button class="btn-search" onclick="resetFilters()">
+              Reset Filters
+            </button>
+          </div>
+        </div>
+
+        <!-- Content Layout -->
+        <div class="content-layout">
+          <!-- Hostels List -->
+          <div class="hostels-container">
+            <div id="hostelsList">
+              <!-- Hostels will be loaded here by JavaScript -->
+            </div>
+          </div>
+
+          <!-- Map Section -->
+          <div class="map-section">
+            <div class="map-header">📍 Hostel Locations</div>
+            <div id="map"></div>
           </div>
         </div>
       </div>
-
-      <div class="hostels-section">
-        <div class="right" id="right"></div>
-      </div>
-
-      <div class="map-section">
-        <div id="map" class="map-container-standardized"></div>
-      </div>
     </div>
+
+    <!-- Modern Footer Matching Home Page -->
     <footer class="footer-modern" id="about">
-      <div class="footer-container">
+      <div class="footer-container container px-4 py-5">
         <div class="footer-left">
           <h3>About Us</h3>
           <p>
@@ -773,9 +649,34 @@
         <div class="footer-right">
           <h3>Contact</h3>
           <div class="contact-info">
-            <div class="contact-item">Afin : 9188370967</div>
-            <div class="contact-item">Basil : 9495121351</div>
-            <div class="contact-item">Sreelal S S : 8592008405</div>
+            <div class="contact-item">
+              <span class="contact-icon"><i class="fas fa-phone"></i></span>
+              Afin : 9188370967
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon"><i class="fas fa-phone"></i></span>
+              Basil : 9495121351
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon"><i class="fas fa-phone"></i></span>
+              Sreelal S S : 8592008405
+            </div>
+          </div>
+          <!-- Optional Social Links -->
+          <div class="footer-socials mt-4">
+            <a
+              href="https://instagram.com/"
+              target="_blank"
+              style="color: white; margin-right: 1rem"
+            >
+              <i class="fab fa-instagram fa-lg"></i>
+            </a>
+            <a
+              href="mailto:your-email@example.com"
+              style="color: white; margin-right: 1rem"
+            >
+              <i class="fas fa-envelope fa-lg"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -783,11 +684,23 @@
         <p>© 2023 CET College Union. All rights reserved.</p>
       </div>
     </footer>
-  </body>
-  <script>
-    var myList = {{ my_list | safe }}
-  </script>
-  <script src="{% static 'hostel.js' %}"></script>
 
-  <!-- Include your JavaScript file at the end -->
+    <!-- Scripts -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <!-- Hostel Data and JavaScript -->
+    <script>
+      var myList = {{ my_list | safe }}
+    </script>
+    <script src="{% static 'hostel_clean.js' %}"></script>
+  </body>
 </html>

@@ -91,22 +91,28 @@ WSGI_APPLICATION = "myapp.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# Use Supabase PostgreSQL Database
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://postgres:cetuioin2023@db.wfqwcucmoskkfssrtojc.supabase.co:5432/postgres',
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
-}
+# Configure database with fallback options
+DATABASE_URL = config('DATABASE_URL', default=None)
 
-# Fallback SQLite for local development (commented out)
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
+if DATABASE_URL:
+    # Use provided DATABASE_URL (for production)
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+    print("Using DATABASE_URL configuration")
+else:
+    # Fallback to SQLite for local development
+    print("Using SQLite database for local development")
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
