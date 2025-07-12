@@ -512,6 +512,24 @@
           justify-content: center;
         }
       }
+      @media (max-width: 576px) {
+        .search-section {
+          padding: 1rem;
+        }
+
+        .search-controls {
+          flex-direction: column;
+          gap: 0.75rem;
+          align-items: stretch;
+        }
+
+        .search-input,
+        .filter-select,
+        .btn-search {
+          width: 100%;
+          min-width: 0;
+        }
+      }
     </style>
   </head>
 
