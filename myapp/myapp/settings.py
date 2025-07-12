@@ -30,17 +30,6 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['127.0.0.1','.vercel.app']
 
-# Add Vercel deployment settings
-if 'VERCEL' in os.environ:
-    ALLOWED_HOSTS = ['*']  # Allow all hosts on Vercel
-    DEBUG = False
-
-# Add Fly.io deployment settings
-if 'FLY_APP_NAME' in os.environ:
-    ALLOWED_HOSTS = ['.fly.dev', f"{os.environ.get('FLY_APP_NAME')}.fly.dev"]
-    DEBUG = False
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = True
 
 
 # Application definition
