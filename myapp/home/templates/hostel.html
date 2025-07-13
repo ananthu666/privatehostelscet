@@ -300,24 +300,26 @@
       }
 
       .contact-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
         color: #e9ecef;
-        font-size: 0.95rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #28a745;
+        border-radius: 6px;
+        transition: all 0.3s ease;
       }
 
-      .contact-icon {
-        font-size: 1.2rem;
-        color: #28a745;
-        min-width: 20px;
+      .contact-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
       }
 
       .footer-bottom {
-        background-color: #1a1e21;
+        background-color: #1a1e23;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 2rem;
         text-align: center;
-        padding: 1.5rem;
-        border-top: 1px solid #333;
       }
 
       .footer-bottom p {
@@ -326,16 +328,34 @@
         font-size: 0.9rem;
       }
 
+      /* Responsive footer */
       @media (max-width: 768px) {
         .footer-container {
           flex-direction: column;
-          text-align: center;
+          padding: 2rem 1rem;
           gap: 2rem;
         }
 
         .footer-left,
         .footer-right {
           max-width: 100%;
+        }
+
+        .footer-modern h3 {
+          font-size: 1.3rem;
+        }
+
+        .footer-left p {
+          font-size: 0.95rem;
+        }
+
+        .contact-item {
+          font-size: 1rem;
+          padding: 0.6rem 0.8rem;
+        }
+
+        .footer-bottom {
+          padding: 1rem;
         }
 
         .contact-item {
@@ -659,18 +679,13 @@
           <h3>About Us</h3>
           <p>
             Welcome to the official website of Private Hostel Committee, an
-            initiative taken by Afin Shafi M (University Union Councillor,
-            College Union 23-34). We provide comprehensive hostel management and
-            grievance handling services for students.
+            initiative taken by College Union 23-34. We provide comprehensive
+            hostel management and grievance handling services for students.
           </p>
         </div>
         <div class="footer-right">
           <h3>Contact</h3>
           <div class="contact-info">
-            <div class="contact-item">
-              <span class="contact-icon"><i class="fas fa-phone"></i></span>
-              Afin : 9188370967
-            </div>
             <div class="contact-item">
               <span class="contact-icon"><i class="fas fa-phone"></i></span>
               Basil : 9495121351

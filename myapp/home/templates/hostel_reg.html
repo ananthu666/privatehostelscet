@@ -94,6 +94,115 @@
       </div>
     </nav>
     <style>
+      .footer-modern {
+        background-color: #212529;
+        color: white;
+        margin-top: auto;
+        padding: 0;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 3rem;
+      }
+
+      .footer-left {
+        flex: 1;
+        max-width: 60%;
+      }
+
+      .footer-right {
+        flex: 1;
+        max-width: 35%;
+      }
+
+      .footer-modern h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      .footer-left p {
+        color: #e9ecef;
+        line-height: 1.7;
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        color: #e9ecef;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #28a745;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        background-color: #1a1e23;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        color: #adb5bd;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive footer */
+      @media (max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          padding: 2rem 1rem;
+          gap: 2rem;
+        }
+
+        .footer-left,
+        .footer-right {
+          max-width: 100%;
+        }
+
+        .footer-modern h3 {
+          font-size: 1.3rem;
+        }
+
+        .footer-left p {
+          font-size: 0.95rem;
+        }
+
+        .contact-item {
+          font-size: 1rem;
+          padding: 0.6rem 0.8rem;
+        }
+
+        .footer-bottom {
+          padding: 1rem;
+        }
+      }
       .addHostel {
         max-width: 600px;
         margin: auto;
@@ -177,6 +286,35 @@
       input.valid {
         border-color: #28a745 !important;
         box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+      }
+      @media (max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          padding: 2rem 1rem;
+          gap: 2rem;
+        }
+
+        .footer-left,
+        .footer-right {
+          max-width: 100%;
+        }
+
+        .footer-modern h3 {
+          font-size: 1.3rem;
+        }
+
+        .footer-left p {
+          font-size: 0.95rem;
+        }
+
+        .contact-item {
+          font-size: 1rem;
+          padding: 0.6rem 0.8rem;
+        }
+
+        .footer-bottom {
+          padding: 1rem;
+        }
       }
     </style>
     <div class="addHostel my-5">
@@ -350,25 +488,26 @@
       </form>
     </div>
 
-    <footer class="footer-standardized" id="about">
-      <div class="footer-content-standardized">
-        <div class="footer-section-standardized">
+    <footer class="footer-modern" id="about">
+      <div class="footer-container">
+        <div class="footer-left">
           <h3>About Us</h3>
-          <h6>
+          <p>
             Welcome to the official website of Private Hostel Committee, an
-            initiative taken by Afin Shafi M (University Union Councillor,
-            College Union 23-34).
-          </h6>
+            initiative taken by College Union 23-34. We provide comprehensive
+            hostel management and grievance handling services for students.
+          </p>
         </div>
-        <div class="footer-section-standardized">
+        <div class="footer-right">
           <h3>Contact</h3>
-          <h6>Afin : 9188370967</h6>
-          <h6>Basil : 9495121351</h6>
-          <h6>Sreelal S S : 8592008405</h6>
+          <div class="contact-info">
+            <div class="contact-item">Basil : 9495121351</div>
+            <div class="contact-item">Sreelal S S : 8592008405</div>
+          </div>
         </div>
       </div>
-      <div class="copyright-standardized">
-        <h6>copyright@cetcollegeunion 2023</h6>
+      <div class="footer-bottom">
+        <p>© 2023 CET College Union. All rights reserved.</p>
       </div>
     </footer>
   </body>
